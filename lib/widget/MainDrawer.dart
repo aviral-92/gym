@@ -2,10 +2,10 @@ import 'package:Gym/constants/Constants.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
-  bool _admin = false;
+  final bool _admin;
 
-  MainDrawer(bool args) {
-    this._admin = args;
+  MainDrawer(this._admin) {
+    //this._admin = args;
   }
 
   Widget listTileWidget(String title, IconData icons, Function fun) {
@@ -65,7 +65,7 @@ class MainDrawer extends StatelessWidget {
   }
 
   void navigateUpcomingEvent(BuildContext context) {
-    print(_admin);
+    //print(_admin);
     Navigator.of(context).pushNamed('/upcoming-screen', arguments: _admin);
   }
 

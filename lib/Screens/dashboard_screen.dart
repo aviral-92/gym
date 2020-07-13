@@ -16,20 +16,36 @@ class DashboardScreen extends StatelessWidget {
       ),
       drawer: MainDrawer(args),
       body: Container(
-        height: 120,
+        height: 250,
         width: double.infinity,
         padding: EdgeInsets.all(20),
         alignment: Alignment.centerLeft,
         //child: Card(
-        child: Text(
-          'No bookings found. if you have already booked, please check in upcoming events.',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
+        child: GestureDetector(
+          onTap: () => {Navigator.of(context).pushNamed('/booking-screen')},
+          child: Card(
+            //color: Constants.BACKGROUND_COLOR,
+            elevation: 6,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Image.asset(
+                    './assets/img/biking.png',
+                  ),
+                  flex: 2,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'SPINING',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        //elevation: 6,
-        //),
       ),
     );
   }
