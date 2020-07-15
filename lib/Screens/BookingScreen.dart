@@ -1,9 +1,13 @@
-import 'package:Gym/constants/Constants.dart';
 import 'package:Gym/widget/BookingCardWidget.dart';
+
+import '../providers/AdtItemSlotsList.dart';
+import '../services/RestApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_calendar/horizontal_calendar.dart';
 import 'package:intl/intl.dart';
 import '../widget/MainDrawer.dart';
+import '../constants/Constants.dart';
+import '../model/AdtItemSlots.dart';
 
 class BookingScreen extends StatefulWidget {
   @override
@@ -13,11 +17,21 @@ class BookingScreen extends StatefulWidget {
 class _BookingScreenState extends State<BookingScreen> {
   static DateFormat dateFormat = DateFormat.yMMMEd();
   String _selectedDate = dateFormat.format(DateTime.now());
+  Future<AdtItemSlotsList> adtItemSlotListFuture;
+
+  @override
+  void initState() {
+    setState(() {
+      adtItemSlotListFuture = getAdtItemSlotsData();
+    });
+    super.initState();
+  }
+
+  //AdtItemSlotsList adtItemSlotsList;
 
   @override
   Widget build(BuildContext context) {
     bool args = ModalRoute.of(context).settings.arguments;
-    //print(args);
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       //Colors.orangeAccent[300],
@@ -60,15 +74,49 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
             Column(
               children: <Widget>[
-                BookingCardWidget(),
-                BookingCardWidget(),
-                BookingCardWidget(),
-                BookingCardWidget(),
-                BookingCardWidget(),
-                BookingCardWidget(),
-                BookingCardWidget(),
-                BookingCardWidget(),
-                BookingCardWidget(),
+                FutureBuilder<AdtItemSlotsList>(
+                    future: adtItemSlotListFuture,
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return loadingView();
+                        case ConnectionState.active:
+                          break;
+                        case ConnectionState.done:
+                          {
+                            if (snapshot.hasData) {
+                              if (snapshot.data.adtItemSlotList != null) {
+                                if (snapshot.data.adtItemSlotList.length > 0) {
+                                  return ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      physics: ScrollPhysics(),
+                                      itemCount:
+                                          snapshot.data.adtItemSlotList.length,
+                                      itemBuilder: (context, index) {
+                                        return generateColumn(snapshot
+                                            .data.adtItemSlotList[index]);
+                                      });
+                                } else {
+                                  return noDataView("No data found");
+                                }
+                              } else {
+                                // display error message if your list or data is null.
+                                //return noDataView("No data found");
+                              }
+                            } else if (snapshot.hasError) {
+                              // display your message if snapshot has error.
+                              return noDataView("Something went wrong");
+                            } else {
+                              return noDataView("Something went wrong");
+                            }
+                            return noDataView("No data found");
+                          }
+                        case ConnectionState.none:
+                          break;
+                      }
+                      return noDataView("No data found");
+                    }),
               ],
             ),
           ],
@@ -76,4 +124,21 @@ class _BookingScreenState extends State<BookingScreen> {
       ),
     );
   }
+
+  Widget generateColumn(AdtItemSlots adtItemSlots) =>
+      new BookingCardWidget(adtItemSlots);
+  //addWidgetToList(adtItemSlots);
+
+  Widget loadingView() => Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.red,
+        ),
+      );
+
+  Widget noDataView(String msg) => Center(
+        child: Text(
+          msg,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+        ),
+      );
 }

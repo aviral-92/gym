@@ -1,25 +1,12 @@
-import 'dart:convert';
-
-import 'package:Gym/model/AdtItemSlots.dart';
+import '../model/AdtItemSlots.dart';
 
 import '../constants/Constants.dart';
 import 'package:flutter/material.dart';
-//import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart' show rootBundle;
 
 class BookingCardWidget extends StatelessWidget {
-  Future<List<AdtItemSlots>> fetchItemSlot() async {
-    //final response = await http.get('assets/AdtItemSlotsJson.json');
-    final response = await rootBundle.loadString('assets/AdtItemSlotsJson.json');
-    
-      final parsed = json.decode(response).cast<Map<String, dynamic>>();
-      return parsed
-          .map<AdtItemSlots>((json) => AdtItemSlots.fromMap(json))
-          .toList();
-    
-    //print('Not able to find JSON');
-    //return null;
-  }
+  final AdtItemSlots adtItemSlots;
+
+  BookingCardWidget(this.adtItemSlots);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +19,7 @@ class BookingCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '5AM',
+                '${adtItemSlots.startHour}AM',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 10),
@@ -44,7 +31,7 @@ class BookingCardWidget extends StatelessWidget {
                     size: 40.0,
                   ),
                   Text(
-                    'Biking starts dot for\n 45 mins.',
+                    '${adtItemSlots.desc} Biking starts dot for\n 45 mins.',
                     style:
                         TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
                   ),
@@ -61,8 +48,9 @@ class BookingCardWidget extends StatelessWidget {
               ),
               //tooltip: 'click to book',
               onPressed: () {
-                var response = fetchItemSlot();
-                print(response);
+                //var response = fetchItemSlot();
+                //print(response.then((value) => value.indexOf('0'));
+                //response.then((value) => print(jsonEncode(value.elementAt(0))));
               }),
         ],
       ),

@@ -30,6 +30,7 @@ dependencies:
   calendar_timeline: ^0.6.2
   horizontal_calendar: ^0.0.4
   http: ^0.12.0+2
+  provider: ^4.3.1
 
 
   # The following adds the Cupertino Icons font to your application.

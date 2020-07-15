@@ -7,7 +7,7 @@ class AdtItemSlots {
   final int startHour;
   final int endHour;
   final int persons;
-  final DateTime slotDate;
+  final String slotDate;
   final bool disable;
   final int slotPrice;
 
@@ -26,7 +26,7 @@ class AdtItemSlots {
   factory AdtItemSlots.fromMap(Map<String, dynamic> json) {
     return AdtItemSlots(
       json['id'],
-      json['adtItems'],
+      AdtItems.fromMap(json['adtItems']),
       json['desc'],
       json['startHour'],
       json['endHour'],
@@ -36,4 +36,15 @@ class AdtItemSlots {
       json['slotPrice'],
     );
   }
+
+  Map toJson() => {
+        'id': id,
+        'desc': desc,
+        'startHour': startHour,
+        'endHour': endHour,
+        'persons': persons,
+        'slotDate': slotDate,
+        'disable': disable,
+        'slotPrice': slotPrice
+      };
 }
