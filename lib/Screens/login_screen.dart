@@ -8,7 +8,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   void navigateDashboard(BuildContext context) {
-    Navigator.of(context).pushNamed('/dashboard-screen', arguments: false);
+    Navigator.of(context).pushNamed('/dashboard-screen', arguments: true);
   }
 
   @override

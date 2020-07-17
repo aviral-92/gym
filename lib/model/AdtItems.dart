@@ -10,7 +10,7 @@ class AdtItems {
     this.itemName,
     this.itemType,
     this.userId,
-    this.applicationId,
+    //this.applicationId,
   );
 
   factory AdtItems.fromMap(Map<String, dynamic> json) {
@@ -19,7 +19,14 @@ class AdtItems {
       json['itemName'],
       json['itemType'],
       json['userId'],
-      json['applicationId'],
+      //json['applicationId'],
     );
   }
+
+  Map toJson() => {
+        'id': id,
+        'itemName': itemName,
+        'itemType': itemType,
+        'userId': userId,
+      };
 }

@@ -1,4 +1,4 @@
-import 'package:Gym/Screens/SelectSpinnerScreen.dart';
+import 'package:Gym/Screens/AddSlotScreen.dart';
 
 import './Screens/CancelBookingScreen.dart';
 import './Screens/UpcomingEventScreen.dart';
@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
         '/upcoming-screen': (ctx) => UpcomingEventScreen(),
         '/booking-screen': (ctx) => BookingScreen(),
         '/cancel-screen': (ctx) => CancelBookingScreen(),
-        '/select-spinner-screen': (ctx) => SelectSpinnerScreen(),
+        '/add-screen': (ctx) => AddSlotScreen(),
+        //'/select-spinner-screen': (ctx) => SelectSpinnerScreen(),
       },
     );
   }

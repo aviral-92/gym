@@ -19,7 +19,7 @@ class BookingCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '${adtItemSlots.startHour}AM',
+                '${adtItemSlots.startHour}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 10),
@@ -31,7 +31,7 @@ class BookingCardWidget extends StatelessWidget {
                     size: 40.0,
                   ),
                   Text(
-                    '${adtItemSlots.desc} Biking starts dot for\n 45 mins.',
+                    '${adtItemSlots.desc} Biking starts dot for\n 45 mins.\n price: \$${adtItemSlots.slotPrice}',
                     style:
                         TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
                   ),

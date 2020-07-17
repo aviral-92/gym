@@ -1,23 +1,23 @@
 import 'package:Gym/model/AdtItems.dart';
 
 class AdtItemSlots {
-  final int id;
+  int id;
   final AdtItems adtItems;
   final String desc;
-  final int startHour;
-  final int endHour;
-  final int persons;
+  final double startHour;
+  final double endHour;
+  int persons;
   final String slotDate;
   final bool disable;
-  final int slotPrice;
+  final double slotPrice;
 
   AdtItemSlots(
-    this.id,
+    //this.id,
     this.adtItems,
     this.desc,
     this.startHour,
     this.endHour,
-    this.persons,
+    //this.persons,
     this.slotDate,
     this.disable,
     this.slotPrice,
@@ -25,12 +25,12 @@ class AdtItemSlots {
 
   factory AdtItemSlots.fromMap(Map<String, dynamic> json) {
     return AdtItemSlots(
-      json['id'],
+      //json['id'],
       AdtItems.fromMap(json['adtItems']),
       json['desc'],
       json['startHour'],
       json['endHour'],
-      json['persons'],
+      //json['persons'],
       json['slotDate'],
       json['disable'],
       json['slotPrice'],
@@ -45,6 +45,7 @@ class AdtItemSlots {
         'persons': persons,
         'slotDate': slotDate,
         'disable': disable,
-        'slotPrice': slotPrice
+        'slotPrice': slotPrice,
+        'adtItems': adtItems.toJson(),
       };
 }

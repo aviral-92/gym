@@ -78,7 +78,7 @@ class MainDrawer extends StatelessWidget {
   }
 
   void navigateAddEvent(BuildContext context) {
-    Navigator.of(context).pushNamed('/add-screen');
+    Navigator.of(context).pushNamed('/add-screen', arguments: _admin);
   }
 
   void navigateCancelEvent(BuildContext context) {
