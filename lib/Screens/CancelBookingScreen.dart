@@ -2,7 +2,12 @@ import 'package:Gym/constants/Constants.dart';
 import 'package:Gym/widget/MainDrawer.dart';
 import 'package:flutter/material.dart';
 
-class CancelBookingScreen extends StatelessWidget {
+class CancelBookingScreen extends StatefulWidget {
+  @override
+  _CancelBookingScreenState createState() => _CancelBookingScreenState();
+}
+
+class _CancelBookingScreenState extends State<CancelBookingScreen> {
   @override
   Widget build(BuildContext context) {
     bool args = ModalRoute.of(context).settings.arguments;

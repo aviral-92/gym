@@ -56,8 +56,34 @@ class MainDrawer extends StatelessWidget {
           listTileWidget(
               'Cancel Slot', Icons.cancel, () => navigateCancelEvent(context)),
           _admin == true
-              ? listTileWidget(
-                  'Add Slot', Icons.add, () => navigateAddEvent(context))
+              ? ExpansionTile(
+                  title: Text(
+                    'Admin',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  leading: Icon(Icons.alternate_email),
+                  //trailing: null,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 250,
+                      child: Column(
+                        children: <Widget>[
+                          listTileWidget('Add Slot', Icons.add_to_photos,
+                              () => navigateAddEvent(context)),
+                          listTileWidget('Get Slots', Icons.gesture,
+                              () => navigateAddEvent(context)),
+                          listTileWidget('Update Slot', Icons.update,
+                              () => navigateAddEvent(context)),
+                          listTileWidget('Delete Slot', Icons.delete_forever,
+                              () => navigateAddEvent(context)),
+                        ],
+                      ),
+                    )
+                  ],
+                )
               : Text(''),
         ],
       ),

@@ -15,16 +15,20 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  static DateFormat dateFormat = DateFormat.yMMMEd();
+  static DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
   String _selectedDate = dateFormat.format(DateTime.now());
   Future<AdtItemSlotsList> adtItemSlotListFuture;
 
   @override
   void initState() {
-    setState(() {
-      adtItemSlotListFuture = getAdtItemSlotsData();
-    });
+    setAdtItemSlotListFuture(dateFormat.format(DateTime.now()));
     super.initState();
+  }
+
+  void setAdtItemSlotListFuture(String date) {
+    setState(() {
+      adtItemSlotListFuture = getAdtItemSlotsData(date);
+    });
   }
 
   //AdtItemSlotsList adtItemSlotsList;
@@ -54,6 +58,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 onDateSelected: (date) => {
                   setState(() {
                     _selectedDate = date;
+                    setAdtItemSlotListFuture(date);
                   })
                 },
               ),
@@ -106,7 +111,8 @@ class _BookingScreenState extends State<BookingScreen> {
                               }
                             } else if (snapshot.hasError) {
                               // display your message if snapshot has error.
-                              return noDataView("Something went wrong");
+                              //print('no element');
+                              return noDataView("No booking schedule found.");
                             } else {
                               return noDataView("Something went wrong");
                             }
@@ -127,7 +133,6 @@ class _BookingScreenState extends State<BookingScreen> {
 
   Widget generateColumn(AdtItemSlots adtItemSlots) =>
       new BookingCardWidget(adtItemSlots);
-  //addWidgetToList(adtItemSlots);
 
   Widget loadingView() => Center(
         child: CircularProgressIndicator(

@@ -10,6 +10,7 @@ class AdtItemSlots {
   final String slotDate;
   final bool disable;
   final double slotPrice;
+  final int itemCount;
 
   AdtItemSlots(
     //this.id,
@@ -21,6 +22,7 @@ class AdtItemSlots {
     this.slotDate,
     this.disable,
     this.slotPrice,
+    this.itemCount,
   );
 
   factory AdtItemSlots.fromMap(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class AdtItemSlots {
       json['slotDate'],
       json['disable'],
       json['slotPrice'],
+      json['itemCount'],
     );
   }
 

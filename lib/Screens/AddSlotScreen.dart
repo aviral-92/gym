@@ -19,13 +19,15 @@ class AddSlotScreen extends StatefulWidget {
 class _AddSlotScreenState extends State<AddSlotScreen> {
   static DateFormat dateFormat = DateFormat('yyyy-MM-dd');
   static DateFormat timeFormat = DateFormat.Hm();
+  //static DateFormat dateTimeFormat = new DateFormat('yyyy-MM-dd H:m');
   //static var fromDate = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
   String _date = dateFormat.format(DateTime.now());
   String _startDateTime = timeFormat.format(DateTime.now());
   String _endDateTime = timeFormat.format(DateTime.now());
-  DateTime _selectedStartDate = DateTime.now();
+  //DateTime _selectedStartDate = DateTime.now();
   double _price;
   String _desc;
+  int _itemCount;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,19 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                   } catch (e) {
                     print(e);
                   }
+                },
+              ),
+              Divider(),
+              new TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'number of machines',
+                  labelText: 'number of machines',
+                  prefixIcon: const Icon(Icons.casino),
+                ),
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  //print(value);
+                  _itemCount = int.parse(value);
                 },
               ),
               Divider(),
@@ -144,23 +159,29 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
   ExpansionTile buildExpansionTile(String dateTime, bool start, Icon icon) {
     return ExpansionTile(
-      title: Text('$dateTime',
-          style: TextStyle(
-            fontWeight: Constants.FONT_WEIGHT,
-            fontSize: Constants.FONT_SIZE,
-          )),
+      title: Text(
+        '$dateTime',
+        style: TextStyle(
+          fontWeight: Constants.FONT_WEIGHT,
+          fontSize: Constants.FONT_SIZE,
+        ),
+      ),
       leading: icon,
       trailing: start == true
-          ? Text('Start Time',
+          ? Text(
+              'Start Time',
               style: TextStyle(
                 fontWeight: Constants.FONT_WEIGHT,
                 fontSize: Constants.FONT_SIZE,
-              ))
-          : Text('End Time',
+              ),
+            )
+          : Text(
+              'End Time',
               style: TextStyle(
                 fontWeight: Constants.FONT_WEIGHT,
                 fontSize: Constants.FONT_SIZE,
-              )),
+              ),
+            ),
       children: <Widget>[
         SizedBox(
           height: 200,
@@ -168,31 +189,40 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
               mode: CupertinoDatePickerMode.time,
               initialDateTime: DateTime.now(),
               onDateTimeChanged: (dateTimeValue) {
+                //print('.......${timeFormat.format(dateTimeValue)}........');
                 //start means start datetime, idea behind is to make generic.
                 if (start == true) {
                   try {
                     if (_date == dateFormat.format(DateTime.now()) &&
                         DateTime.now().compareTo(dateTimeValue) == -1) {
-                      print(dateTimeValue);
-                      _selectedStartDate = dateTimeValue;
+                      //print(dateTimeValue);
+                      //_selectedStartDate = dateTimeValue;
                       setState(() {
                         _startDateTime = timeFormat.format(dateTimeValue);
                       });
                     } else {
-                      print(dateTimeValue);
-                      _selectedStartDate = dateTimeValue;
+                      //print(dateTimeValue);
+                      //_selectedStartDate = dateTimeValue;
                       setState(() {
                         _startDateTime = timeFormat.format(dateTimeValue);
                       });
                     }
+                    //print('${timeFormat.parse(_startDateTime)}........');
                   } catch (e) {
                     print(e);
                   }
                 } else {
-                  if (dateTimeValue.isAfter(_selectedStartDate)) {
+                  //print(timeFormat.parse(_startDateTime));
+                  //print(timeFormat.parse(timeFormat.format(dateTimeValue)));
+                  if (timeFormat
+                      .parse(timeFormat.format(dateTimeValue))
+                      .isAfter(timeFormat.parse(_startDateTime))) {
+                    //print('..............Hello boss.........');
                     setState(() {
                       _endDateTime = timeFormat.format(dateTimeValue);
                     });
+                  } else {
+                    //print('......Nothing to print............');
                   }
                 }
               }),
@@ -212,8 +242,9 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
     AdtItems adtItems = new AdtItems(1, '', '', 0);
     try {
-      AdtItemSlots adtItemSlots = new AdtItemSlots(
-          adtItems, _desc, startDateTime, endDateTime, _date, false, _price);
+      print('............$_itemCount..........');
+      AdtItemSlots adtItemSlots = new AdtItemSlots(adtItems, _desc,
+          startDateTime, endDateTime, _date, false, _price, _itemCount);
       print(adtItemSlots.toJson());
       List<AdtItemSlots> adtItemSlotsList = new List<AdtItemSlots>();
       adtItemSlotsList.add(adtItemSlots);

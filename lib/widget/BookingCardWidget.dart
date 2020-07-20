@@ -1,15 +1,20 @@
-import '../model/AdtItemSlots.dart';
-
-import '../constants/Constants.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../model/AdtItemSlots.dart';
+import '../constants/Constants.dart';
 
 class BookingCardWidget extends StatelessWidget {
   final AdtItemSlots adtItemSlots;
+  static DateFormat timeFormat =
+      new DateFormat(TimeOfDayFormat.HH_colon_mm.toString());
 
   BookingCardWidget(this.adtItemSlots);
 
   @override
   Widget build(BuildContext context) {
+    DateTime startTime = splitAndConvertStringToTime(adtItemSlots.startHour);
+    DateTime endTime = splitAndConvertStringToTime(adtItemSlots.endHour);
+
     return Card(
       color: Constants.BACKGROUND_COLOR,
       child: Row(
@@ -19,7 +24,7 @@ class BookingCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '${adtItemSlots.startHour}',
+                '${timeFormat.format(startTime)} - ${timeFormat.format(endTime)}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 10),
@@ -31,7 +36,7 @@ class BookingCardWidget extends StatelessWidget {
                     size: 40.0,
                   ),
                   Text(
-                    '${adtItemSlots.desc} Biking starts dot for\n 45 mins.\n price: \$${adtItemSlots.slotPrice}',
+                    '${adtItemSlots.desc} \n price: \$${adtItemSlots.slotPrice} \n Slots left: ${adtItemSlots.itemCount}',
                     style:
                         TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
                   ),
@@ -56,5 +61,18 @@ class BookingCardWidget extends StatelessWidget {
       ),
       elevation: 1,
     );
+  }
+
+/* Split decimal to colon so that it can be convert */
+  DateTime splitAndConvertStringToTime(double time) {
+    int _hourValue = time.floor();
+    double decimalValue = time - _hourValue;
+    int _minuteValue;
+    if (decimalValue != 0.0) {
+      _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(2));
+    } else {
+      _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(1));
+    }
+    return timeFormat.parse('$_hourValue:$_minuteValue');
   }
 }
