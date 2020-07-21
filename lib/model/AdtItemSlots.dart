@@ -1,6 +1,7 @@
-import 'package:Gym/model/AdtItems.dart';
+import 'AdtItems.dart';
+import 'AdtAudit.dart';
 
-class AdtItemSlots {
+class AdtItemSlots extends AdtAudit {
   int id;
   AdtItems adtItems;
   String desc;
@@ -18,12 +19,19 @@ class AdtItemSlots {
     this.desc,
     this.startHour,
     this.endHour,
-    //this.persons,
     this.slotDate,
     this.disable,
     this.slotPrice,
     this.itemCount,
   );
+
+  void setApplicationId(int applicationId) {
+    this.applicationId = applicationId;
+  }
+
+  void setUserId(int userId) {
+    this.userId = userId;
+  }
 
   factory AdtItemSlots.fromMap(Map<String, dynamic> json) {
     return AdtItemSlots(
@@ -32,7 +40,6 @@ class AdtItemSlots {
       json['desc'],
       json['startHour'],
       json['endHour'],
-      //json['persons'],
       json['slotDate'],
       json['disable'],
       json['slotPrice'],
@@ -50,5 +57,13 @@ class AdtItemSlots {
         'disable': disable,
         'slotPrice': slotPrice,
         'adtItemSlots': adtItems.toJson(),
+        /*'userId': userId,
+        'applicationId': applicationId,
+        'createdDate': createdDate,
+        'createdBy': createdBy,
+        'modifiedDate': modifiedDate,
+        'modifiedBy': modifiedBy,
+        'deleted': deleted,
+        'version': version,*/
       };
 }

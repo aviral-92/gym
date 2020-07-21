@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import '../widget/MainDrawer.dart';
+import '../../widget/MainDrawer.dart';
 
-import '../constants/Constants.dart';
+import '../../constants/Constants.dart';
 //import 'package:flutter/material.dart';
 
 class AddSlotScreen extends StatefulWidget {
@@ -240,7 +240,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
     print(startDateTime);
 
-    AdtItems adtItems = new AdtItems(1, '', '', 0);
+    AdtItems adtItems = new AdtItems(1, '', '');
     try {
       print('............$_itemCount..........');
       AdtItemSlots adtItemSlots = new AdtItemSlots(0, adtItems, _desc,

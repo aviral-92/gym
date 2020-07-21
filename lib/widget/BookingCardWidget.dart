@@ -15,7 +15,7 @@ class BookingCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime startTime = splitAndConvertStringToTime(adtItemSlots.startHour);
     DateTime endTime = splitAndConvertStringToTime(adtItemSlots.endHour);
-    print('startTime=$startTime............. endTime=$endTime');
+    //print('startTime=$startTime............. endTime=$endTime');
     return Card(
       color: Constants.BACKGROUND_COLOR,
       child: Row(
@@ -24,19 +24,10 @@ class BookingCardWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              /*Constants.convertStringToDate(timeFormat,
-                          Constants.convertDateToString(timeFormat, startTime))
-                      .isAfter(Constants.convertStringToDate(
-                          timeFormat,
-                          Constants.convertDateToString(
-                              timeFormat, DateTime.now())))
-                  ?*/
               Text(
                 '${timeFormat.format(startTime)} - ${timeFormat.format(endTime)}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
-              //: Text('Hello'),
-
               SizedBox(height: 10),
               Row(
                 children: <Widget>[
@@ -50,33 +41,92 @@ class BookingCardWidget extends StatelessWidget {
                     style:
                         TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
                   ),
-                  //Icon(Icons.add_circle),
                 ],
               ),
             ],
           ),
-          IconButton(
-              icon: Icon(
-                Icons.add_circle,
-                size: 35.0,
-                color: Constants.APP_BAR_COLOR,
-              ),
-              //tooltip: 'click to book',
-              onPressed: () {
-                //AdtItemSlots ais = new AdtItemSlots(id, adtItems, desc, startHour, endHour, slotDate, disable, slotPrice, itemCount)
-
-                AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
-                    'Booked', adtItemSlots.slotPrice, adtItemSlots);
-
-                var response = slotBooking(adtItemSlotsBooked);
-                response.then((value) => print(value.id));
-                //var response = fetchItemSlot();
-                //print(response.then((value) => value.indexOf('0'));
-                //response.then((value) => print(jsonEncode(value.elementAt(0))));
-              }),
+          getIconButton(context),
         ],
       ),
       elevation: 1,
+    );
+  }
+
+  Widget getIconButton(BuildContext context) {
+    if (adtItemSlots.itemCount > 0 &&
+        splitAndConvertStringToTime(adtItemSlots.startHour).isAfter(
+            Constants.convertStringToDate(timeFormat,
+                Constants.convertDateToString(timeFormat, DateTime.now())))) {
+      return IconButton(
+          icon: Icon(
+            Icons.add_circle,
+            size: 35.0,
+            color: Constants.APP_BAR_COLOR,
+          ),
+          tooltip: 'click to book',
+          onPressed: () {
+            _asyncInputDialog(context, 'Are you sure?').then((value) {
+              print('=============$value=============');
+              if (value) {
+                AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
+                    'Booked', adtItemSlots.slotPrice, adtItemSlots);
+                var response = slotBooking(adtItemSlotsBooked);
+                response.then((value) =>
+                    _showDialogue(context, 'Successfully Booked the slot'));
+              }
+            });
+          });
+    } else {
+      return SizedBox.shrink();
+    }
+  }
+
+  Future<bool> _asyncInputDialog(BuildContext context, String value) async {
+    bool _returnValue;
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext con) {
+        return AlertDialog(
+          title: Text('Booking'),
+          content: Text(value),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                _returnValue = true;
+                Navigator.of(context).pop(_returnValue);
+              },
+              child: Text('yes'),
+            ),
+            FlatButton(
+              onPressed: () {
+                _returnValue = false;
+                Navigator.of(context).pop(_returnValue);
+              },
+              child: Text('no'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDialogue(BuildContext context, String value) {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext con) {
+        return AlertDialog(
+          title: Text('Booked'),
+          content: Text(value),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('ok'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -90,7 +140,7 @@ class BookingCardWidget extends StatelessWidget {
     } else {
       _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(1));
     }
-    print('--------------------------$_hourValue:$_minuteValue');
-    return timeFormat.parse('$_hourValue:$_minuteValue');
+    return Constants.convertStringToDate(
+        timeFormat, '$_hourValue:$_minuteValue');
   }
 }

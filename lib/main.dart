@@ -1,4 +1,4 @@
-import 'package:Gym/Screens/AddSlotScreen.dart';
+import 'package:Gym/Screens/admin/AddSlotScreen.dart';
 
 import './Screens/CancelBookingScreen.dart';
 import './Screens/UpcomingEventScreen.dart';

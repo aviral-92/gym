@@ -1,4 +1,5 @@
 import 'package:Gym/widget/BookingCardWidget.dart';
+//import 'package:Gym/widget/ScrollingCalendarWidget.dart';
 
 import '../providers/AdtItemSlotsList.dart';
 import '../services/RestApiService.dart';
@@ -16,12 +17,14 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> {
   static DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
-  String _selectedDate = dateFormat.format(DateTime.now());
+  String _selectedDate =
+      Constants.convertDateToString(dateFormat, DateTime.now());
   Future<AdtItemSlotsList> adtItemSlotListFuture;
 
   @override
   void initState() {
-    setAdtItemSlotListFuture(dateFormat.format(DateTime.now()));
+    setAdtItemSlotListFuture(
+        Constants.convertDateToString(dateFormat, DateTime.now()));
     super.initState();
   }
 
@@ -30,8 +33,6 @@ class _BookingScreenState extends State<BookingScreen> {
       adtItemSlotListFuture = getAdtItemSlotsData(date);
     });
   }
-
-  //AdtItemSlotsList adtItemSlotsList;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 selectedColor: Constants.CALENDAR_COLOR,
                 onDateSelected: (date) => {
                   setState(() {
-                    _selectedDate = date;
+                    this._selectedDate = date;
                     setAdtItemSlotListFuture(date);
                   })
                 },
