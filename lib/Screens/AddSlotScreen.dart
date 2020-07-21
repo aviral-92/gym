@@ -243,7 +243,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
     AdtItems adtItems = new AdtItems(1, '', '', 0);
     try {
       print('............$_itemCount..........');
-      AdtItemSlots adtItemSlots = new AdtItemSlots(adtItems, _desc,
+      AdtItemSlots adtItemSlots = new AdtItemSlots(0, adtItems, _desc,
           startDateTime, endDateTime, _date, false, _price, _itemCount);
       print(adtItemSlots.toJson());
       List<AdtItemSlots> adtItemSlotsList = new List<AdtItemSlots>();

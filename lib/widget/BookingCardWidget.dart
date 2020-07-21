@@ -1,3 +1,5 @@
+import 'package:Gym/model/AdtItemSlotsBooked.dart';
+import 'package:Gym/services/RestApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../model/AdtItemSlots.dart';
@@ -5,8 +7,7 @@ import '../constants/Constants.dart';
 
 class BookingCardWidget extends StatelessWidget {
   final AdtItemSlots adtItemSlots;
-  static DateFormat timeFormat =
-      new DateFormat(TimeOfDayFormat.HH_colon_mm.toString());
+  static DateFormat timeFormat = DateFormat.Hm();
 
   BookingCardWidget(this.adtItemSlots);
 
@@ -14,7 +15,7 @@ class BookingCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime startTime = splitAndConvertStringToTime(adtItemSlots.startHour);
     DateTime endTime = splitAndConvertStringToTime(adtItemSlots.endHour);
-
+    print('startTime=$startTime............. endTime=$endTime');
     return Card(
       color: Constants.BACKGROUND_COLOR,
       child: Row(
@@ -23,14 +24,23 @@ class BookingCardWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              /*Constants.convertStringToDate(timeFormat,
+                          Constants.convertDateToString(timeFormat, startTime))
+                      .isAfter(Constants.convertStringToDate(
+                          timeFormat,
+                          Constants.convertDateToString(
+                              timeFormat, DateTime.now())))
+                  ?*/
               Text(
                 '${timeFormat.format(startTime)} - ${timeFormat.format(endTime)}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
+              //: Text('Hello'),
+
               SizedBox(height: 10),
               Row(
                 children: <Widget>[
-                  Icon(
+                  const Icon(
                     Icons.device_hub,
                     color: Constants.CALENDAR_COLOR,
                     size: 40.0,
@@ -53,6 +63,13 @@ class BookingCardWidget extends StatelessWidget {
               ),
               //tooltip: 'click to book',
               onPressed: () {
+                //AdtItemSlots ais = new AdtItemSlots(id, adtItems, desc, startHour, endHour, slotDate, disable, slotPrice, itemCount)
+
+                AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
+                    'Booked', adtItemSlots.slotPrice, adtItemSlots);
+
+                var response = slotBooking(adtItemSlotsBooked);
+                response.then((value) => print(value.id));
                 //var response = fetchItemSlot();
                 //print(response.then((value) => value.indexOf('0'));
                 //response.then((value) => print(jsonEncode(value.elementAt(0))));
@@ -73,6 +90,7 @@ class BookingCardWidget extends StatelessWidget {
     } else {
       _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(1));
     }
+    print('--------------------------$_hourValue:$_minuteValue');
     return timeFormat.parse('$_hourValue:$_minuteValue');
   }
 }

@@ -1,9 +1,10 @@
-class AdtAudit{
+abstract class AdtAudit<U> {
+  U userId;
+  int applicationId;
   DateTime createdDate;
-  String createdBy;
+  U createdBy;
   DateTime modifiedDate;
-  String modifiedBy;
+  U modifiedBy;
   bool deleted;
-
-
+  int version;
 }
