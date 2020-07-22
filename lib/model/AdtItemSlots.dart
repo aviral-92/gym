@@ -36,7 +36,7 @@ class AdtItemSlots extends AdtAudit {
   factory AdtItemSlots.fromMap(Map<String, dynamic> json) {
     return AdtItemSlots(
       json['id'],
-      AdtItems.fromMap(json['adtItemSlots']),
+      AdtItems.fromMap(json['adtItems']),
       json['desc'],
       json['startHour'],
       json['endHour'],
