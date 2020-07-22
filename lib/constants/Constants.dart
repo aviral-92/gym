@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
@@ -13,6 +13,9 @@ class Constants {
   static const BUTTON_SIZE = 20.0;
   static const SIZED_BOX_HEIGHT = 20.0;
   static const HORIZONTAL_PADDING = 16.0;
+
+  static DateFormat timeFormat = DateFormat.Hm();
+  static DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
 
   static DateTime convertStringToDate(DateFormat dateFormat, String str) {
     return dateFormat.parse(str);

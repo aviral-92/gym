@@ -1,13 +1,13 @@
 import 'package:Gym/model/AdtItemSlotsBooked.dart';
 import 'package:Gym/services/RestApiService.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+//import 'package:intl/intl.dart';
 import '../model/AdtItemSlots.dart';
 import '../constants/Constants.dart';
 
 class BookingCardWidget extends StatelessWidget {
   final AdtItemSlots adtItemSlots;
-  static DateFormat timeFormat = DateFormat.Hm();
+  //static DateFormat timeFormat = DateFormat.Hm();
 
   BookingCardWidget(this.adtItemSlots);
 
@@ -25,7 +25,7 @@ class BookingCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '${timeFormat.format(startTime)} - ${timeFormat.format(endTime)}',
+                '${Constants.timeFormat.format(startTime)} - ${Constants.timeFormat.format(endTime)}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 10),
@@ -45,40 +45,54 @@ class BookingCardWidget extends StatelessWidget {
               ),
             ],
           ),
-          getIconButton(context),
+          adtItemSlots.itemCount > 0 &&
+                  _isDateOrTimeAfter(
+                      Constants.dateFormat.parse(adtItemSlots.slotDate),
+                      Constants.dateFormat
+                          .parse(Constants.dateFormat.format(DateTime.now())))
+              ? getIconButton(context)
+              : adtItemSlots.itemCount > 0 &&
+                      _isDateOrTimeAfter(
+                          splitAndConvertStringToTime(adtItemSlots.startHour),
+                          Constants.convertStringToDate(
+                              Constants.timeFormat,
+                              Constants.convertDateToString(
+                                  Constants.timeFormat, DateTime.now())))
+                  ? getIconButton(context)
+                  : SizedBox.shrink(),
         ],
       ),
       elevation: 1,
     );
   }
 
+  bool _isDateOrTimeAfter(DateTime first, DateTime second) {
+    return first.isAfter(second);
+  }
+
   Widget getIconButton(BuildContext context) {
-    if (adtItemSlots.itemCount > 0 &&
-        splitAndConvertStringToTime(adtItemSlots.startHour).isAfter(
-            Constants.convertStringToDate(timeFormat,
-                Constants.convertDateToString(timeFormat, DateTime.now())))) {
-      return IconButton(
-          icon: Icon(
-            Icons.add_circle,
-            size: 35.0,
-            color: Constants.APP_BAR_COLOR,
-          ),
-          tooltip: 'click to book',
-          onPressed: () {
-            _asyncInputDialog(context, 'Are you sure?').then((value) {
-              print('=============$value=============');
-              if (value) {
-                AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
-                    'Booked', adtItemSlots.slotPrice, adtItemSlots);
-                var response = slotBooking(adtItemSlotsBooked);
-                response.then((value) =>
-                    _showDialogue(context, 'Successfully Booked the slot'));
-              }
-            });
-          });
-    } else {
-      return SizedBox.shrink();
-    }
+    return IconButton(
+      icon: Icon(
+        Icons.add_circle,
+        size: 35.0,
+        color: Constants.APP_BAR_COLOR,
+      ),
+      tooltip: 'click to book',
+      onPressed: () {
+        _asyncInputDialog(context, 'Are you sure?').then(
+          (value) {
+            print('=============$value=============');
+            if (value) {
+              AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
+                  'Booked', adtItemSlots.slotPrice, adtItemSlots);
+              var response = slotBooking(adtItemSlotsBooked);
+              response.then((value) =>
+                  _showDialogue(context, 'Successfully Booked the slot'));
+            }
+          },
+        );
+      },
+    );
   }
 
   Future<bool> _asyncInputDialog(BuildContext context, String value) async {
@@ -141,6 +155,6 @@ class BookingCardWidget extends StatelessWidget {
       _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(1));
     }
     return Constants.convertStringToDate(
-        timeFormat, '$_hourValue:$_minuteValue');
+        Constants.timeFormat, '$_hourValue:$_minuteValue');
   }
 }

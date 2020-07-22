@@ -85,7 +85,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                 ),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  print('+++++++$value+++++++');
+                  //print('+++++++$value+++++++');
                   _itemCount = int.parse(value);
                 },
               ),
@@ -242,7 +242,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
     AdtItems adtItems = new AdtItems(1, '', '');
     try {
-      print('............$_itemCount..........');
+      //print('............$_itemCount..........');
       AdtItemSlots adtItemSlots = new AdtItemSlots(0, adtItems, _desc,
           startDateTime, endDateTime, _date, false, _price, _itemCount);
       print(adtItemSlots.toJson());
