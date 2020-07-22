@@ -85,7 +85,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                 ),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  //print(value);
+                  print('+++++++$value+++++++');
                   _itemCount = int.parse(value);
                 },
               ),

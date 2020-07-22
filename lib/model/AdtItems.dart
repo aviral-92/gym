@@ -11,11 +11,11 @@ class AdtItems extends AdtAudit {
     this.itemType,
   );
 
-  void setApplicationId(int applicationId){
+  void setApplicationId(int applicationId) {
     this.applicationId = applicationId;
   }
 
-  void setUserId(int userId){
+  void setUserId(int userId) {
     this.userId = userId;
   }
 
@@ -34,11 +34,11 @@ class AdtItems extends AdtAudit {
         'itemType': itemType,
         'userId': userId,
         'applicationId': applicationId,
-        'createdDate': createdDate,
+        /*'createdDate': createdDate,
         'createdBy': createdBy,
         'modifiedDate': modifiedDate,
         'modifiedBy': modifiedBy,
         'deleted': deleted,
-        'version': version,
+        'version': version,*/
       };
 }
