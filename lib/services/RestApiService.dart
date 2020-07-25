@@ -1,15 +1,24 @@
 import 'dart:convert';
-
-import 'package:Gym/model/AdtItemSlots.dart';
-import 'package:Gym/model/AdtItemSlotsBooked.dart';
-import '../providers/AdtItemSlotsList.dart';
 import 'package:http/http.dart' as http;
+import '../model/AdtItemSlots.dart';
+import '../model/AdtItemSlotsBooked.dart';
+import '../providers/AdtItemsList.dart';
+import '../providers/AdtItemSlotsList.dart';
 
+/* GET list of available slots by date */
 Future<AdtItemSlotsList> getAdtItemSlotsData(String date) async {
   final response = await http.get(
       'http://ec2-54-210-195-201.compute-1.amazonaws.com:8082/adt/booker/slots/items/slotDate/$date');
   print(response.body);
   return AdtItemSlotsList.fromJson(json.decode(response.body));
+}
+
+/* GET List of Items  */
+Future<AdtItemsList> getAdtItemsData() async {
+  final response = await http.get(
+      'http://ec2-54-210-195-201.compute-1.amazonaws.com:8082/adt/booker/items/');
+  print(response.body);
+  return AdtItemsList.fromJson(json.decode(response.body));
 }
 
 Future<AdtItemSlotsList> addAdtItemSlotsData(
