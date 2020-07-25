@@ -47,6 +47,8 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
+          listTileWidget('Home', Icons.home,
+              () => navigateHomeDashboardEvent(context)),
           listTileWidget('Upcoming Schedule', Icons.calendar_today,
               () => navigateUpcomingEvent(context)),
           listTileWidget('Book Slot', Icons.accessibility,
@@ -90,8 +92,11 @@ class MainDrawer extends StatelessWidget {
     );
   }
 
+ void navigateHomeDashboardEvent(BuildContext context) {
+    Navigator.of(context).pushNamed('/dashboard-screen', arguments: _admin);
+  }  
+
   void navigateUpcomingEvent(BuildContext context) {
-    //print(_admin);
     Navigator.of(context).pushNamed('/upcoming-screen', arguments: _admin);
   }
 
