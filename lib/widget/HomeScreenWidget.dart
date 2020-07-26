@@ -40,7 +40,7 @@ class HomeScreenWidget extends StatelessWidget {
               getPaddingWidgetWithButton('Login', () => navigateLogin(context),
                   Icon(Icons.keyboard_tab)),
               getPaddingWidgetWithButton('Signup',
-                  () => navigateSignup(context), Icon(Icons.keyboard_tab)),
+                  () => navigateSignup(context), Icon(Icons.fitness_center)),
             ],
           ),
         ],
