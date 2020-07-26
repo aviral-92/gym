@@ -24,4 +24,7 @@ class Constants {
   static String convertDateToString(DateFormat dateFormat, DateTime dateTime) {
     return dateFormat.format(dateTime);
   }
+
+  static const HOME_SCREEN_HEADER_TEXT = 'Welcome to the GYM.';
+  static const HOME_SCREEN_BODY_TEXT = 'Lines lines lines lines lines lines lines lines lines lines lines';
 }

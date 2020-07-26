@@ -1,11 +1,9 @@
-import 'package:Gym/widget/BookingCardWidget.dart';
-//import 'package:Gym/widget/ScrollingCalendarWidget.dart';
-
-import '../providers/AdtItemSlotsList.dart';
-import '../services/RestApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_calendar/horizontal_calendar.dart';
 import 'package:intl/intl.dart';
+import '../widget/BookingCardWidget.dart';
+import '../providers/AdtItemSlotsList.dart';
+import '../services/RestApiService.dart';
 import '../widget/MainDrawer.dart';
 import '../constants/Constants.dart';
 import '../model/AdtItemSlots.dart';
