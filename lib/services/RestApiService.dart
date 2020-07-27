@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:Gym/providers/AdtItemSlotsBookedList.dart';
 import 'package:http/http.dart' as http;
 import '../model/AdtItemSlots.dart';
 import '../model/AdtItemSlotsBooked.dart';
@@ -19,6 +20,13 @@ Future<AdtItemsList> getAdtItemsData() async {
       'http://ec2-54-210-195-201.compute-1.amazonaws.com:8082/adt/booker/items/');
   print(response.body);
   return AdtItemsList.fromJson(json.decode(response.body));
+}
+
+Future<AdtItemSlotsBookedList> getAdtItemsSlotsBookingData() async {
+  final response = await http.get(
+      'http://ec2-54-210-195-201.compute-1.amazonaws.com:8082/adt/booker/booking/');
+  print(response.body);
+  return AdtItemSlotsBookedList.fromJson(json.decode(response.body));
 }
 
 Future<AdtItemSlotsList> addAdtItemSlotsData(

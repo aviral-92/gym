@@ -28,73 +28,75 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 120,
-            width: double.infinity,
-            padding: EdgeInsets.all(20),
-            alignment: Alignment.centerLeft,
-            color: Constants.APP_BAR_COLOR, //Theme.of(context).accentColor,
-            //decoration: BoxDecoration(color: ),
-            child: Text(
-              'Welcome Aboard',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 30,
-                color: Colors.black,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 120,
+              width: double.infinity,
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.centerLeft,
+              color: Constants.APP_BAR_COLOR, //Theme.of(context).accentColor,
+              //decoration: BoxDecoration(color: ),
+              child: Text(
+                'Welcome Aboard',
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 30,
+                  color: Colors.black,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          listTileWidget('Home', Icons.home,
-              () => navigateHomeDashboardEvent(context)),
-          listTileWidget('Upcoming Schedule', Icons.calendar_today,
-              () => navigateUpcomingEvent(context)),
-          listTileWidget('Book Slot', Icons.accessibility,
-              () => navigateBookingEvent(context)),
-          listTileWidget(
-              'Update Slot', Icons.update, () => navigateUpdateEvent(context)),
-          listTileWidget(
-              'Cancel Slot', Icons.cancel, () => navigateCancelEvent(context)),
-          _admin == true
-              ? ExpansionTile(
-                  title: Text(
-                    'Admin',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  leading: Icon(Icons.alternate_email),
-                  //trailing: null,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 250,
-                      child: Column(
-                        children: <Widget>[
-                          listTileWidget('Add Slot', Icons.add_to_photos,
-                              () => navigateAddEvent(context)),
-                          listTileWidget('Get Slots', Icons.gesture,
-                              () => navigateAddEvent(context)),
-                          listTileWidget('Update Slot', Icons.update,
-                              () => navigateAddEvent(context)),
-                          listTileWidget('Delete Slot', Icons.delete_forever,
-                              () => navigateAddEvent(context)),
-                        ],
+            SizedBox(height: 20),
+            listTileWidget(
+                'Home', Icons.home, () => navigateHomeDashboardEvent(context)),
+            listTileWidget('Upcoming Schedule', Icons.calendar_today,
+                () => navigateUpcomingEvent(context)),
+            listTileWidget('Book Slot', Icons.accessibility,
+                () => navigateBookingEvent(context)),
+            /*listTileWidget('Update Slot', Icons.update,
+                () => navigateUpdateEvent(context)),*/
+            listTileWidget('Cancel Slot', Icons.cancel,
+                () => navigateCancelEvent(context)),
+            _admin == true
+                ? ExpansionTile(
+                    title: Text(
+                      'Admin',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
                       ),
-                    )
-                  ],
-                )
-              : Text(''),
-        ],
+                    ),
+                    leading: Icon(Icons.alternate_email),
+                    //trailing: null,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 250,
+                        child: Column(
+                          children: <Widget>[
+                            listTileWidget('Add Slot', Icons.add_to_photos,
+                                () => navigateAddEvent(context)),
+                            /*listTileWidget('Get Slots', Icons.gesture,
+                                () => navigateAddEvent(context)),
+                            listTileWidget('Update Slot', Icons.update,
+                                () => navigateAddEvent(context)),*/
+                            listTileWidget('Delete Slot', Icons.delete_forever,
+                                () => navigateAddEvent(context)),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                : Text(''),
+          ],
+        ),
       ),
     );
   }
 
- void navigateHomeDashboardEvent(BuildContext context) {
+  void navigateHomeDashboardEvent(BuildContext context) {
     Navigator.of(context).pushNamed('/dashboard-screen', arguments: _admin);
-  }  
+  }
 
   void navigateUpcomingEvent(BuildContext context) {
     Navigator.of(context).pushNamed('/upcoming-screen', arguments: _admin);

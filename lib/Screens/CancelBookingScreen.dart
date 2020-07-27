@@ -1,13 +1,9 @@
-import 'package:Gym/constants/Constants.dart';
-import 'package:Gym/widget/MainDrawer.dart';
 import 'package:flutter/material.dart';
+import '../constants/Constants.dart';
+import '../widget/BookingCancelWidget.dart';
+import '../widget/MainDrawer.dart';
 
-class CancelBookingScreen extends StatefulWidget {
-  @override
-  _CancelBookingScreenState createState() => _CancelBookingScreenState();
-}
-
-class _CancelBookingScreenState extends State<CancelBookingScreen> {
+class CancelBookingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool args = ModalRoute.of(context).settings.arguments;
@@ -21,20 +17,12 @@ class _CancelBookingScreenState extends State<CancelBookingScreen> {
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Slot 1'),
-                Text('07/02/2020'),
-                InkWell(
-                  child: const Text('Cancel'),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              BookingCancelWidget(),
+            ],
+          ),
         ),
       ),
     );

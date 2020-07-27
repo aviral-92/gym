@@ -189,41 +189,29 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
               mode: CupertinoDatePickerMode.time,
               initialDateTime: DateTime.now(),
               onDateTimeChanged: (dateTimeValue) {
-                //print('.......${timeFormat.format(dateTimeValue)}........');
-                //start means start datetime, idea behind is to make generic.
                 if (start == true) {
                   try {
                     if (_date == dateFormat.format(DateTime.now()) &&
                         DateTime.now().compareTo(dateTimeValue) == -1) {
-                      //print(dateTimeValue);
-                      //_selectedStartDate = dateTimeValue;
                       setState(() {
                         _startDateTime = timeFormat.format(dateTimeValue);
                       });
                     } else {
-                      //print(dateTimeValue);
-                      //_selectedStartDate = dateTimeValue;
                       setState(() {
                         _startDateTime = timeFormat.format(dateTimeValue);
                       });
                     }
-                    //print('${timeFormat.parse(_startDateTime)}........');
                   } catch (e) {
                     print(e);
                   }
                 } else {
-                  //print(timeFormat.parse(_startDateTime));
-                  //print(timeFormat.parse(timeFormat.format(dateTimeValue)));
                   if (timeFormat
                       .parse(timeFormat.format(dateTimeValue))
                       .isAfter(timeFormat.parse(_startDateTime))) {
-                    //print('..............Hello boss.........');
                     setState(() {
                       _endDateTime = timeFormat.format(dateTimeValue);
                     });
-                  } else {
-                    //print('......Nothing to print............');
-                  }
+                  } else {}
                 }
               }),
         ),

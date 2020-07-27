@@ -1,21 +1,19 @@
 import 'package:Gym/model/AdtItemSlotsBooked.dart';
 import 'package:Gym/services/RestApiService.dart';
 import 'package:flutter/material.dart';
-//import 'package:intl/intl.dart';
 import '../model/AdtItemSlots.dart';
 import '../constants/Constants.dart';
 
 class BookingCardWidget extends StatelessWidget {
   final AdtItemSlots adtItemSlots;
-  //static DateFormat timeFormat = DateFormat.Hm();
-
   BookingCardWidget(this.adtItemSlots);
 
   @override
   Widget build(BuildContext context) {
-    DateTime startTime = splitAndConvertStringToTime(adtItemSlots.startHour);
-    DateTime endTime = splitAndConvertStringToTime(adtItemSlots.endHour);
-    //print('startTime=$startTime............. endTime=$endTime');
+    DateTime startTime =
+        Constants.splitAndConvertStringToTime(adtItemSlots.startHour);
+    DateTime endTime =
+        Constants.splitAndConvertStringToTime(adtItemSlots.endHour);
     return Card(
       color: Constants.BACKGROUND_COLOR,
       child: Row(
@@ -53,7 +51,8 @@ class BookingCardWidget extends StatelessWidget {
               ? getIconButton(context)
               : adtItemSlots.itemCount > 0 &&
                       _isDateOrTimeAfter(
-                          splitAndConvertStringToTime(adtItemSlots.startHour),
+                          Constants.splitAndConvertStringToTime(
+                              adtItemSlots.startHour),
                           Constants.convertStringToDate(
                               Constants.timeFormat,
                               Constants.convertDateToString(
@@ -145,7 +144,7 @@ class BookingCardWidget extends StatelessWidget {
   }
 
 /* Split decimal to colon so that it can be convert */
-  DateTime splitAndConvertStringToTime(double time) {
+  /*DateTime splitAndConvertStringToTime(double time) {
     int _hourValue = time.floor();
     double decimalValue = time - _hourValue;
     int _minuteValue;
@@ -156,5 +155,5 @@ class BookingCardWidget extends StatelessWidget {
     }
     return Constants.convertStringToDate(
         Constants.timeFormat, '$_hourValue:$_minuteValue');
-  }
+  }*/
 }

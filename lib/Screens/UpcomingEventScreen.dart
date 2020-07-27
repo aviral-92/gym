@@ -1,5 +1,5 @@
-import 'package:Gym/constants/Constants.dart';
-
+import '../constants/Constants.dart';
+import '../widget/UpcomingEventWidget.dart';
 import '../widget/MainDrawer.dart';
 import 'package:flutter/material.dart';
 
@@ -10,20 +10,18 @@ class UpcomingEventScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('Upcoming Schedule'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
       drawer: MainDrawer(args),
       body: Container(
-        height: 120,
         width: double.infinity,
         padding: EdgeInsets.all(20),
-        alignment: Alignment.centerLeft,
-        child: Text(
-          'You have no upcoming event! Book an event to see....',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              UpcomingEventWidget(),
+            ],
           ),
         ),
       ),

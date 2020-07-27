@@ -49,7 +49,10 @@ class DashboardScreenWidget extends StatelessWidget {
     return Container(
       child: Card(
         child: GestureDetector(
-          onTap: () => {Navigator.of(context).pushNamed('/booking-screen')},
+          onTap: () => {
+            Navigator.of(context)
+                .pushNamed('/dashboard-screen', arguments: true)
+          },
           child: Card(
             elevation: 6,
             child: Column(

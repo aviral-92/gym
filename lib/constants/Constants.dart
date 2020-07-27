@@ -26,5 +26,32 @@ class Constants {
   }
 
   static const HOME_SCREEN_HEADER_TEXT = 'Welcome to the GYM.';
-  static const HOME_SCREEN_BODY_TEXT = 'Lines lines lines lines lines lines lines lines lines lines lines';
+  static const HOME_SCREEN_BODY_TEXT =
+      'Lines lines lines lines lines lines lines lines lines lines lines';
+
+  /* Split decimal to colon so that it can be convert */
+  static DateTime splitAndConvertStringToTime(double time) {
+    int _hourValue = time.floor();
+    double decimalValue = time - _hourValue;
+    int _minuteValue;
+    if (decimalValue != 0.0) {
+      _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(2));
+    } else {
+      _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(1));
+    }
+    return convertStringToDate(timeFormat, '$_hourValue:$_minuteValue');
+  }
+
+  static Widget loadingView() => Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.red,
+        ),
+      );
+
+  static Widget noDataView(String msg) => Center(
+        child: Text(
+          msg,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+        ),
+      );
 }

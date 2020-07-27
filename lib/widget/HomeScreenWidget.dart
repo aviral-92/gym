@@ -51,7 +51,7 @@ class HomeScreenWidget extends StatelessWidget {
   Widget getPaddingWidgetWithButton(
           String buttonText, Function fun, Icon icon) =>
       Padding(
-        padding: const EdgeInsets.all(18.0),
+        padding: const EdgeInsets.all(10.0),
         child: RaisedButton.icon(
           onPressed: () => fun(),
           textColor: Colors.black,
