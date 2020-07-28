@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   final bool _admin;
 
-  MainDrawer(this._admin) {
-    //this._admin = args;
-  }
+  MainDrawer(this._admin);
 
   Widget listTileWidget(String title, IconData icons, Function fun) {
     return ListTile(
@@ -36,8 +34,7 @@ class MainDrawer extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(20),
               alignment: Alignment.centerLeft,
-              color: Constants.APP_BAR_COLOR, //Theme.of(context).accentColor,
-              //decoration: BoxDecoration(color: ),
+              color: Constants.APP_BAR_COLOR,
               child: Text(
                 'Welcome Aboard',
                 style: TextStyle(
@@ -94,27 +91,21 @@ class MainDrawer extends StatelessWidget {
     );
   }
 
-  void navigateHomeDashboardEvent(BuildContext context) {
-    Navigator.of(context).pushNamed('/dashboard-screen', arguments: _admin);
-  }
+  void navigateHomeDashboardEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/dashboard-screen', arguments: _admin);
 
-  void navigateUpcomingEvent(BuildContext context) {
-    Navigator.of(context).pushNamed('/upcoming-screen', arguments: _admin);
-  }
+  void navigateUpcomingEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/upcoming-screen', arguments: _admin);
 
-  void navigateBookingEvent(BuildContext context) {
-    Navigator.of(context).pushNamed('/booking-screen', arguments: _admin);
-  }
+  void navigateBookingEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/booking-screen', arguments: _admin);
 
-  void navigateUpdateEvent(BuildContext context) {
-    Navigator.of(context).pushNamed('/update-screen', arguments: _admin);
-  }
+  void navigateUpdateEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/update-screen', arguments: _admin);
 
-  void navigateAddEvent(BuildContext context) {
-    Navigator.of(context).pushNamed('/add-screen', arguments: _admin);
-  }
+  void navigateAddEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/add-screen', arguments: _admin);
 
-  void navigateCancelEvent(BuildContext context) {
-    Navigator.of(context).pushNamed('/cancel-screen', arguments: _admin);
-  }
+  void navigateCancelEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/cancel-screen', arguments: _admin);
 }

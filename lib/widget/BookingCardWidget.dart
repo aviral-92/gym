@@ -142,18 +142,4 @@ class BookingCardWidget extends StatelessWidget {
       },
     );
   }
-
-/* Split decimal to colon so that it can be convert */
-  /*DateTime splitAndConvertStringToTime(double time) {
-    int _hourValue = time.floor();
-    double decimalValue = time - _hourValue;
-    int _minuteValue;
-    if (decimalValue != 0.0) {
-      _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(2));
-    } else {
-      _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(1));
-    }
-    return Constants.convertStringToDate(
-        Constants.timeFormat, '$_hourValue:$_minuteValue');
-  }*/
 }

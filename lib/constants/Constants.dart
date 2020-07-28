@@ -54,4 +54,10 @@ class Constants {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
         ),
       );
+
+  static void navigateSignup(BuildContext context) =>
+      Navigator.of(context).pushNamed('/signup-screen');
+
+  static void navigateLogin(BuildContext context) =>
+      Navigator.of(context).pushNamed('/login-screen');
 }

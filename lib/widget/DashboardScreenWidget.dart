@@ -1,6 +1,7 @@
-import 'package:Gym/model/AdtItems.dart';
-import 'package:Gym/providers/AdtItemsList.dart';
 import 'package:flutter/material.dart';
+import '../constants/Constants.dart';
+import '../model/AdtItems.dart';
+import '../providers/AdtItemsList.dart';
 
 class DashboardScreenWidget extends StatelessWidget {
   final Future<AdtItemsList> adtItemsListFuture;
@@ -14,7 +15,7 @@ class DashboardScreenWidget extends StatelessWidget {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
-            return loadingView();
+            return Constants.loadingView();
           case ConnectionState.active:
             break;
           case ConnectionState.done:
@@ -35,12 +36,12 @@ class DashboardScreenWidget extends StatelessWidget {
                   }
                 }
               }
-              return noDataView("No data found");
+              return Constants.noDataView("No data found");
             }
           case ConnectionState.none:
             break;
         }
-        return noDataView("No data found");
+        return Constants.noDataView("No data found");
       },
     );
   }
@@ -79,7 +80,7 @@ class DashboardScreenWidget extends StatelessWidget {
     );
   }
 
-  Widget loadingView() => Center(
+  /*Widget loadingView() => Center(
         child: CircularProgressIndicator(
           backgroundColor: Colors.red,
         ),
@@ -90,5 +91,5 @@ class DashboardScreenWidget extends StatelessWidget {
           msg,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
         ),
-      );
+      );*/
 }

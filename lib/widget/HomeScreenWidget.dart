@@ -37,10 +37,14 @@ class HomeScreenWidget extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              getPaddingWidgetWithButton('Login', () => navigateLogin(context),
+              getPaddingWidgetWithButton(
+                  'Login',
+                  () => Constants.navigateLogin(context),
                   Icon(Icons.keyboard_tab)),
-              getPaddingWidgetWithButton('Signup',
-                  () => navigateSignup(context), Icon(Icons.fitness_center)),
+              getPaddingWidgetWithButton(
+                  'Signup',
+                  () => Constants.navigateSignup(context),
+                  Icon(Icons.fitness_center)),
             ],
           ),
         ],
@@ -71,10 +75,4 @@ class HomeScreenWidget extends StatelessWidget {
               side: BorderSide(color: Colors.red)),
         ),
       );
-
-  void navigateSignup(BuildContext context) =>
-      Navigator.of(context).pushNamed('/signup-screen');
-
-  void navigateLogin(BuildContext context) =>
-      Navigator.of(context).pushNamed('/login-screen');
 }
