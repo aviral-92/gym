@@ -76,16 +76,30 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
         adtItemSlotsBooked.adtItemSlots.startHour);
     DateTime endTime = Constants.splitAndConvertStringToTime(
         adtItemSlotsBooked.adtItemSlots.endHour);
-    if (slotDateStr ==
+    if (Constants.convertStringToDate(Constants.dateFormat, slotDateStr)
+        .isAfter(DateTime.now())) {
+      return getColumnWidget(slotDateStr, startTime, endTime);
+    } else if (slotDateStr !=
+        Constants.convertDateToString(Constants.dateFormat, DateTime.now())) {
+      return SizedBox.shrink();
+    } else if (slotDateStr ==
         Constants.convertDateToString(Constants.dateFormat, DateTime.now())) {
       DateTime dt = new DateTime(slotDate.year, slotDate.month, slotDate.day,
           startTime.hour, startTime.minute);
       if (dt.isBefore(DateTime.now())) {
         return SizedBox.shrink();
+      } else {
+        return getColumnWidget(slotDateStr, startTime, endTime);
       }
-    } else if (Constants.convertStringToDate(Constants.dateFormat, slotDateStr)
-        .isAfter(DateTime.now())) {
-      return Column(
+    } else {
+      print('....................');
+    }
+    return getColumnWidget(slotDateStr, startTime, endTime);
+  }
+
+  Widget getColumnWidget(
+          String slotDateStr, DateTime startTime, DateTime endTime) =>
+      Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +134,4 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
           Divider(),
         ],
       );
-    }
-    return SizedBox.shrink();
-  }
 }

@@ -82,14 +82,12 @@ class _UpcomingEventWidgetState extends State<UpcomingEventWidget> {
           slotDateStr, startTime, endTime, adtItemSlotsBooked.desc);
     } else if (slotDateStr !=
         Constants.convertDateToString(Constants.dateFormat, DateTime.now())) {
-      //print('..........$slotDateStr..........');
       return SizedBox.shrink();
     } else if (slotDateStr ==
         Constants.convertDateToString(Constants.dateFormat, DateTime.now())) {
       DateTime dt = new DateTime(slotDate.year, slotDate.month, slotDate.day,
           startTime.hour, startTime.minute);
       if (dt.isBefore(DateTime.now())) {
-        //print('..........$dt..........');
         return SizedBox.shrink();
       } else {
         return getColumnWidget(
