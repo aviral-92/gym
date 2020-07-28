@@ -1,4 +1,5 @@
 import 'package:Gym/constants/Constants.dart';
+import 'package:Gym/constants/Routing.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -25,6 +26,8 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /* Routing table to route */
+    Routing routing = new Routing(_admin);
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
@@ -45,16 +48,18 @@ class MainDrawer extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            listTileWidget(
-                'Home', Icons.home, () => navigateHomeDashboardEvent(context)),
+            listTileWidget('Home', Icons.home,
+                () => routing.navigateHomeDashboardEvent(context)),
             listTileWidget('Upcoming Schedule', Icons.calendar_today,
-                () => navigateUpcomingEvent(context)),
+                () => routing.navigateUpcomingEvent(context)),
             listTileWidget('Book Slot', Icons.accessibility,
-                () => navigateBookingEvent(context)),
+                () => routing.navigateBookingEvent(context)),
             /*listTileWidget('Update Slot', Icons.update,
                 () => navigateUpdateEvent(context)),*/
             listTileWidget('Cancel Slot', Icons.cancel,
-                () => navigateCancelEvent(context)),
+                () => routing.navigateCancelEvent(context)),
+            listTileWidget('Contact Us', Icons.contacts,
+                () => routing.navigateContactEvent(context)),
             _admin == true
                 ? ExpansionTile(
                     title: Text(
@@ -72,13 +77,13 @@ class MainDrawer extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             listTileWidget('Add Slot', Icons.add_to_photos,
-                                () => navigateAddEvent(context)),
+                                () => routing.navigateAddEvent(context)),
                             /*listTileWidget('Get Slots', Icons.gesture,
                                 () => navigateAddEvent(context)),
                             listTileWidget('Update Slot', Icons.update,
                                 () => navigateAddEvent(context)),*/
                             listTileWidget('Delete Slot', Icons.delete_forever,
-                                () => navigateAddEvent(context)),
+                                () => routing.navigateAddEvent(context)),
                           ],
                         ),
                       )
@@ -91,7 +96,7 @@ class MainDrawer extends StatelessWidget {
     );
   }
 
-  void navigateHomeDashboardEvent(BuildContext context) =>
+  /*void navigateHomeDashboardEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/dashboard-screen', arguments: _admin);
 
   void navigateUpcomingEvent(BuildContext context) =>
@@ -108,4 +113,5 @@ class MainDrawer extends StatelessWidget {
 
   void navigateCancelEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/cancel-screen', arguments: _admin);
+      */
 }

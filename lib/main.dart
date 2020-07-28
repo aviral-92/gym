@@ -1,13 +1,12 @@
-import 'package:Gym/Screens/admin/AddSlotScreen.dart';
-
+import 'package:flutter/material.dart';
 import './Screens/CancelBookingScreen.dart';
 import './Screens/UpcomingEventScreen.dart';
 import './Screens/dashboard_screen.dart';
 import './Screens/login_screen.dart';
 import './Screens/signup_screen.dart';
 import './Screens/home_screen.dart';
-import 'package:flutter/material.dart';
-
+import './Screens/Contact.dart';
+import './Screens/admin/AddSlotScreen.dart';
 import 'Screens/BookingScreen.dart';
 
 void main() {
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/booking-screen': (ctx) => BookingScreen(),
         '/cancel-screen': (ctx) => CancelBookingScreen(),
         '/add-screen': (ctx) => AddSlotScreen(),
+        '/contact-screen': (ctx) => Contact(),
         //'/select-spinner-screen': (ctx) => SelectSpinnerScreen(),
       },
     );

@@ -1,5 +1,6 @@
-import '../constants/Constants.dart';
 import 'package:flutter/material.dart';
+import '../constants/Constants.dart';
+import '../constants/Routing.dart';
 
 class HomeScreenWidget extends StatelessWidget {
   @override
@@ -39,11 +40,11 @@ class HomeScreenWidget extends StatelessWidget {
             children: <Widget>[
               getPaddingWidgetWithButton(
                   'Login',
-                  () => Constants.navigateLogin(context),
+                  () => Routing.navigateLogin(context),
                   Icon(Icons.keyboard_tab)),
               getPaddingWidgetWithButton(
                   'Signup',
-                  () => Constants.navigateSignup(context),
+                  () => Routing.navigateSignup(context),
                   Icon(Icons.fitness_center)),
             ],
           ),

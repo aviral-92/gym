@@ -55,9 +55,16 @@ class Constants {
         ),
       );
 
-  static void navigateSignup(BuildContext context) =>
-      Navigator.of(context).pushNamed('/signup-screen');
-
-  static void navigateLogin(BuildContext context) =>
-      Navigator.of(context).pushNamed('/login-screen');
+  //******************APIs*****************/
+  static const String GET_ADT_ITEMSLOTS_DATA =
+      'http://100.27.4.74:8082/adt/booker/slots/items/slotDate/';
+  static const String GET_ADT_ITEMS_DATA =
+      'http://100.27.4.74:8082/adt/booker/items/';
+  static const String GET_ADT_ITEMS_SLOTS_BOOKING_DATA =
+      'http://100.27.4.74:8082/adt/booker/booking/';
+  static const String ADD_ADT_ITEM_SLOTS_DATA =
+      'http://100.27.4.74:8082/adt/booker/slots/';
+  static const String SLOT_BOOKING =
+      'http://100.27.4.74:8082/adt/booker/booking/';
+  //******************APIs*****************/
 }
