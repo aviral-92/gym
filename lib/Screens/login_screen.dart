@@ -1,5 +1,6 @@
-import 'package:Gym/constants/Constants.dart';
 import 'package:flutter/material.dart';
+import '../constants/Constants.dart';
+import '../services/RestApiService.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,11 +9,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   void navigateDashboard(BuildContext context) {
+    addStorage();
     Navigator.of(context).pushNamed('/dashboard-screen', arguments: true);
   }
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _usernameController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       appBar: AppBar(
@@ -35,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               new TextFormField(
+                controller: _usernameController,
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.person),
                   hintText: 'Enter your username',
@@ -42,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               new TextFormField(
+                controller: _passwordController,
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.camera),
                   hintText: 'Enter your password',
