@@ -47,6 +47,9 @@ class DashboardScreenWidget extends StatelessWidget {
   }
 
   Widget dashBoardScreenWidget(AdtItems adtItems, BuildContext context) {
+    //OauthToken oauthToken = new OauthToken('user', 'pass', 'password');
+    //var response = getToken(oauthToken);
+    //print(response);
     return Container(
       child: Card(
         child: GestureDetector(

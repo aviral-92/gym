@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import './Screens/CancelBookingScreen.dart';
 import './Screens/UpcomingEventScreen.dart';
-import './Screens/dashboard_screen.dart';
-import './Screens/login_screen.dart';
-import './Screens/signup_screen.dart';
-import './Screens/home_screen.dart';
+import './Screens/HomeScreen.dart';
+import './Screens/LoginScreen.dart';
+import './Screens/SignupScreen.dart';
+import './Screens/DashboardScreen.dart';
 import './Screens/Contact.dart';
 import './Screens/admin/AddSlotScreen.dart';
 import 'Screens/BookingScreen.dart';
