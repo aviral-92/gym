@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (jsons != null &&
               jsons['authorities'] != null &&
               jsons['authorities'][0] != null) {
-            if (jsons['authorities'][0]['authority'] == 'ROLE_ADMIN') {
+            if (jsons['authorities'][1]['authority'] == 'ROLE_ADMIN') {
               isAdmin = true;
             }
           }
@@ -106,7 +106,14 @@ class _LoginScreenState extends State<LoginScreen> {
               new Container(
                 padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                 child: new RaisedButton(
-                  child: const Text('Submit'),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                      fontWeight: Constants.FONT_WEIGHT,
+                      fontSize: Constants.BUTTON_SIZE,
+                    ),
+                  ),
+                  color: Constants.APP_BAR_COLOR,
                   onPressed: () => navigateDashboard(context),
                 ),
               ),
