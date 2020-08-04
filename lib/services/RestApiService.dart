@@ -34,7 +34,7 @@ Future<AdtItemsList> getAdtItemsData() async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
-  //print('getAdtItemsData() ====>>>>>>$token');
+  print('getAdtItemsData() ====>>>>>>$token');
   //print('${Constants.GET_ADT_ITEMS_DATA}');
   final response = await http.get(
     Constants.GET_ADT_ITEMS_DATA,

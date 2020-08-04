@@ -32,12 +32,15 @@ class _LoginScreenState extends State<LoginScreen> {
       if (currentRresponse != null && currentRresponse.statusCode == 200) {
         AdtAccessToken adtAccessToken =
             AdtAccessToken.fromMap(json.decode(currentRresponse.body));
+        // print('success ----> ${json.decode(currentRresponse.body)}');
         var futureTokenInfoResponse =
             getTokenInfo(adtAccessToken.tokenType, adtAccessToken.accessToken);
         await futureTokenInfoResponse
             .then((value) => currentTokenInfoResponse = value);
+        print('${currentTokenInfoResponse.body}');
         if (currentTokenInfoResponse != null &&
             currentTokenInfoResponse.statusCode == 200) {
+          print('......success.......');
           var jsons = json.decode(currentTokenInfoResponse.body);
           bool isAdmin = false;
           if (jsons != null &&
@@ -51,6 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
               .pushNamed('/dashboard-screen', arguments: isAdmin);
           addStorage(
               '${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
+        } else {
+          print('.....fail:${currentTokenInfoResponse.body}........');
         }
       } else if (currentRresponse.statusCode == 400) {
         setState(() {

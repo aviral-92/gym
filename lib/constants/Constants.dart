@@ -67,6 +67,6 @@ class Constants {
   static const String SLOT_BOOKING =
       'http://54.152.141.211:8082/adt/booker/booking/';
   static const String GET_TOKEN = 'http://54.152.141.211:9000/oauth/token';
-  static const String GET_TOKEN_INFO = 'http://54.152.141.211:8082/me';
+  static const String GET_TOKEN_INFO = 'http://54.152.141.211:8082/users/me';
   //******************APIs*****************/
 }
