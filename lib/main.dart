@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import './Screens/CancelBookingScreen.dart';
-import './Screens/UpcomingEventScreen.dart';
-import './Screens/HomeScreen.dart';
-import './Screens/LoginScreen.dart';
-import './Screens/SignupScreen.dart';
-import './Screens/DashboardScreen.dart';
-import './Screens/Contact.dart';
-import './Screens/admin/AddSlotScreen.dart';
+import 'Screens/CancelBookingScreen.dart';
+import 'Screens/UpcomingEventScreen.dart';
+import 'Screens/HomeScreen.dart';
+import 'Screens/LoginScreen.dart';
+import 'Screens/SignupScreen.dart';
+import 'Screens/DashboardScreen.dart';
+import 'Screens/Contact.dart';
+import 'Screens/admin/AddSlotScreen.dart';
 import 'Screens/BookingScreen.dart';
+import 'Screens/PasswordResetScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
         '/cancel-screen': (ctx) => CancelBookingScreen(),
         '/add-screen': (ctx) => AddSlotScreen(),
         '/contact-screen': (ctx) => Contact(),
-        //'/select-spinner-screen': (ctx) => SelectSpinnerScreen(),
+        '/reset-password-screen': (ctx) => PasswordResetScreen(),
+        '/logout-screen': (_) => new LoginScreen(),
       },
     );
   }

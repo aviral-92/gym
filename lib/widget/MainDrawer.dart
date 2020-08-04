@@ -60,6 +60,10 @@ class MainDrawer extends StatelessWidget {
                 () => routing.navigateCancelEvent(context)),
             listTileWidget('Contact Us', Icons.contacts,
                 () => routing.navigateContactEvent(context)),
+            listTileWidget('Password Reset', Icons.contacts,
+                () => routing.navigateResetPasswordEvent(context)),
+            listTileWidget('Logout', Icons.contacts,
+                () => Routing.navigateLogout(context)),
             _admin == true
                 ? ExpansionTile(
                     title: Text(

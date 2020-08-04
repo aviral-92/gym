@@ -98,6 +98,7 @@ Future<AdtItemSlotsBooked> slotBooking(
 
 /* GET Token API */
 Future<Response> getToken(OauthToken oauthToken) async {
+  print('test');
   String basicOauth = '${oauthToken.getClientId}:${oauthToken.getClientSecret}';
   final response = await http.post(
     Constants.GET_TOKEN,
@@ -109,12 +110,14 @@ Future<Response> getToken(OauthToken oauthToken) async {
     },
     body: oauthToken.toMap(),
   );
-  //print('.............Response: ${response.body} ..................');
+  print('.............Response: ${response.body} ..................');
   return response;
 }
 
 /* GET Token Info */
 Future<Response> getTokenInfo(String tokenType, String token) async {
+  //print('TokenType: $tokenType, Token: $token');
+  print(Constants.GET_TOKEN_INFO);
   final response = await http.get(
     Constants.GET_TOKEN_INFO,
     headers: <String, String>{
@@ -123,7 +126,7 @@ Future<Response> getTokenInfo(String tokenType, String token) async {
       //"Accept": "application/json",
     },
   );
-  //print('.............Response: ${response.body} ..................');
+  print('.............Response: ${response.body} ..................');
   return response;
 }
 

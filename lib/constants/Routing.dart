@@ -10,6 +10,9 @@ class Routing {
   static void navigateLogin(BuildContext context) =>
       Navigator.of(context).pushNamed('/login-screen');
 
+  static void navigateLogout(BuildContext context) =>
+      Navigator.of(context).pushReplacementNamed('/logout-screen');
+
   void navigateHomeDashboardEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/dashboard-screen', arguments: _admin);
 
@@ -30,4 +33,7 @@ class Routing {
 
   void navigateContactEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/contact-screen', arguments: _admin);
+
+  void navigateResetPasswordEvent(BuildContext context) => Navigator.of(context)
+      .pushNamed('/reset-password-screen', arguments: _admin);
 }

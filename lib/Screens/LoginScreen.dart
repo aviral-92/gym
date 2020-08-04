@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String errorMsg = '';
 
   Future<void> navigateDashboard(BuildContext context) async {
+    Navigator.of(context).pushNamed('/dashboard-screen', arguments: true);
     if (_passwordController.text.isEmpty || _usernameController.text.isEmpty) {
       setState(() {
         errorMsg = 'Username or password cannot be empty.';
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (jsons != null &&
               jsons['authorities'] != null &&
               jsons['authorities'][0] != null) {
-            if (jsons['authorities'][1]['authority'] == 'ROLE_ADMIN') {
+            if (jsons['authorities'][0]['authority'] == 'ROLE_ADMIN') {
               isAdmin = true;
             }
           }
