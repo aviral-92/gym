@@ -1,3 +1,5 @@
+import 'package:http/http.dart';
+
 import '../model/AdtItemSlotsBooked.dart';
 import '../services/RestApiService.dart';
 import '../providers/AdtItemSlotsBookedList.dart';
@@ -78,7 +80,9 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
         adtItemSlotsBooked.adtItemSlots.endHour);
     if (Constants.convertStringToDate(Constants.dateFormat, slotDateStr)
         .isAfter(DateTime.now())) {
-      return getColumnWidget(slotDateStr, startTime, endTime);
+      print('............${adtItemSlotsBooked.id}...............');
+      return getColumnWidget(
+          slotDateStr, startTime, endTime, adtItemSlotsBooked.id);
     } else if (slotDateStr !=
         Constants.convertDateToString(Constants.dateFormat, DateTime.now())) {
       return SizedBox.shrink();
@@ -89,16 +93,19 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
       if (dt.isBefore(DateTime.now())) {
         return SizedBox.shrink();
       } else {
-        return getColumnWidget(slotDateStr, startTime, endTime);
+        print('............${adtItemSlotsBooked.id}...............');
+        return getColumnWidget(
+            slotDateStr, startTime, endTime, adtItemSlotsBooked.id);
       }
     } else {
       print('....................');
     }
-    return getColumnWidget(slotDateStr, startTime, endTime);
+    return getColumnWidget(
+        slotDateStr, startTime, endTime, adtItemSlotsBooked.id);
   }
 
   Widget getColumnWidget(
-          String slotDateStr, DateTime startTime, DateTime endTime) =>
+          String slotDateStr, DateTime startTime, DateTime endTime, int id) =>
       Column(
         children: <Widget>[
           Row(
@@ -127,11 +134,29 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
                     fontSize: 16, //0xFFC62828
                   ),
                 ),
-                onTap: () {},
+                onTap: () => cancelEvent(context, id),
               ),
             ],
           ),
           Divider(),
         ],
       );
+
+  void cancelEvent(BuildContext context, int id) async {
+    print(id);
+    Response currentRresponse;
+    var response = Constants.asyncInputDialog(context, 'Are you sure?');
+    await response.then((value) async {
+      if (value) {
+        var futureResponse = cancelBookingSlot(id);
+        await futureResponse.then((value) => currentRresponse = value);
+        print('=====${currentRresponse.statusCode}========');
+        if (currentRresponse.statusCode == 200) {
+          Constants.showDialogue(context, 'Successfully cancel the slot');
+        } else {
+          Constants.showDialogue(context, 'Unable to cancel the slot');
+        }
+      }
+    });
+  }
 }

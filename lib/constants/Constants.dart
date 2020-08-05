@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
 
 class Constants {
@@ -57,7 +56,7 @@ class Constants {
 
   //******************APIs*****************/
   static const String GET_ADT_ITEMSLOTS_DATA =
-      'http://54.152.141.211:8082/adt/booker/slots/items/slotDate/';
+      'http://54.152.141.211:8082/adt/booker/slots/items/slotDate';
   static const String GET_ADT_ITEMS_DATA =
       'http://54.152.141.211:8082/adt/booker/items/';
   static const String GET_ADT_ITEMS_SLOTS_BOOKING_DATA =
@@ -69,5 +68,96 @@ class Constants {
   static const String GET_TOKEN = 'http://54.152.141.211:9000/oauth/token';
   static const String GET_TOKEN_INFO = 'http://54.152.141.211:8082/users/me';
   static const String CREATE_USER = 'http://54.152.141.211:8082/users/register';
+  static const String RESET_PASSWORD =
+      'http://54.152.141.211:8082/users/changePassword';
+  static const String CANCEL_BOOKING_SLOT =
+      'http://54.152.141.211:8082/adt/booker/booking';
   //******************APIs*****************/
+
+  static final String emailValidation = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+      "\\@" +
+      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+      "(" +
+      "\\." +
+      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+      ")+";
+
+  static String validateEmail(String value) {
+    if (value.isEmpty) {
+      // The form is empty
+      return "Enter email address";
+    }
+    // This is just a regular expression for email addresses
+    RegExp regExp = new RegExp(emailValidation);
+    if (regExp.hasMatch(value)) {
+      // So, the email is valid
+      return null;
+    }
+    // The pattern of the email didn't match the regex above.
+    return 'Email is not valid';
+  }
+
+  static String validatePassword(String value) {
+    if (value.isEmpty) {
+      return 'Enter password';
+    }
+    return null;
+  }
+
+  static String validateCnfPassword(String value) {
+    if (value.isEmpty) {
+      return 'Enter confirm password';
+    }
+    return null;
+  }
+
+  static Future<bool> asyncInputDialog(
+      BuildContext context, String value) async {
+    bool _returnValue;
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext con) {
+        return AlertDialog(
+          title: Text('Booking'),
+          content: Text(value),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                _returnValue = true;
+                Navigator.of(context).pop(_returnValue);
+              },
+              child: Text('yes'),
+            ),
+            FlatButton(
+              onPressed: () {
+                _returnValue = false;
+                Navigator.of(context).pop(_returnValue);
+              },
+              child: Text('no'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static void showDialogue(BuildContext context, String value) {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext con) {
+        return AlertDialog(
+          title: Text('Booked'),
+          content: Text(value),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

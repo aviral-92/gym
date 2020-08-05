@@ -2,13 +2,22 @@ import 'package:Gym/widget/MainDrawer.dart';
 
 import '../constants/Constants.dart';
 import 'package:flutter/material.dart';
+import '../services/RestApiService.dart';
 
-class PasswordResetScreen extends StatelessWidget {
-  final TextEditingController _oldPasswordController = TextEditingController();
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+class PasswordResetScreen extends StatefulWidget {
+  @override
+  _PasswordResetScreenState createState() => _PasswordResetScreenState();
+}
+
+class _PasswordResetScreenState extends State<PasswordResetScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
+
+  static String username;
+  static String oldPassword;
+  static String newPassword;
+  String confirmPassword;
+
   @override
   Widget build(BuildContext context) {
     bool args = ModalRoute.of(context).settings.arguments;
@@ -20,43 +29,60 @@ class PasswordResetScreen extends StatelessWidget {
       ),
       drawer: MainDrawer(args),
       body: SafeArea(
-        //child: Container(
         child: Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
           child: ListView(
             children: <Widget>[
               new TextFormField(
-                controller: _usernameController,
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.email),
                   hintText: 'Enter your username',
                   labelText: 'email',
                 ),
+                onSaved: (String value) {
+                  username = value;
+                },
+                validator: Constants.validateEmail,
+                keyboardType: TextInputType.emailAddress,
               ),
               new TextFormField(
-                controller: _oldPasswordController,
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.pages),
                   hintText: 'Enter your old password',
                   labelText: 'old password',
                 ),
+                onSaved: (String value) {
+                  oldPassword = value;
+                },
+                validator: Constants.validatePassword,
+                keyboardType: TextInputType.text,
                 obscureText: true,
               ),
               new TextFormField(
-                controller: _newPasswordController,
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.confirmation_number),
                   hintText: 'Enter your new password',
                   labelText: 'new password',
                 ),
                 obscureText: true,
+                onSaved: (String value) {
+                  newPassword = value;
+                },
+                validator: Constants.validatePassword,
+                keyboardType: TextInputType.text,
               ),
               new TextFormField(
-                controller: _confirmPasswordController,
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.confirmation_number),
                   hintText: 'Confirm your password',
                   labelText: 'Confirm Password',
                 ),
+                onSaved: (String value) {
+                  confirmPassword = value;
+                },
+                validator: Constants.validateCnfPassword,
+                keyboardType: TextInputType.text,
                 obscureText: true,
               ),
               new Container(
@@ -74,14 +100,37 @@ class PasswordResetScreen extends StatelessWidget {
                     ),
                   ),
                   color: Constants.APP_BAR_COLOR,
-                  onPressed: () {},
+                  onPressed: _validateInputs,
                 ),
               ),
             ],
-            //),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _validateInputs() async {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      if (newPassword != confirmPassword) {
+        print('$newPassword....$confirmPassword');
+        print('././././././');
+      } else {
+        //form.save();
+        Map<String, String> toMaps = {
+          'userName': username,
+          'newPassword': newPassword,
+          'oldPassword': oldPassword,
+        };
+        var futureResponse = passwordReset(toMaps);
+        await futureResponse.then((value) => print(value.body));
+      }
+      // Text forms was validated.
+
+    } else {
+      setState(() => _autoValidate = true);
+    }
   }
 }

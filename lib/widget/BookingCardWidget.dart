@@ -1,5 +1,5 @@
-import 'package:Gym/model/AdtItemSlotsBooked.dart';
-import 'package:Gym/services/RestApiService.dart';
+import '../model/AdtItemSlotsBooked.dart';
+import '../services/RestApiService.dart';
 import 'package:flutter/material.dart';
 import '../model/AdtItemSlots.dart';
 import '../constants/Constants.dart';
@@ -78,15 +78,16 @@ class BookingCardWidget extends StatelessWidget {
       ),
       tooltip: 'click to book',
       onPressed: () {
-        _asyncInputDialog(context, 'Are you sure?').then(
+        Constants.asyncInputDialog(context, 'Are you sure?').then(
           (value) {
             print('=============$value=============');
             if (value) {
               AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
-                  'Booked', adtItemSlots.slotPrice, adtItemSlots);
+                  0, 'Booked', adtItemSlots.slotPrice, adtItemSlots);
               var response = slotBooking(adtItemSlotsBooked);
-              response.then((value) =>
-                  _showDialogue(context, 'Successfully Booked the slot'));
+              response.then((value) => Constants.showDialogue(
+                  context, 'Successfully Booked the slot'));
+              //rebuildAllChildren(context);
             }
           },
         );
@@ -94,7 +95,16 @@ class BookingCardWidget extends StatelessWidget {
     );
   }
 
-  Future<bool> _asyncInputDialog(BuildContext context, String value) async {
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (context as Element).visitChildren(rebuild);
+  }
+
+  /*Future<bool> _asyncInputDialog(BuildContext context, String value) async {
     bool _returnValue;
     return showDialog<bool>(
       context: context,
@@ -141,5 +151,5 @@ class BookingCardWidget extends StatelessWidget {
         );
       },
     );
-  }
+  }*/
 }

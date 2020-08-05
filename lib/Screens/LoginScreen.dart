@@ -17,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String errorMsg = '';
 
   Future<void> navigateDashboard(BuildContext context) async {
-    Navigator.of(context).pushNamed('/dashboard-screen', arguments: true);
     if (_passwordController.text.isEmpty || _usernameController.text.isEmpty) {
       setState(() {
         errorMsg = 'Username or password cannot be empty.';
@@ -33,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
       if (currentRresponse != null && currentRresponse.statusCode == 200) {
         AdtAccessToken adtAccessToken =
             AdtAccessToken.fromMap(json.decode(currentRresponse.body));
-        // print('success ----> ${json.decode(currentRresponse.body)}');
         var futureTokenInfoResponse =
             getTokenInfo(adtAccessToken.tokenType, adtAccessToken.accessToken);
         await futureTokenInfoResponse
@@ -41,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
         print('${currentTokenInfoResponse.body}');
         if (currentTokenInfoResponse != null &&
             currentTokenInfoResponse.statusCode == 200) {
-          print('......success.......');
           var jsons = json.decode(currentTokenInfoResponse.body);
           bool isAdmin = false;
           if (jsons != null &&

@@ -1,6 +1,8 @@
-import 'package:Gym/constants/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../constants/Constants.dart';
+import '../model/AdtUsers.dart';
+import '../services/RestApiService.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -8,6 +10,13 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
+  static String email;
+  String name;
+  static String password;
+  String confPassword;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +27,8 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
       body: SafeArea(
         child: Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
           child: ListView(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
@@ -37,8 +48,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   hintText: 'Enter your first and last name',
                   labelText: 'Name',
                 ),
+                onSaved: (String value) {
+                  name = value;
+                },
+                //validator: Constants.validateEmail,
+                keyboardType: TextInputType.text,
               ),
-              new TextFormField(
+              /*new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.phone),
                   hintText: 'Enter a phone number',
@@ -48,42 +64,50 @@ class _SignupScreenState extends State<SignupScreen> {
                 inputFormatters: [
                   WhitelistingTextInputFormatter.digitsOnly,
                 ],
-              ),
+              ),*/
               new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.email),
                   hintText: 'Enter a email address',
                   labelText: 'Email',
                 ),
+                onSaved: (String value) {
+                  email = value;
+                },
+                validator: Constants.validateEmail,
                 keyboardType: TextInputType.emailAddress,
               ),
               new TextFormField(
                 decoration: const InputDecoration(
-                  icon: const Icon(Icons.phone),
+                  icon: const Icon(Icons.pages),
                   hintText: 'Enter your password',
                   labelText: 'password',
                 ),
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  WhitelistingTextInputFormatter.digitsOnly,
-                ],
+                keyboardType: TextInputType.text,
+                onSaved: (String value) {
+                  password = value;
+                },
+                validator: Constants.validatePassword,
+                obscureText: true,
               ),
               new TextFormField(
                 decoration: const InputDecoration(
-                  icon: const Icon(Icons.phone),
+                  icon: const Icon(Icons.pages),
                   hintText: 'Confirm your password',
                   labelText: 'confirm password',
                 ),
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  WhitelistingTextInputFormatter.digitsOnly,
-                ],
+                keyboardType: TextInputType.text,
+                onSaved: (String value) {
+                  confPassword = value;
+                },
+                validator: Constants.validateCnfPassword,
+                obscureText: true,
               ),
               new Container(
                 padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                 child: new RaisedButton(
                   child: const Text('Submit'),
-                  onPressed: () {},
+                  onPressed: _validateInputs,
                 ),
               ),
             ],
@@ -91,5 +115,27 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _validateInputs() async {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      if (password != confPassword) {
+        print('$password....$confPassword');
+        print('././././././');
+      } else {
+        //form.save();
+        List<String> authorties = [];
+        authorties.add('ROLE_USER');
+        AdtUsers users = new AdtUsers(email, password, authorties, 1);
+        var futureResponse = registerUser(users);
+        await futureResponse.then((value) => print(value.body));
+      }
+      // Text forms was validated.
+
+    } else {
+      setState(() => _autoValidate = true);
+    }
   }
 }

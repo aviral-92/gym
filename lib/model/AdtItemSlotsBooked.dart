@@ -8,11 +8,20 @@ class AdtItemSlotsBooked extends AdtAudit {
   AdtItemSlots adtItemSlots;
 
   AdtItemSlotsBooked(
-    //this.id,
+    this.id,
     this.desc,
     this.slotPrice,
     this.adtItemSlots,
   );
+
+  /*void setId(int id) {
+    this.id = id;
+  }
+
+  int get getId {
+    return id;
+  }
+  */
 
   void setApplicationId(int applicationId) {
     this.applicationId = applicationId;
@@ -24,7 +33,7 @@ class AdtItemSlotsBooked extends AdtAudit {
 
   factory AdtItemSlotsBooked.fromMap(Map<String, dynamic> json) {
     return AdtItemSlotsBooked(
-      //json['id'],
+      json['id'],
       json['desc'],
       json['slotPrice'],
       AdtItemSlots.fromMap(json['adtItemSlots']),
@@ -32,7 +41,7 @@ class AdtItemSlotsBooked extends AdtAudit {
   }
 
   Map toJson() => {
-        'id': id,
+        'id': null,
         'desc': desc,
         'slotPrice': slotPrice,
         'adtItemSlots': adtItemSlots.toJson(),

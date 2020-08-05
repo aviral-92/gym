@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:Gym/model/AdtUsers.dart';
+
 import '../model/oauth/OauthToken.dart';
 import 'package:http/http.dart';
 import '../model/oauth/SecureItem.dart';
@@ -14,6 +16,7 @@ import '../constants/Constants.dart';
 //import '../model/AdtAccessToken.dart';
 
 String token;
+var storage = FlutterSecureStorage();
 /* GET list of available slots by date */
 Future<AdtItemSlotsList> getAdtItemSlotsData(String date) async {
   if (token == null || token == '') {
@@ -130,10 +133,64 @@ Future<Response> getTokenInfo(String tokenType, String token) async {
   return response;
 }
 
-var storage = FlutterSecureStorage();
-/*String value =
-    '[{"key":"Authorization","value":"Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTYyNDg2MzksInVzZXJfbmFtZSI6InVzZXIiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiYjUzYzkwYjktYzY2ZS00MmFiLTljNWUtZmRjMWIyY2ZkN2E1IiwiY2xpZW50X2lkIjoiY2xpZW50SWQiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.FAM1w8nS-FBDN1HUVwkB-pg3etSjVCzAJMZnshl-sRWa30YC6bNEmEQ3E5FJmYtPIFtVw5h8E4QPtFMvDjJAjzsIN0fvvbtKm_nuFjUpD3DkWL8B2oVGn-NCM2Th7IG4pQ2ARCrHlSRktPczlybzb86Fo79H2LZ9b9N-XO1u6eozLuX96fBNLvl3dq4gei0tzZgfJ4pxJkGOMPtVJmlummXMN1H9bQgOnuaVLx_QzYNXOvs2SSIlvRZtnTIQsVS53Y_YIFIa2l3V9pucqaxOml0s_o0-5vaWCOti-PRWeJtsub-tWjfLjWgG-504dV9a5aN2oDdQOmBBzWZAEOUcyg"}]';
-*/
+/* Password reset API */
+Future<Response> passwordReset(Map<String, String> map) async {
+  print('test');
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  print(token);
+  print('====${Constants.RESET_PASSWORD}');
+  print('${json.encode(map)}');
+  final response = await http.post(
+    Constants.RESET_PASSWORD,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+    body: json.encode(map),
+  );
+  print(
+      '.............Response: ${response.body},,,,${response.statusCode} ..................');
+  return response;
+}
+
+/* Password reset API */
+Future<Response> registerUser(AdtUsers adtUsers) async {
+  //print('${json.encode(adtUsers)}');
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  print(token);
+  final response = await http.post(
+    Constants.CREATE_USER,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+    body: json.encode(adtUsers),
+  );
+  print('.............Response: ${response.body} ..................');
+  return response;
+}
+
+/* Cancel Booking Slot */
+Future<Response> cancelBookingSlot(int id) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  print(token);
+  final response = await http.delete(
+    '${Constants.CANCEL_BOOKING_SLOT}/$id',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+  );
+  print('.............Response: ${response.body} ..................');
+  return response;
+}
+
 void addStorage(String token) {
   print('------Add Storage method called-------');
   storage.write(key: "Authorization", value: token);
@@ -142,8 +199,5 @@ void addStorage(String token) {
 Future<SecureItem> getStorage() async {
   print('------Get Storage method called-------');
   final key = await storage.read(key: "Authorization");
-  //print('...KEY: $key..........');
-  //var jsonValue = json.decode(key);
-  //print('...KEY: $jsonValue..........');
   return new SecureItem('Authorization', key);
 }
