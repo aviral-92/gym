@@ -47,23 +47,20 @@ class DashboardScreenWidget extends StatelessWidget {
   }
 
   Widget dashBoardScreenWidget(AdtItems adtItems, BuildContext context) {
-    //OauthToken oauthToken = new OauthToken('user', 'pass', 'password');
-    //var response = getToken(oauthToken);
-    //print(response);
     return Container(
       child: Card(
         child: GestureDetector(
           onTap: () => {
-            Navigator.of(context)
-                .pushNamed('/dashboard-screen', arguments: true)
+            Navigator.of(context).pushNamed('/booking-screen', arguments: true)
           },
           child: Card(
             elevation: 6,
+            color: Colors.white,
             child: Column(
               children: [
                 Expanded(
                   child: Image.asset(
-                    './assets/img/biking.png',
+                    './assets/img/IMG_1632.jpeg',
                   ),
                   flex: 2,
                 ),
@@ -82,17 +79,4 @@ class DashboardScreenWidget extends StatelessWidget {
       ),
     );
   }
-
-  /*Widget loadingView() => Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.red,
-        ),
-      );
-
-  Widget noDataView(String msg) => Center(
-        child: Text(
-          msg,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-        ),
-      );*/
 }

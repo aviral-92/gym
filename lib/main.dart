@@ -1,3 +1,5 @@
+import 'package:Gym/Screens/ImageGalaryScreen.dart';
+import 'package:Gym/Screens/admin/AddItemScreen.dart';
 import 'package:flutter/material.dart';
 import 'Screens/CancelBookingScreen.dart';
 import 'Screens/UpcomingEventScreen.dart';
@@ -34,8 +36,10 @@ class MyApp extends StatelessWidget {
         '/booking-screen': (ctx) => BookingScreen(),
         '/cancel-screen': (ctx) => CancelBookingScreen(),
         '/add-screen': (ctx) => AddSlotScreen(),
+        '/add-item-screen': (ctx) => AddItemScreen(),
         '/contact-screen': (ctx) => Contact(),
         '/reset-password-screen': (ctx) => PasswordResetScreen(),
+        '/image-galary-screen': (ctx) => ImageGalaryScreen(),
         '/logout-screen': (_) => new LoginScreen(),
       },
     );

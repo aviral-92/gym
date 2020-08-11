@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:Gym/model/AdtItems.dart';
 import 'package:Gym/model/AdtUsers.dart';
-
 import '../model/oauth/OauthToken.dart';
 import 'package:http/http.dart';
 import '../model/oauth/SecureItem.dart';
@@ -13,7 +13,6 @@ import '../model/AdtItemSlotsBooked.dart';
 import '../providers/AdtItemsList.dart';
 import '../providers/AdtItemSlotsList.dart';
 import '../constants/Constants.dart';
-//import '../model/AdtAccessToken.dart';
 
 String token;
 var storage = FlutterSecureStorage();
@@ -37,7 +36,7 @@ Future<AdtItemsList> getAdtItemsData() async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
-  print('getAdtItemsData() ====>>>>>>$token');
+  //print('getAdtItemsData() ====>>>>>>$token');
   //print('${Constants.GET_ADT_ITEMS_DATA}');
   final response = await http.get(
     Constants.GET_ADT_ITEMS_DATA,
@@ -119,14 +118,12 @@ Future<Response> getToken(OauthToken oauthToken) async {
 
 /* GET Token Info */
 Future<Response> getTokenInfo(String tokenType, String token) async {
-  //print('TokenType: $tokenType, Token: $token');
   print(Constants.GET_TOKEN_INFO);
   final response = await http.get(
     Constants.GET_TOKEN_INFO,
     headers: <String, String>{
       'Content-Type': 'application/x-www-form-urlencoded',
       HttpHeaders.authorizationHeader: '$tokenType $token',
-      //"Accept": "application/json",
     },
   );
   print('.............Response: ${response.body} ..................');
@@ -172,6 +169,24 @@ Future<Response> registerUser(AdtUsers adtUsers) async {
   );
   print('.............Response: ${response.body} ..................');
   return response;
+}
+
+/* Add Item */
+Future<AdtItems> addAdtItem(AdtItems adtItems) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  print(json.encode(adtItems));
+  final response = await http.post(
+    '${Constants.ADD_ITEM}',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+    body: json.encode(adtItems),
+  );
+  print('.............${response.body} ..................');
+  return AdtItems.fromMap(json.decode(response.body));
 }
 
 /* Cancel Booking Slot */

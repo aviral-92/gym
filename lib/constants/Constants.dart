@@ -3,12 +3,17 @@ import 'package:intl/intl.dart';
 
 class Constants {
   static const CALENDAR_COLOR = Color(0xFFFF9800);
-  static const APP_BAR_COLOR = Color(0xFFFFA726);
-  static const BACKGROUND_COLOR = Color(0xFFFFFFE0);
+  //static const APP_BAR_COLOR = Color(0xFFFFA726);
+  static const APP_BAR_COLOR = Color(0xFFAB47BC); //Colors.purple;//0xFFBA68C8
+  //static const BACKGROUND_COLOR = Color(0xFFFFFFE0);
+  static const BUTTON_COLOR = Color(0xFFBA68C8);
+  static const BACKGROUND_COLOR = Colors.white; //Colors.cyan;ffe0f7fa
 
   /// *************  AddSlotScreen ****************/
   static const FONT_WEIGHT = FontWeight.w700;
   static const FONT_SIZE = 18.0;
+  static const DRAWER_FONT_SIZE = 21.5;
+  static const DRAWER_ICON_SIZE = 21.5;
   static const BUTTON_SIZE = 20.0;
   static const SIZED_BOX_HEIGHT = 20.0;
   static const HORIZONTAL_PADDING = 16.0;
@@ -24,9 +29,8 @@ class Constants {
     return dateFormat.format(dateTime);
   }
 
-  static const HOME_SCREEN_HEADER_TEXT = 'Welcome to the GYM.';
-  static const HOME_SCREEN_BODY_TEXT =
-      'Lines lines lines lines lines lines lines lines lines lines lines';
+  static const HOME_SCREEN_HEADER_TEXT = 'THE FITNESS PLACE';
+  static const HOME_SCREEN_BODY_TEXT = 'one place to get fit';
 
   /* Split decimal to colon so that it can be convert */
   static DateTime splitAndConvertStringToTime(double time) {
@@ -72,6 +76,7 @@ class Constants {
       'http://54.152.141.211:8082/users/changePassword';
   static const String CANCEL_BOOKING_SLOT =
       'http://54.152.141.211:8082/adt/booker/booking';
+  static const String ADD_ITEM = 'http://54.152.141.211:8082/adt/booker/items/';
   //******************APIs*****************/
 
   static final String emailValidation = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +

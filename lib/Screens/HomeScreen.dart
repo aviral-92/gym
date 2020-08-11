@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       appBar: AppBar(
-        title: Text('Biking'),
+        title: Text('Fitness Place'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
       body: SingleChildScrollView(

@@ -107,6 +107,7 @@ class _UpcomingEventWidgetState extends State<UpcomingEventWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            Text('Diane'),
             Text(
               '$slotDateStr',
               style: TextStyle(

@@ -83,7 +83,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return loadingView();
+                          return Constants.loadingView();
                         case ConnectionState.active:
                           break;
                         case ConnectionState.done:
@@ -102,7 +102,7 @@ class _BookingScreenState extends State<BookingScreen> {
                                             .data.adtItemSlotList[index]);
                                       });
                                 } else {
-                                  return noDataView("No data found");
+                                  return Constants.noDataView("No data found");
                                 }
                               } else {
                                 // display error message if your list or data is null.
@@ -111,16 +111,18 @@ class _BookingScreenState extends State<BookingScreen> {
                             } else if (snapshot.hasError) {
                               // display your message if snapshot has error.
                               //print('no element');
-                              return noDataView("No booking schedule found.");
+                              return Constants.noDataView(
+                                  "No booking schedule found.");
                             } else {
-                              return noDataView("Something went wrong");
+                              return Constants.noDataView(
+                                  "Something went wrong");
                             }
-                            return noDataView("No data found");
+                            return Constants.noDataView("No data found");
                           }
                         case ConnectionState.none:
                           break;
                       }
-                      return noDataView("No data found");
+                      return Constants.noDataView("No data found");
                     }),
               ],
             ),
@@ -133,7 +135,7 @@ class _BookingScreenState extends State<BookingScreen> {
   Widget generateColumn(AdtItemSlots adtItemSlots) =>
       new BookingCardWidget(adtItemSlots);
 
-  Widget loadingView() => Center(
+  /*Widget loadingView() => Center(
         child: CircularProgressIndicator(
           backgroundColor: Colors.red,
         ),
@@ -144,5 +146,5 @@ class _BookingScreenState extends State<BookingScreen> {
           msg,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
         ),
-      );
+      );*/
 }

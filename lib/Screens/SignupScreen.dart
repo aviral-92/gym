@@ -37,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset(
-                  './assets/img/biking.png',
+                  './assets/img/IMG_1638.jpeg',
                   fit: BoxFit.scaleDown,
                   height: 250,
                 ),
@@ -51,20 +51,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 onSaved: (String value) {
                   name = value;
                 },
-                //validator: Constants.validateEmail,
                 keyboardType: TextInputType.text,
               ),
-              /*new TextFormField(
-                decoration: const InputDecoration(
-                  icon: const Icon(Icons.phone),
-                  hintText: 'Enter a phone number',
-                  labelText: 'Phone',
-                ),
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  WhitelistingTextInputFormatter.digitsOnly,
-                ],
-              ),*/
               new TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.email),
@@ -107,6 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                 child: new RaisedButton(
                   child: const Text('Submit'),
+                  color: Constants.APP_BAR_COLOR,
                   onPressed: _validateInputs,
                 ),
               ),
@@ -122,8 +111,8 @@ class _SignupScreenState extends State<SignupScreen> {
     if (form.validate()) {
       form.save();
       if (password != confPassword) {
-        print('$password....$confPassword');
-        print('././././././');
+        Constants.showDialogue(
+            context, 'password & confirm password does not match');
       } else {
         //form.save();
         List<String> authorties = [];
@@ -131,9 +120,8 @@ class _SignupScreenState extends State<SignupScreen> {
         AdtUsers users = new AdtUsers(email, password, authorties, 1);
         var futureResponse = registerUser(users);
         await futureResponse.then((value) => print(value.body));
+        Constants.showDialogue(context, 'you are successfully registered.');
       }
-      // Text forms was validated.
-
     } else {
       setState(() => _autoValidate = true);
     }

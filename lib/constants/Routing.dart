@@ -28,6 +28,9 @@ class Routing {
   void navigateAddEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/add-screen', arguments: _admin);
 
+  void navigateAddItemEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/add-item-screen', arguments: _admin);
+
   void navigateCancelEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/cancel-screen', arguments: _admin);
 
@@ -36,4 +39,7 @@ class Routing {
 
   void navigateResetPasswordEvent(BuildContext context) => Navigator.of(context)
       .pushNamed('/reset-password-screen', arguments: _admin);
+
+  void navigateImageGalaryEvent(BuildContext context) => Navigator.of(context)
+      .pushNamed('/image-galary-screen', arguments: _admin);
 }

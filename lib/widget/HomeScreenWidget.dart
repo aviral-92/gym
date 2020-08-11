@@ -5,6 +5,7 @@ import '../constants/Routing.dart';
 class HomeScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Container(
       child: Column(
         children: <Widget>[
@@ -32,8 +33,9 @@ class HomeScreenWidget extends StatelessWidget {
               vertical: 25,
             ),
             child: Image.asset(
-              './assets/img/biking.png',
+              './assets/img/IMG_1632.jpeg',
               fit: BoxFit.scaleDown,
+              height: height - 310,
             ),
           ),
           Row(

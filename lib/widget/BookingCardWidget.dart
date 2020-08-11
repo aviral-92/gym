@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import '../model/AdtItemSlotsBooked.dart';
 import '../services/RestApiService.dart';
-import 'package:flutter/material.dart';
 import '../model/AdtItemSlots.dart';
 import '../constants/Constants.dart';
 
@@ -14,6 +14,10 @@ class BookingCardWidget extends StatelessWidget {
         Constants.splitAndConvertStringToTime(adtItemSlots.startHour);
     DateTime endTime =
         Constants.splitAndConvertStringToTime(adtItemSlots.endHour);
+    TimeOfDay startTimeOfDay =
+        new TimeOfDay(hour: startTime.hour, minute: startTime.minute);
+    TimeOfDay endTimeOfDay =
+        new TimeOfDay(hour: endTime.hour, minute: endTime.minute);
     return Card(
       color: Constants.BACKGROUND_COLOR,
       child: Row(
@@ -23,7 +27,7 @@ class BookingCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '${Constants.timeFormat.format(startTime)} - ${Constants.timeFormat.format(endTime)}',
+                '${startTimeOfDay.format(context)} - ${endTimeOfDay.format(context)}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 10),
