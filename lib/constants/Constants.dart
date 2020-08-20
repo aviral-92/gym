@@ -7,6 +7,7 @@ class Constants {
   static const APP_BAR_COLOR = Color(0xFFAB47BC); //Colors.purple;//0xFFBA68C8
   //static const BACKGROUND_COLOR = Color(0xFFFFFFE0);
   static const BUTTON_COLOR = Color(0xFFBA68C8);
+  static const BUTTON_TEXT_COLOR = Color(0xFFFFFFFF);
   static const BACKGROUND_COLOR = Colors.white; //Colors.cyan;ffe0f7fa
 
   /// *************  AddSlotScreen ****************/
@@ -60,7 +61,7 @@ class Constants {
 
   //******************APIs*****************/
   static const String GET_ADT_ITEMSLOTS_DATA =
-      'http://54.152.141.211:8082/adt/booker/slots/items/slotDate';
+      'http://54.152.141.211:8082/adt/booker/slots/items';
   static const String GET_ADT_ITEMS_DATA =
       'http://54.152.141.211:8082/adt/booker/items/';
   static const String GET_ADT_ITEMS_SLOTS_BOOKING_DATA =
@@ -77,6 +78,10 @@ class Constants {
   static const String CANCEL_BOOKING_SLOT =
       'http://54.152.141.211:8082/adt/booker/booking';
   static const String ADD_ITEM = 'http://54.152.141.211:8082/adt/booker/items/';
+  static const String DELETE_ITEM =
+      'http://54.152.141.211:8082/adt/booker/items';
+  static const String UPDATE_ITEM =
+      'http://54.152.141.211:8082/adt/booker/items/';
   //******************APIs*****************/
 
   static final String emailValidation = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
@@ -123,7 +128,7 @@ class Constants {
       context: context,
       builder: (BuildContext con) {
         return AlertDialog(
-          title: Text('Booking'),
+          title: Text('Adt'),
           content: Text(value),
           actions: [
             FlatButton(

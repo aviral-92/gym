@@ -52,8 +52,8 @@ class MainDrawer extends StatelessWidget {
                 () => routing.navigateHomeDashboardEvent(context)),
             listTileWidget('Upcoming Schedule', Icons.calendar_today,
                 () => routing.navigateUpcomingEvent(context)),
-            listTileWidget('Book Class', Icons.accessibility,
-                () => routing.navigateBookingEvent(context)),
+            /*listTileWidget('Book Class', Icons.accessibility,
+                () => routing.navigateBookingEvent(context)),*/
             listTileWidget('Cancel Class', Icons.cancel,
                 () => routing.navigateCancelEvent(context)),
             listTileWidget('Contact Us', Icons.contacts,
@@ -77,15 +77,22 @@ class MainDrawer extends StatelessWidget {
                     //trailing: null,
                     children: <Widget>[
                       SizedBox(
-                        height: 250,
+                        // height: 280,
                         child: Column(
                           children: <Widget>[
-                            listTileWidget('Add Slot', Icons.add_to_photos,
-                                () => routing.navigateAddEvent(context)),
-                            listTileWidget('Add Item', Icons.add_to_photos,
+                            listTileWidget('Add item', Icons.add_to_photos,
                                 () => routing.navigateAddItemEvent(context)),
-                            listTileWidget('Delete Slot', Icons.delete_forever,
+                            listTileWidget('Add slot', Icons.add_to_photos,
                                 () => routing.navigateAddEvent(context)),
+                            listTileWidget('View booking slot', Icons.view_list,
+                                () => routing.navigateViewvent(context)),
+                            listTileWidget('Delete slot', Icons.delete_forever,
+                                () => routing.navigateDeleteEvent(context)),
+                            listTileWidget(
+                                'Update/Delete item',
+                                Icons.delete,
+                                () => routing
+                                    .navigateDeleteOrUpdateItemEvent(context)),
                           ],
                         ),
                       )

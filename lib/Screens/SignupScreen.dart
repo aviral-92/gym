@@ -94,7 +94,13 @@ class _SignupScreenState extends State<SignupScreen> {
               new Container(
                 padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                 child: new RaisedButton(
-                  child: const Text('Submit'),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                        fontWeight: Constants.FONT_WEIGHT,
+                        fontSize: Constants.BUTTON_SIZE,
+                        color: Constants.BUTTON_TEXT_COLOR),
+                  ),
                   color: Constants.APP_BAR_COLOR,
                   onPressed: _validateInputs,
                 ),

@@ -5,11 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
-import '../../widget/MainDrawer.dart';
-
 import '../../constants/Constants.dart';
-//import 'package:flutter/material.dart';
+import '../../widget/MainDrawer.dart';
 
 class AddSlotScreen extends StatefulWidget {
   @override
@@ -17,14 +14,33 @@ class AddSlotScreen extends StatefulWidget {
 }
 
 class _AddSlotScreenState extends State<AddSlotScreen> {
+  List<DropdownMenuItem<AdtItems>> _dropdownMenuItems;
+  AdtItems _selectedItem;
+  List<AdtItems> list;
+
+  @override
+  void initState() {
+    super.initState();
+    _asyncCall();
+  }
+
+  Future _asyncCall() async {
+    var response = getAdtItemsData();
+    List<AdtItems> adtItemList;
+    await response.then((value) => adtItemList = value.adtItemsList);
+    setState(() {
+      list = adtItemList;
+    });
+    await buildDropDownItems(list).then((value) => _dropdownMenuItems = value);
+  }
+
   static DateFormat dateFormat = DateFormat('yyyy-MM-dd');
   static DateFormat timeFormat = DateFormat.Hm();
-  //static DateFormat dateTimeFormat = new DateFormat('yyyy-MM-dd H:m');
-  //static var fromDate = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
+
   String _date = dateFormat.format(DateTime.now());
   String _startDateTime = timeFormat.format(DateTime.now());
   String _endDateTime = timeFormat.format(DateTime.now());
-  //DateTime _selectedStartDate = DateTime.now();
+
   double _price;
   String _desc;
   int _itemCount;
@@ -32,7 +48,6 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
   @override
   Widget build(BuildContext context) {
     bool args = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       appBar: AppBar(
@@ -55,7 +70,6 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                 ),
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
-                  //print(value);
                   _desc = value;
                 },
               ),
@@ -68,7 +82,6 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                 ),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  //print(value);
                   try {
                     _price = double.parse(value);
                   } catch (e) {
@@ -85,11 +98,22 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                 ),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
-                  //print('+++++++$value+++++++');
                   _itemCount = int.parse(value);
                 },
               ),
               Divider(),
+              Container(
+                child: DropdownButtonFormField<AdtItems>(
+                  value: _selectedItem,
+                  icon: Icon(Icons.arrow_downward),
+                  items: _dropdownMenuItems,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedItem = value;
+                    });
+                  },
+                ),
+              ),
               SizedBox(height: Constants.SIZED_BOX_HEIGHT),
               buildExpansionTileForDate(),
               Divider(),
@@ -106,6 +130,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                   style: TextStyle(
                     fontWeight: Constants.FONT_WEIGHT,
                     fontSize: Constants.BUTTON_SIZE,
+                    color: Constants.BUTTON_TEXT_COLOR,
                   ),
                 ),
                 elevation: 6,
@@ -228,9 +253,8 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
     print(startDateTime);
 
-    AdtItems adtItems = new AdtItems(1, '', '');
+    AdtItems adtItems = new AdtItems(_selectedItem.id, '', '');
     try {
-      //print('............$_itemCount..........');
       AdtItemSlots adtItemSlots = new AdtItemSlots(null, adtItems, _desc,
           startDateTime, endDateTime, _date, false, _price, _itemCount);
       print(adtItemSlots.toJson());
@@ -242,4 +266,19 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
       print(e);
     }
   }
+
+  /*Future<List<DropdownMenuItem<AdtItems>>> buildDropDownItems() async {
+    List<DropdownMenuItem<AdtItems>> items = List();
+    if (_list != null) {
+      for (AdtItems item in _list) {
+        items.add(
+          DropdownMenuItem(
+            child: Text(item.itemName),
+            value: item,
+          ),
+        );
+      }
+    }
+    return items;
+  }*/
 }

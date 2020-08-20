@@ -28,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('Dashboard - choose to select'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
       drawer: MainDrawer(args),

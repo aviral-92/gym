@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:Gym/constants/Routing.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Gym/model/AdtItems.dart';
 import 'package:Gym/model/AdtUsers.dart';
 import '../model/oauth/OauthToken.dart';
 import 'package:http/http.dart';
 import '../model/oauth/SecureItem.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../providers/AdtItemSlotsBookedList.dart';
 import '../model/AdtItemSlots.dart';
 import '../model/AdtItemSlotsBooked.dart';
@@ -16,13 +19,14 @@ import '../constants/Constants.dart';
 
 String token;
 var storage = FlutterSecureStorage();
+
 /* GET list of available slots by date */
-Future<AdtItemSlotsList> getAdtItemSlotsData(String date) async {
+Future<AdtItemSlotsList> getAdtItemSlotsData(int itemId, String date) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
   final response = await http.get(
-    '${Constants.GET_ADT_ITEMSLOTS_DATA}/$date',
+    '${Constants.GET_ADT_ITEMSLOTS_DATA}/$itemId/slotDate/$date',
     headers: <String, String>{
       HttpHeaders.authorizationHeader: '$token',
     },
@@ -194,13 +198,46 @@ Future<Response> cancelBookingSlot(int id) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
-  print(token);
+  //print(token);
   final response = await http.delete(
     '${Constants.CANCEL_BOOKING_SLOT}/$id',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       HttpHeaders.authorizationHeader: '$token',
     },
+  );
+  print('.............Response: ${response.body} ..................');
+  return response;
+}
+
+/* Delete Item API */
+Future<Response> deleteItem(int itemId) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  final response = await http.delete(
+    '${Constants.DELETE_ITEM}/$itemId',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+  );
+  print('.............Response: ${response.body} ..................');
+  return response;
+}
+
+/* Update Item API */
+Future<Response> updateItem(AdtItems adtItems) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  final response = await http.put(
+    '${Constants.UPDATE_ITEM}',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+    body: json.encode(adtItems),
   );
   print('.............Response: ${response.body} ..................');
   return response;
@@ -215,4 +252,26 @@ Future<SecureItem> getStorage() async {
   print('------Get Storage method called-------');
   final key = await storage.read(key: "Authorization");
   return new SecureItem('Authorization', key);
+}
+
+void unauthorizedAccess(Response response, BuildContext context) {
+  if (response.statusCode == 401) {
+    Routing.navigateLogout(context);
+  }
+}
+
+Future<List<DropdownMenuItem<AdtItems>>> buildDropDownItems(
+    List<AdtItems> list) async {
+  List<DropdownMenuItem<AdtItems>> items = List();
+  if (list != null) {
+    for (AdtItems item in list) {
+      items.add(
+        DropdownMenuItem(
+          child: Text(item.itemName),
+          value: item,
+        ),
+      );
+    }
+  }
+  return items;
 }

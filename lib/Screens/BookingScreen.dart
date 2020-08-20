@@ -1,6 +1,6 @@
+import 'package:Gym/model/AdtTest.dart';
 import 'package:flutter/material.dart';
 import 'package:horizontal_calendar/horizontal_calendar.dart';
-import 'package:intl/intl.dart';
 import '../widget/BookingCardWidget.dart';
 import '../providers/AdtItemSlotsList.dart';
 import '../services/RestApiService.dart';
@@ -9,32 +9,38 @@ import '../constants/Constants.dart';
 import '../model/AdtItemSlots.dart';
 
 class BookingScreen extends StatefulWidget {
+  final AdtTest adtTest;
+
+  BookingScreen({Key key, this.adtTest}) : super(key: key);
+
   @override
-  _BookingScreenState createState() => _BookingScreenState();
+  _BookingScreenState createState() => _BookingScreenState(adtTest);
 }
 
 class _BookingScreenState extends State<BookingScreen> {
-  static DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
+  final AdtTest adtTest;
+
+  _BookingScreenState(this.adtTest);
+
   String _selectedDate =
-      Constants.convertDateToString(dateFormat, DateTime.now());
+      Constants.convertDateToString(Constants.dateFormat, DateTime.now());
   Future<AdtItemSlotsList> adtItemSlotListFuture;
 
   @override
   void initState() {
     setAdtItemSlotListFuture(
-        Constants.convertDateToString(dateFormat, DateTime.now()));
+        Constants.convertDateToString(Constants.dateFormat, DateTime.now()));
     super.initState();
   }
 
   void setAdtItemSlotListFuture(String date) {
     setState(() {
-      adtItemSlotListFuture = getAdtItemSlotsData(date);
+      adtItemSlotListFuture = getAdtItemSlotsData(adtTest.adtItems.id, date);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    bool args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       //Colors.orangeAccent[300],
@@ -42,7 +48,7 @@ class _BookingScreenState extends State<BookingScreen> {
         backgroundColor: Constants.APP_BAR_COLOR,
         title: Text('Booking'),
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(adtTest.isAdmin),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -53,7 +59,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 lastDate: DateTime.now().add(Duration(days: 30)),
                 textColor: Colors.black,
                 backgroundColor: Constants.BACKGROUND_COLOR,
-                selectedColor: Constants.CALENDAR_COLOR,
+                selectedColor: Constants.APP_BAR_COLOR,
                 onDateSelected: (date) => {
                   setState(() {
                     this._selectedDate = date;
@@ -98,8 +104,10 @@ class _BookingScreenState extends State<BookingScreen> {
                                       itemCount:
                                           snapshot.data.adtItemSlotList.length,
                                       itemBuilder: (context, index) {
-                                        return generateColumn(snapshot
-                                            .data.adtItemSlotList[index]);
+                                        return generateColumn(
+                                            snapshot
+                                                .data.adtItemSlotList[index],
+                                            adtTest.isAdmin);
                                       });
                                 } else {
                                   return Constants.noDataView("No data found");
@@ -132,19 +140,6 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
-  Widget generateColumn(AdtItemSlots adtItemSlots) =>
-      new BookingCardWidget(adtItemSlots);
-
-  /*Widget loadingView() => Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.red,
-        ),
-      );
-
-  Widget noDataView(String msg) => Center(
-        child: Text(
-          msg,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-        ),
-      );*/
+  Widget generateColumn(AdtItemSlots adtItemSlots, bool args) =>
+      new BookingCardWidget(adtItemSlots, args);
 }

@@ -1,7 +1,7 @@
 import 'package:Gym/model/AdtItems.dart';
 import 'package:flutter/material.dart';
-import '../../widget/MainDrawer.dart';
 import '../../constants/Constants.dart';
+import '../../widget/MainDrawer.dart';
 import '../../services/RestApiService.dart';
 
 class AddItemScreen extends StatelessWidget {
@@ -49,6 +49,7 @@ class AddItemScreen extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: Constants.FONT_WEIGHT,
                       fontSize: Constants.BUTTON_SIZE,
+                      color: Constants.BUTTON_TEXT_COLOR,
                     ),
                   ),
                   color: Constants.APP_BAR_COLOR,

@@ -61,20 +61,20 @@ class HomeScreenWidget extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: RaisedButton.icon(
           onPressed: () => fun(),
-          textColor: Colors.black,
+          textColor: Constants.BUTTON_TEXT_COLOR,
           label: Text(
             buttonText,
             style: TextStyle(
               fontSize: 20,
-              color: Colors.black,
-              fontWeight: FontWeight.w900,
+              color: Constants.BUTTON_TEXT_COLOR,
+              fontWeight: Constants.FONT_WEIGHT,
             ),
           ),
           elevation: 6,
-          color: Colors.amberAccent[700],
+          color: Constants.BUTTON_COLOR,
           icon: icon,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
+              borderRadius: BorderRadius.circular(10.0),
               side: BorderSide(color: Colors.red)),
         ),
       );

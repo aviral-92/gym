@@ -1,3 +1,4 @@
+import 'package:Gym/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 
 class Routing {
@@ -10,8 +11,27 @@ class Routing {
   static void navigateLogin(BuildContext context) =>
       Navigator.of(context).pushNamed('/login-screen');
 
-  static void navigateLogout(BuildContext context) =>
-      Navigator.of(context).pushReplacementNamed('/logout-screen');
+  static void navigateLogout(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        PageRouteBuilder(pageBuilder: (BuildContext context,
+            Animation animation, Animation secondaryAnimation) {
+          return HomeScreen();
+        }, transitionsBuilder: (BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child) {
+          return new SlideTransition(
+            position: new Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        }),
+        (Route route) => false);
+    //Navigator.of(context).pushReplacementNamed('/logout-screen');
+  }
 
   void navigateHomeDashboardEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/dashboard-screen', arguments: _admin);
@@ -28,8 +48,18 @@ class Routing {
   void navigateAddEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/add-screen', arguments: _admin);
 
+  void navigateViewvent(BuildContext context) => Navigator.of(context)
+      .pushNamed('/view-booking-screen', arguments: _admin);
+
+  void navigateDeleteEvent(BuildContext context) =>
+      Navigator.of(context).pushNamed('/delete-screen', arguments: _admin);
+
   void navigateAddItemEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/add-item-screen', arguments: _admin);
+
+  void navigateDeleteOrUpdateItemEvent(BuildContext context) =>
+      Navigator.of(context)
+          .pushNamed('/delete-update-item-screen', arguments: _admin);
 
   void navigateCancelEvent(BuildContext context) =>
       Navigator.of(context).pushNamed('/cancel-screen', arguments: _admin);

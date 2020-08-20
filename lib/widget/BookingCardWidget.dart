@@ -1,3 +1,5 @@
+import 'package:Gym/model/ReceivedNotification.dart';
+import 'package:Gym/services/NotificationService.dart';
 import 'package:flutter/material.dart';
 import '../model/AdtItemSlotsBooked.dart';
 import '../services/RestApiService.dart';
@@ -6,7 +8,8 @@ import '../constants/Constants.dart';
 
 class BookingCardWidget extends StatelessWidget {
   final AdtItemSlots adtItemSlots;
-  BookingCardWidget(this.adtItemSlots);
+  final bool args;
+  BookingCardWidget(this.adtItemSlots, this.args);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class BookingCardWidget extends StatelessWidget {
                 children: <Widget>[
                   const Icon(
                     Icons.device_hub,
-                    color: Constants.CALENDAR_COLOR,
+                    color: Constants.APP_BAR_COLOR,
                     size: 40.0,
                   ),
                   Text(
@@ -84,14 +87,33 @@ class BookingCardWidget extends StatelessWidget {
       onPressed: () {
         Constants.asyncInputDialog(context, 'Are you sure?').then(
           (value) {
-            print('=============$value=============');
+            // print('=============$value=============');
             if (value) {
               AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
                   0, 'Booked', adtItemSlots.slotPrice, adtItemSlots);
               var response = slotBooking(adtItemSlotsBooked);
               response.then((value) => Constants.showDialogue(
                   context, 'Successfully Booked the slot'));
-              //rebuildAllChildren(context);
+              var bookedDate = Constants.convertStringToDate(
+                  Constants.dateFormat, adtItemSlots.slotDate);
+              var bookedStartTime =
+                  Constants.splitAndConvertStringToTime(adtItemSlots.startHour);
+              var bookedTime = new TimeOfDay(
+                  hour: bookedStartTime.hour, minute: bookedStartTime.minute);
+              ReceivedNotification receivedNotification = new ReceivedNotification(
+                  id: adtItemSlotsBooked.id,
+                  title: 'Successfully booked',
+                  body:
+                      'Booking scheduled at ${bookedTime.format(context)} on ${bookedDate.month}/${bookedDate.day}/${bookedDate.year}',
+                  payload: 'Success');
+              NotificationService notificationService =
+                  new NotificationService(receivedNotification);
+              notificationService.initializing();
+              notificationService.showNotifications();
+              /* Notification scheduled 15 minutes before the scheduled date & time. */
+              notificationService.showNotificationsBefore15MinutesDateTime(
+                  new DateTime(bookedDate.year, bookedDate.month,
+                      bookedDate.day, bookedTime.hour, bookedTime.minute));
             }
           },
         );
@@ -99,61 +121,12 @@ class BookingCardWidget extends StatelessWidget {
     );
   }
 
-  void rebuildAllChildren(BuildContext context) {
+  /*void rebuildAllChildren(BuildContext context) {
     void rebuild(Element el) {
       el.markNeedsBuild();
       el.visitChildren(rebuild);
     }
 
     (context as Element).visitChildren(rebuild);
-  }
-
-  /*Future<bool> _asyncInputDialog(BuildContext context, String value) async {
-    bool _returnValue;
-    return showDialog<bool>(
-      context: context,
-      builder: (BuildContext con) {
-        return AlertDialog(
-          title: Text('Booking'),
-          content: Text(value),
-          actions: [
-            FlatButton(
-              onPressed: () {
-                _returnValue = true;
-                Navigator.of(context).pop(_returnValue);
-              },
-              child: Text('yes'),
-            ),
-            FlatButton(
-              onPressed: () {
-                _returnValue = false;
-                Navigator.of(context).pop(_returnValue);
-              },
-              child: Text('no'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showDialogue(BuildContext context, String value) {
-    showDialog<bool>(
-      context: context,
-      builder: (BuildContext con) {
-        return AlertDialog(
-          title: Text('Booked'),
-          content: Text(value),
-          actions: [
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('ok'),
-            ),
-          ],
-        );
-      },
-    );
   }*/
 }

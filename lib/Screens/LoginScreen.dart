@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
+import '../constants/Constants.dart';
 import '../model/oauth/AdtAccessToken.dart';
 import '../model/oauth/OauthToken.dart';
-import '../constants/Constants.dart';
 import '../services/RestApiService.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -114,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       fontWeight: Constants.FONT_WEIGHT,
                       fontSize: Constants.BUTTON_SIZE,
+                      color: Constants.BUTTON_TEXT_COLOR
                     ),
                   ),
                   color: Constants.APP_BAR_COLOR,
