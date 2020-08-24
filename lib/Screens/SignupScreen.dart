@@ -16,6 +16,7 @@ class _SignupScreenState extends State<SignupScreen> {
   String name;
   static String password;
   String confPassword;
+  String mobile;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,18 @@ class _SignupScreenState extends State<SignupScreen> {
                 },
                 validator: Constants.validateEmail,
                 keyboardType: TextInputType.emailAddress,
+              ),
+              new TextFormField(
+                decoration: const InputDecoration(
+                  icon: const Icon(Icons.email),
+                  hintText: 'Enter your mobile number',
+                  labelText: 'mobile',
+                ),
+                onSaved: (String value) {
+                  mobile = value;
+                },
+                validator: Constants.validateMobile,
+                keyboardType: TextInputType.number,
               ),
               new TextFormField(
                 decoration: const InputDecoration(
@@ -123,7 +136,8 @@ class _SignupScreenState extends State<SignupScreen> {
         //form.save();
         List<String> authorties = [];
         authorties.add('ROLE_USER');
-        AdtUsers users = new AdtUsers(email, password, authorties, 1);
+        AdtUsers users =
+            new AdtUsers(name, email, password, authorties, mobile, 1);
         var futureResponse = registerUser(users);
         await futureResponse.then((value) => print(value.body));
         Constants.showDialogue(context, 'you are successfully registered.');

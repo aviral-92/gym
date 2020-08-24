@@ -1,5 +1,6 @@
 import 'package:Gym/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Routing {
   bool _admin;
@@ -11,7 +12,10 @@ class Routing {
   static void navigateLogin(BuildContext context) =>
       Navigator.of(context).pushNamed('/login-screen');
 
-  static void navigateLogout(BuildContext context) {
+  static Future<void> navigateLogout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs?.setBool('isLoggedIn', false);
+    prefs.remove('isAdmin');
     Navigator.pushAndRemoveUntil(
         context,
         PageRouteBuilder(pageBuilder: (BuildContext context,

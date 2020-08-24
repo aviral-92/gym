@@ -11,7 +11,9 @@ class ImageGalaryScreen extends StatelessWidget {
         title: Text('Image Gallary'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(
+        admin: args,
+      ),
       body: SingleChildScrollView(
           //child: ListView(
           //children: <Widget>[

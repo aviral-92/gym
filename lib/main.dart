@@ -1,6 +1,7 @@
 import 'package:Gym/Screens/NewDashboardScreen.dart';
 import 'package:Gym/Screens/admin/GetItemScreen.dart';
 import 'package:Gym/Screens/admin/ViewBookingScreen.dart';
+import 'package:Gym/services/RestApiService.dart';
 import 'Screens/ImageGalaryScreen.dart';
 import 'Screens/admin/AddItemScreen.dart';
 import 'package:flutter/material.dart';
@@ -9,28 +10,38 @@ import 'Screens/UpcomingEventScreen.dart';
 import 'Screens/HomeScreen.dart';
 import 'Screens/LoginScreen.dart';
 import 'Screens/SignupScreen.dart';
-//import 'Screens/DashboardScreen.dart';
 import 'Screens/Contact.dart';
 import 'Screens/admin/AddSlotScreen.dart';
 import 'Screens/PasswordResetScreen.dart';
 
-void main() {
-  runApp(MyApp());
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var isLoggedIn = getLoggedInState();
+  await isLoggedIn.then((value) => {
+        isAdminState().then(
+          (admin) => runApp(MyApp(value, admin)),
+        ),
+      });
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final bool isLoggedIn;
+  final bool isAdmin;
+  MyApp(this.isLoggedIn, this.isAdmin);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        //primarySwatch: Colors.amber,
-        //backgroundColor: Colors.orangeAccent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      home: isLoggedIn == true
+          ? NewDashboardScreen(
+              args: isAdmin,
+            )
+          : HomeScreen(),
       routes: {
-        '/': (ctx) => HomeScreen(),
         '/login-screen': (ctx) => LoginScreen(),
         '/signup-screen': (ctx) => SignupScreen(),
         '/dashboard-screen': (ctx) => NewDashboardScreen(),
@@ -45,7 +56,6 @@ class MyApp extends StatelessWidget {
         '/delete-update-item-screen': (ctx) => GetItemScreen(),
         '/view-booking-screen': (ctx) => ViewBookingScreen(),
         //'/delete-screen': (ctx) => NotificationService(),
-        //'/logout-screen': (ctx) => HomeScreen(),
       },
     );
   }

@@ -48,7 +48,7 @@ class _BookingScreenState extends State<BookingScreen> {
         backgroundColor: Constants.APP_BAR_COLOR,
         title: Text('Booking'),
       ),
-      drawer: MainDrawer(adtTest.isAdmin),
+      drawer: MainDrawer(admin: adtTest.isAdmin),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

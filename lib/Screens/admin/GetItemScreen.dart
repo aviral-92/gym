@@ -14,7 +14,9 @@ class GetItemScreen extends StatelessWidget {
         title: Text('Get Item Schedule'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(
+        admin: args,
+      ),
       body: GetItemScreenWidget(),
     );
   }

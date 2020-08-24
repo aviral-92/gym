@@ -92,28 +92,10 @@ class BookingCardWidget extends StatelessWidget {
               AdtItemSlotsBooked adtItemSlotsBooked = new AdtItemSlotsBooked(
                   0, 'Booked', adtItemSlots.slotPrice, adtItemSlots);
               var response = slotBooking(adtItemSlotsBooked);
-              response.then((value) => Constants.showDialogue(
-                  context, 'Successfully Booked the slot'));
-              var bookedDate = Constants.convertStringToDate(
-                  Constants.dateFormat, adtItemSlots.slotDate);
-              var bookedStartTime =
-                  Constants.splitAndConvertStringToTime(adtItemSlots.startHour);
-              var bookedTime = new TimeOfDay(
-                  hour: bookedStartTime.hour, minute: bookedStartTime.minute);
-              ReceivedNotification receivedNotification = new ReceivedNotification(
-                  id: adtItemSlotsBooked.id,
-                  title: 'Successfully booked',
-                  body:
-                      'Booking scheduled at ${bookedTime.format(context)} on ${bookedDate.month}/${bookedDate.day}/${bookedDate.year}',
-                  payload: 'Success');
-              NotificationService notificationService =
-                  new NotificationService(receivedNotification);
-              notificationService.initializing();
-              notificationService.showNotifications();
-              /* Notification scheduled 15 minutes before the scheduled date & time. */
-              notificationService.showNotificationsBefore15MinutesDateTime(
-                  new DateTime(bookedDate.year, bookedDate.month,
-                      bookedDate.day, bookedTime.hour, bookedTime.minute));
+              response.then((value) async {
+                //Constants.showDialogue(context, 'Successfully Booked the slot');
+                notify(context, adtItemSlotsBooked.id);
+              });
             }
           },
         );
@@ -121,12 +103,29 @@ class BookingCardWidget extends StatelessWidget {
     );
   }
 
-  /*void rebuildAllChildren(BuildContext context) {
-    void rebuild(Element el) {
-      el.markNeedsBuild();
-      el.visitChildren(rebuild);
-    }
-
-    (context as Element).visitChildren(rebuild);
-  }*/
+  void notify(BuildContext context, int id) {
+    var bookedDate = Constants.convertStringToDate(
+        Constants.dateFormat, adtItemSlots.slotDate);
+    var bookedStartTime =
+        Constants.splitAndConvertStringToTime(adtItemSlots.startHour);
+    var bookedTime = new TimeOfDay(
+        hour: bookedStartTime.hour, minute: bookedStartTime.minute);
+    ReceivedNotification receivedNotification = new ReceivedNotification(
+        id: id,
+        title: 'Successfully booked',
+        body:
+            'Booking scheduled at ${bookedTime.format(context)} on ${bookedDate.month}/${bookedDate.day}/${bookedDate.year}',
+        payload: 'Success');
+    NotificationService notificationService =
+        new NotificationService(receivedNotification);
+    notificationService.initializing();
+    notificationService.showNotifications();
+    /* Notification scheduled 15 minutes before the scheduled date & time. */
+    notificationService.showNotificationsBefore15MinutesDateTime(new DateTime(
+        bookedDate.year,
+        bookedDate.month,
+        bookedDate.day,
+        bookedTime.hour,
+        bookedTime.minute));
+  }
 }

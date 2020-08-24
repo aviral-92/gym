@@ -54,7 +54,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
         backgroundColor: Constants.APP_BAR_COLOR,
         title: Text('Add Slot'),
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(admin: args),
       body: SafeArea(
         child: Form(
           child: ListView(
@@ -250,35 +250,27 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
     double startDateTime =
         double.parse('${splitStartHour[0]}.${splitStartHour[1]}');
     double endDateTime = double.parse('${splitEndHour[0]}.${splitEndHour[1]}');
-
-    print(startDateTime);
-
-    AdtItems adtItems = new AdtItems(_selectedItem.id, '', '');
+    //print(startDateTime);
+    AdtItems adtItems = new AdtItems(_selectedItem.id, '', '', '');
     try {
       AdtItemSlots adtItemSlots = new AdtItemSlots(null, adtItems, _desc,
           startDateTime, endDateTime, _date, false, _price, _itemCount);
-      print(adtItemSlots.toJson());
+      //print(adtItemSlots.toJson());
       List<AdtItemSlots> adtItemSlotsList = new List<AdtItemSlots>();
       adtItemSlotsList.add(adtItemSlots);
-      addAdtItemSlotsData(adtItemSlotsList)
-          .then((value) => {print(value.adtItemSlotList.length)});
+      addAdtItemSlotsData(adtItemSlotsList).then((value) => {
+            if (value != null)
+              {
+                Constants.showDialogue(context, 'Successfully added the slot'),
+              }
+            else
+              {
+                Constants.showDialogue(context, 'Unable to add the slot'),
+              }
+          });
     } catch (e) {
-      print(e);
+      //print(e);
+      Constants.showDialogue(context, 'Unable to add the slot');
     }
   }
-
-  /*Future<List<DropdownMenuItem<AdtItems>>> buildDropDownItems() async {
-    List<DropdownMenuItem<AdtItems>> items = List();
-    if (_list != null) {
-      for (AdtItems item in _list) {
-        items.add(
-          DropdownMenuItem(
-            child: Text(item.itemName),
-            value: item,
-          ),
-        );
-      }
-    }
-    return items;
-  }*/
 }

@@ -1,12 +1,24 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:Gym/model/AdtAwsDocument.dart';
 import 'package:Gym/model/AdtItems.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../constants/Constants.dart';
 import '../../widget/MainDrawer.dart';
 import '../../services/RestApiService.dart';
 
-class AddItemScreen extends StatelessWidget {
+class AddItemScreen extends StatefulWidget {
+  @override
+  _AddItemScreenState createState() => _AddItemScreenState();
+}
+
+class _AddItemScreenState extends State<AddItemScreen> {
   final TextEditingController _itemNameController = TextEditingController();
   final TextEditingController _itemTypeController = TextEditingController();
+  File _image;
+
   @override
   Widget build(BuildContext context) {
     bool args = ModalRoute.of(context).settings.arguments;
@@ -16,7 +28,9 @@ class AddItemScreen extends StatelessWidget {
         title: Text('Add Item'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(
+        admin: args,
+      ),
       body: SafeArea(
         child: Form(
           child: ListView(
@@ -43,6 +57,20 @@ class AddItemScreen extends StatelessWidget {
               ),
               new Container(
                 padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+                child: Row(
+                  children: [
+                    Text('Select Image: '),
+                    FloatingActionButton(
+                      child: Icon(Icons.add_a_photo),
+                      tooltip: 'pick image',
+                      onPressed: getImage,
+                      backgroundColor: Colors.purple,
+                    ),
+                  ],
+                ),
+              ),
+              new Container(
+                padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                 child: new RaisedButton(
                   child: const Text(
                     'Submit',
@@ -64,11 +92,39 @@ class AddItemScreen extends StatelessWidget {
   }
 
   void addAdtItems(BuildContext context) async {
-    AdtItems adtItems =
-        new AdtItems(null, _itemNameController.text, _itemTypeController.text);
-    var response = addAdtItem(adtItems);
-    await response.then((value) {
-      Constants.showDialogue(context, 'Item successfully added');
+    AdtAwsDocument adtAwsDocument;
+    await isFileUploaded().then((value) => adtAwsDocument = value);
+
+    if (adtAwsDocument != null) {
+      print('Success');
+      AdtItems adtItems = new AdtItems(null, _itemNameController.text,
+          _itemTypeController.text, '${adtAwsDocument.id}');
+      var response = addAdtItem(adtItems);
+      await response.then((value) {
+        Constants.showDialogue(context, 'Item successfully added');
+      });
+    }
+  }
+
+  Future<AdtAwsDocument> isFileUploaded() async {
+    var response = addImage(_image);
+    AdtAwsDocument resp;
+    await response.then((value) => {
+          if (value.statusCode == 200)
+            resp = AdtAwsDocument.fromMap(json.decode(value.body))
+          else
+            {
+              resp = null,
+              Constants.showDialogue(context, value.body),
+            }
+        });
+    return resp;
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
     });
   }
 }

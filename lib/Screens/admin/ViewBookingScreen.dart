@@ -1,5 +1,9 @@
-import 'package:Gym/services/RestApiService.dart';
+import 'dart:convert';
 
+import 'package:Gym/providers/AdtItemSlotsList.dart';
+
+import '../../services/RestApiService.dart';
+import '../../widget/ViewBookingScreenWidget.dart';
 import '../../model/AdtItems.dart';
 import '../../widget/MainDrawer.dart';
 import 'package:horizontal_calendar/horizontal_calendar.dart';
@@ -13,15 +17,23 @@ class ViewBookingScreen extends StatefulWidget {
 
 class _ViewBookingScreenState extends State<ViewBookingScreen> {
   List<DropdownMenuItem<AdtItems>> _dropdownMenuItems;
-  String _selectedDate =
+  String selectedDate =
       Constants.convertDateToString(Constants.dateFormat, DateTime.now());
-  AdtItems _selectedItem;
+  AdtItems adtSelectedItem;
   List<AdtItems> list;
+  bool _isVisible = false;
+  Future<AdtItemSlotsList> adtItemSlotListFuture;
 
   @override
   void initState() {
     super.initState();
     _asyncCall();
+  }
+
+  void showToast() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
   }
 
   Future _asyncCall() async {
@@ -43,7 +55,9 @@ class _ViewBookingScreenState extends State<ViewBookingScreen> {
         backgroundColor: Constants.APP_BAR_COLOR,
         title: Text('View Booking Schedule'),
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(
+        admin: args,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -56,7 +70,7 @@ class _ViewBookingScreenState extends State<ViewBookingScreen> {
               selectedColor: Constants.APP_BAR_COLOR,
               onDateSelected: (date) => {
                 setState(() {
-                  this._selectedDate = date;
+                  selectedDate = date;
                   //setAdtItemSlotListFuture(date);
                 })
               },
@@ -67,12 +81,12 @@ class _ViewBookingScreenState extends State<ViewBookingScreen> {
                 horizontal: 20,
               ),
               child: DropdownButtonFormField<AdtItems>(
-                value: _selectedItem,
+                value: adtSelectedItem,
                 icon: Icon(Icons.arrow_downward),
                 items: _dropdownMenuItems,
                 onChanged: (value) {
                   setState(() {
-                    _selectedItem = value;
+                    adtSelectedItem = value;
                   });
                 },
               ),
@@ -88,7 +102,16 @@ class _ViewBookingScreenState extends State<ViewBookingScreen> {
               ),
               color: Constants.APP_BAR_COLOR,
               elevation: 6,
-              onPressed: () {},
+              onPressed: () {
+                showToast();
+              },
+            ),
+            Visibility(
+              maintainSize: true,
+              maintainState: true,
+              maintainAnimation: true,
+              visible: _isVisible,
+              child: getSecondView(),
             ),
           ],
         ),
@@ -96,5 +119,16 @@ class _ViewBookingScreenState extends State<ViewBookingScreen> {
     );
   }
 
-  Widget getListOfBookingSlots() {}
+  Widget getSecondView() {
+    setState(() {
+      adtItemSlotListFuture = _getData();
+    });
+    return ViewBookingScreenWidget(adtItemSlotListFuture);
+  }
+
+  Future<AdtItemSlotsList> _getData() async {
+    var response = await getSlotsBySlotDateAndAdtItemForAdmin(
+        '${adtSelectedItem.id}', selectedDate);
+    return AdtItemSlotsList.fromJson(json.decode(response.body));
+  }
 }

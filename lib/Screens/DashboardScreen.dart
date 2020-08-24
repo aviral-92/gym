@@ -31,7 +31,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: Text('Dashboard - choose to select'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(
+        admin: args,
+      ),
       body: DashboardScreenWidget(adtItemsListFuture),
     );
   }

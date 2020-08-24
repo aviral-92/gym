@@ -4,11 +4,13 @@ class AdtItems extends AdtAudit {
   int id;
   final String itemName;
   final String itemType;
+  final String awsId;
 
   AdtItems(
     this.id,
     this.itemName,
     this.itemType,
+    this.awsId,
   );
 
   void setApplicationId(int applicationId) {
@@ -24,6 +26,7 @@ class AdtItems extends AdtAudit {
       json['id'],
       json['itemName'],
       json['itemType'],
+      json['aws_id'],
       //json['userId'],
     );
   }
@@ -32,6 +35,7 @@ class AdtItems extends AdtAudit {
         'id': id,
         'itemName': itemName,
         'itemType': itemType,
+        'aws_id': awsId,
         'userId': userId,
         'applicationId': applicationId,
         /*'createdDate': createdDate,

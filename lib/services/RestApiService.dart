@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Gym/model/AdtItems.dart';
 import 'package:Gym/model/AdtUsers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/oauth/OauthToken.dart';
 import 'package:http/http.dart';
 import '../model/oauth/SecureItem.dart';
@@ -89,7 +90,7 @@ Future<AdtItemSlotsBooked> slotBooking(
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
-  print(json.encode(adtItemSlotsBooked));
+  //print(json.encode(adtItemSlotsBooked));
   final response = await http.post(
     Constants.SLOT_BOOKING,
     headers: <String, String>{
@@ -116,7 +117,7 @@ Future<Response> getToken(OauthToken oauthToken) async {
     },
     body: oauthToken.toMap(),
   );
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response;
 }
 
@@ -130,7 +131,7 @@ Future<Response> getTokenInfo(String tokenType, String token) async {
       HttpHeaders.authorizationHeader: '$tokenType $token',
     },
   );
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response;
 }
 
@@ -231,6 +232,7 @@ Future<Response> updateItem(AdtItems adtItems) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
+
   final response = await http.put(
     '${Constants.UPDATE_ITEM}',
     headers: <String, String>{
@@ -238,6 +240,71 @@ Future<Response> updateItem(AdtItems adtItems) async {
       HttpHeaders.authorizationHeader: '$token',
     },
     body: json.encode(adtItems),
+  );
+  print('.............Response: ${response.body} ..................');
+  return response;
+}
+
+/* Get Trainer(Admin) available booking slots with selected date*/
+Future<Response> getSlotsBySlotDateAndAdtItemForAdmin(
+    String itemId, String selectedDate) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  final response = await http.get(
+    'http://54.152.141.211:8082/adt/booker/slots/admin/items/$itemId/slotDate/$selectedDate',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+  );
+  //print('.............Response: ${response.body} ..................');
+  return response;
+}
+
+/* Get user data by slotId*/
+Future<Response> getBookedSlotsOfSlotId(String slotId) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  final response = await http.get(
+    'http://54.152.141.211:8082/adt/booker/booking/admin/booked/slots/$slotId',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+  );
+  print('.............Response: ${response.body} ..................');
+  return response;
+}
+
+/* Add Image to AWS S3 */
+Future<Response> addImage(File file) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  var request = http.MultipartRequest(
+      'POST', Uri.parse('http://54.152.141.211:8082/uploadFile'));
+  Map<String, String> headers = {HttpHeaders.authorizationHeader: '$token'};
+  request.headers.addAll(headers);
+  //print('FILE======$file');
+  request.files.add(await http.MultipartFile.fromPath('file', file.path));
+  //var response = await request.send();
+  http.Response response = await http.Response.fromStream(await request.send());
+  print('.............Response: ${response.body} ..................');
+  return response;
+}
+
+Future<Response> getFutureImage(String id) async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  final response = await http.get(
+    'http://54.152.141.211:8082/download?id=$id',
+    headers: <String, String>{
+      // 'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
   );
   print('.............Response: ${response.body} ..................');
   return response;
@@ -274,4 +341,27 @@ Future<List<DropdownMenuItem<AdtItems>>> buildDropDownItems(
     }
   }
   return items;
+}
+
+Future<void> sharedPref() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs?.setBool('isLoggedIn', true);
+}
+
+Future<bool> getLoggedInState() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var status = prefs.getBool('isLoggedIn') ?? false;
+  return status;
+}
+
+Future<void> sharedPrefForAdmin() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs?.setBool('isAdmin', true);
+}
+
+Future<bool> isAdminState() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var status = prefs.getBool('isAdmin') ?? false;
+  //print('status====>$status');
+  return status;
 }

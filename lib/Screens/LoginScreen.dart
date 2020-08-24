@@ -46,8 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
               jsons['authorities'][0] != null) {
             if (jsons['authorities'][0]['authority'] == 'ROLE_ADMIN') {
               isAdmin = true;
+              print('..................');
+              await sharedPrefForAdmin();
             }
           }
+          await sharedPref();
           Navigator.of(context)
               .pushNamed('/dashboard-screen', arguments: isAdmin);
           addStorage(
@@ -112,10 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text(
                     'Submit',
                     style: TextStyle(
-                      fontWeight: Constants.FONT_WEIGHT,
-                      fontSize: Constants.BUTTON_SIZE,
-                      color: Constants.BUTTON_TEXT_COLOR
-                    ),
+                        fontWeight: Constants.FONT_WEIGHT,
+                        fontSize: Constants.BUTTON_SIZE,
+                        color: Constants.BUTTON_TEXT_COLOR),
                   ),
                   color: Constants.APP_BAR_COLOR,
                   onPressed: () => navigateDashboard(context),

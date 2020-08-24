@@ -13,7 +13,9 @@ class UpcomingEventScreen extends StatelessWidget {
         title: Text('Upcoming Schedule'),
         backgroundColor: Constants.APP_BAR_COLOR,
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(
+        admin: args,
+      ),
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.all(20),

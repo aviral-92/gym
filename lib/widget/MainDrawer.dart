@@ -3,9 +3,11 @@ import 'package:Gym/constants/Routing.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
-  final bool _admin;
+  final bool admin;
 
-  MainDrawer(this._admin);
+  const MainDrawer({Key key, this.admin}) : super(key: key);
+
+  //MainDrawer(this._admin);
 
   Widget listTileWidget(String title, IconData icons, Function fun) {
     return ListTile(
@@ -27,7 +29,7 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /* Routing table to route */
-    Routing routing = new Routing(_admin);
+    Routing routing = new Routing(admin);
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
@@ -39,7 +41,7 @@ class MainDrawer extends StatelessWidget {
               alignment: Alignment.centerLeft,
               color: Constants.APP_BAR_COLOR,
               child: Text(
-                'Welcome to \n The Fitness Place',
+                'The Fitness Place',
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 24,
@@ -50,11 +52,11 @@ class MainDrawer extends StatelessWidget {
             SizedBox(height: 20),
             listTileWidget('Home', Icons.home,
                 () => routing.navigateHomeDashboardEvent(context)),
-            listTileWidget('Upcoming Schedule', Icons.calendar_today,
+            listTileWidget('Upcoming class', Icons.calendar_today,
                 () => routing.navigateUpcomingEvent(context)),
             /*listTileWidget('Book Class', Icons.accessibility,
                 () => routing.navigateBookingEvent(context)),*/
-            listTileWidget('Cancel Class', Icons.cancel,
+            listTileWidget('Cancel class', Icons.cancel,
                 () => routing.navigateCancelEvent(context)),
             listTileWidget('Contact Us', Icons.contacts,
                 () => routing.navigateContactEvent(context)),
@@ -64,7 +66,7 @@ class MainDrawer extends StatelessWidget {
                 () => routing.navigateImageGalaryEvent(context)),
             listTileWidget('Logout', Icons.contacts,
                 () => Routing.navigateLogout(context)),
-            _admin == true
+            admin == true
                 ? ExpansionTile(
                     title: Text(
                       'Admin',

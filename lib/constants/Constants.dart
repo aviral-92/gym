@@ -84,6 +84,21 @@ class Constants {
       'http://54.152.141.211:8082/adt/booker/items/';
   //******************APIs*****************/
 
+  static final String mobileValidation = "@\"d{10}\$\"";
+
+  static String validateMobile(String value) {
+    if (value.isEmpty) {
+      // The form is empty
+      return "Enter email address";
+    }
+    RegExp regExp = new RegExp(mobileValidation);
+    if (regExp.hasMatch(value)) {
+      // So, the email is valid
+      return null;
+    }
+    return 'mobile is not valid';
+  }
+
   static final String emailValidation = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
       "\\@" +
       "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +

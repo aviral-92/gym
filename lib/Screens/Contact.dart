@@ -13,7 +13,9 @@ class Contact extends StatelessWidget {
         backgroundColor: Constants.APP_BAR_COLOR,
         title: Text('Contact Us'),
       ),
-      drawer: MainDrawer(args),
+      drawer: MainDrawer(
+        admin: args,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

@@ -101,7 +101,10 @@ class _GetItemScreenWidgetState extends State<GetItemScreenWidget> {
                                 child: new Text("Save"),
                                 onPressed: () {
                                   var response = updateItem(new AdtItems(
-                                      adtItems.id, _c.text, adtItems.itemType));
+                                      adtItems.id,
+                                      _c.text,
+                                      adtItems.itemType,
+                                      adtItems.awsId));
                                   response.then((value) => {
                                         if (value.statusCode == 200)
                                           {
