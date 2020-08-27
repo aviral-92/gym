@@ -84,7 +84,7 @@ class Constants {
       'http://54.152.141.211:8082/adt/booker/items/';
   //******************APIs*****************/
 
-  static final String mobileValidation = "@\"d{10}\$\"";
+  static final String mobileValidation = "^(?:[+0]9)?[0-9]{10}\$";
 
   static String validateMobile(String value) {
     if (value.isEmpty) {

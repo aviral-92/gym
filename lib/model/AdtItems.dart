@@ -26,7 +26,7 @@ class AdtItems extends AdtAudit {
       json['id'],
       json['itemName'],
       json['itemType'],
-      json['aws_id'],
+      json['awsId'],
       //json['userId'],
     );
   }
@@ -35,14 +35,8 @@ class AdtItems extends AdtAudit {
         'id': id,
         'itemName': itemName,
         'itemType': itemType,
-        'aws_id': awsId,
+        'awsId': awsId,
         'userId': userId,
         'applicationId': applicationId,
-        /*'createdDate': createdDate,
-        'createdBy': createdBy,
-        'modifiedDate': modifiedDate,
-        'modifiedBy': modifiedBy,
-        'deleted': deleted,
-        'version': version,*/
       };
 }

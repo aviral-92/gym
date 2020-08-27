@@ -1,4 +1,4 @@
-import 'package:Gym/model/AdtAudit.dart';
+import '../model/AdtAudit.dart';
 
 class AdtAwsDocument extends AdtAudit {
   final int id;
@@ -7,6 +7,7 @@ class AdtAwsDocument extends AdtAudit {
   final String name;
   final String sha;
   final int version;
+  String imageResource;
 
   AdtAwsDocument(
     this.id,
@@ -15,6 +16,7 @@ class AdtAwsDocument extends AdtAudit {
     this.name,
     this.sha,
     this.version,
+    this.imageResource,
   );
 
   factory AdtAwsDocument.fromMap(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class AdtAwsDocument extends AdtAudit {
       json['name'],
       json['sha'],
       json['version'],
+      json['imageResource'],
     );
   }
 

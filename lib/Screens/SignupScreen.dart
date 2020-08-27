@@ -68,9 +68,9 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               new TextFormField(
                 decoration: const InputDecoration(
-                  icon: const Icon(Icons.email),
+                  icon: const Icon(Icons.mobile_screen_share),
                   hintText: 'Enter your mobile number',
-                  labelText: 'mobile',
+                  labelText: 'Mobile',
                 ),
                 onSaved: (String value) {
                   mobile = value;
@@ -139,8 +139,15 @@ class _SignupScreenState extends State<SignupScreen> {
         AdtUsers users =
             new AdtUsers(name, email, password, authorties, mobile, 1);
         var futureResponse = registerUser(users);
-        await futureResponse.then((value) => print(value.body));
-        Constants.showDialogue(context, 'you are successfully registered.');
+        await futureResponse.then((value) => {
+              if (value.body.toString().contains('User already exist'))
+                {Constants.showDialogue(context, 'User already exist.')}
+              else
+                {
+                  Constants.showDialogue(
+                      context, 'you are successfully registered.')
+                }
+            });
       }
     } else {
       setState(() => _autoValidate = true);

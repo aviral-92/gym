@@ -108,18 +108,18 @@ class _ViewBookingScreenWidgetState extends State<ViewBookingScreenWidget> {
 
   Future<AdtUsersList> adtUsersListFuture;
 
-  void test(BuildContext context, String slotId) {
-    //print('SlotID===> $slotId');
+  void test(BuildContext context, String slotId) async {
+    print('SlotID===> $slotId');
     var response = getUserData(slotId);
     if (response != null) {
       setState(() {
         adtUsersListFuture = response;
-        //print('set state ends');
+        print('set state ends');
       });
       adtUsersListFuture.then((value) => print('VALUE ==> $value'));
-      //print('adtUsersListFuture===>$adtUsersListFuture');
+      print('adtUsersListFuture===>$adtUsersListFuture');
       var getWidget = futureBuild(adtUsersListFuture);
-      //print('Checking');
+      print('Checking');
       showDialog(
           context: context,
           builder: (BuildContext ctx) {
@@ -137,12 +137,13 @@ class _ViewBookingScreenWidgetState extends State<ViewBookingScreenWidget> {
     if (message.toString().contains('message')) {
       return null;
     }
+    print('------------------------------------------');
     return AdtUsersList.fromJson(json.decode(response.body));
     //json.decode(response.body);
   }
 
   Widget futureBuild(Future<AdtUsersList> adtUserListFuture) {
-    print('Called');
+    //print('Called');
     return FutureBuilder<AdtUsersList>(
         future: adtUserListFuture,
         builder: (context, snapshot) {
@@ -158,7 +159,7 @@ class _ViewBookingScreenWidgetState extends State<ViewBookingScreenWidget> {
                     if (snapshot.data.adtUsersList.length > 0) {
                       return Container(
                         height: 500,
-                        width: 600,
+                        width: 700,
                         child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -194,17 +195,15 @@ class _ViewBookingScreenWidgetState extends State<ViewBookingScreenWidget> {
   }
 
   Widget generateNewColumn(AdtUsers adtUsers) {
-    print('ID=====> ${adtUsers.id}');
+    //print('ID=====> ${adtUsers.id}');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('${adtUsers.id}'),
-        Text('  '),
         Text('${adtUsers.name}'),
-        Text('  '),
+        //Text('  '),
         Text('${adtUsers.userName}'),
-        Text('  '),
         Text('${adtUsers.mobile}'),
+        Divider(),
       ],
     );
   }

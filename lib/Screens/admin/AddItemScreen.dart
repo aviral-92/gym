@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:Gym/model/AdtAwsDocument.dart';
-import 'package:Gym/model/AdtItems.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../model/AdtAwsDocument.dart';
+import '../../model/AdtItems.dart';
 import '../../constants/Constants.dart';
 import '../../widget/MainDrawer.dart';
 import '../../services/RestApiService.dart';
@@ -96,7 +95,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     await isFileUploaded().then((value) => adtAwsDocument = value);
 
     if (adtAwsDocument != null) {
-      print('Success');
+      //print('Success---->${adtAwsDocument.id}');
       AdtItems adtItems = new AdtItems(null, _itemNameController.text,
           _itemTypeController.text, '${adtAwsDocument.id}');
       var response = addAdtItem(adtItems);
@@ -122,6 +121,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Future getImage() async {
+    // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;

@@ -62,8 +62,8 @@ class MainDrawer extends StatelessWidget {
                 () => routing.navigateContactEvent(context)),
             listTileWidget('Password Reset', Icons.contacts,
                 () => routing.navigateResetPasswordEvent(context)),
-            listTileWidget('Image Galary', Icons.contacts,
-                () => routing.navigateImageGalaryEvent(context)),
+            /*listTileWidget('Image Galary', Icons.contacts,
+                () => routing.navigateImageGalaryEvent(context)),*/
             listTileWidget('Logout', Icons.contacts,
                 () => Routing.navigateLogout(context)),
             admin == true
@@ -88,8 +88,8 @@ class MainDrawer extends StatelessWidget {
                                 () => routing.navigateAddEvent(context)),
                             listTileWidget('View booking slot', Icons.view_list,
                                 () => routing.navigateViewvent(context)),
-                            listTileWidget('Delete slot', Icons.delete_forever,
-                                () => routing.navigateDeleteEvent(context)),
+                            /*listTileWidget('Delete slot', Icons.delete_forever,
+                                () => routing.navigateDeleteEvent(context)),*/
                             listTileWidget(
                                 'Update/Delete item',
                                 Icons.delete,

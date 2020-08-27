@@ -1,4 +1,5 @@
 import 'package:Gym/Screens/HomeScreen.dart';
+import 'package:Gym/services/RestApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +17,7 @@ class Routing {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs?.setBool('isLoggedIn', false);
     prefs.remove('isAdmin');
+    flushStorage();
     Navigator.pushAndRemoveUntil(
         context,
         PageRouteBuilder(pageBuilder: (BuildContext context,

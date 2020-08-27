@@ -1,4 +1,5 @@
-import 'package:Gym/model/AdtTest.dart';
+import '../model/AdtTest.dart';
+import '../services/RestApiService.dart';
 import 'package:flutter/material.dart';
 import '../Screens/BookingScreen.dart';
 import '../constants/Constants.dart';
@@ -7,8 +8,16 @@ import '../providers/AdtItemsList.dart';
 
 class DashboardScreenWidget extends StatelessWidget {
   final Future<AdtItemsList> adtItemsListFuture;
-
   DashboardScreenWidget(this.adtItemsListFuture);
+
+  Future<Image> downloadImage(String id) async {
+    var response = await getFutureImage(id);
+    return Image.memory(
+      response,
+      fit: BoxFit.fitWidth,
+      height: 150,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +36,6 @@ class DashboardScreenWidget extends StatelessWidget {
                   if (snapshot.data.adtItemsList.length > 0) {
                     return ListView.builder(
                       shrinkWrap: true,
-                      // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      //   crossAxisCount: 2),
                       itemCount: snapshot.data.adtItemsList.length,
                       itemBuilder: (context, index) {
                         return getWidget(
@@ -48,48 +55,6 @@ class DashboardScreenWidget extends StatelessWidget {
     );
   }
 
-  Widget dashBoardScreenWidget(AdtItems adtItems, BuildContext context) {
-    bool args = ModalRoute.of(context).settings.arguments;
-    return Container(
-      child: Card(
-        child: GestureDetector(
-          onTap: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BookingScreen(
-                  adtTest: AdtTest(adtItems, args),
-                ),
-              ),
-            )
-          },
-          child: Card(
-            elevation: 6,
-            color: Colors.white,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Image.asset(
-                    './assets/img/IMG_1632.jpeg',
-                  ),
-                  flex: 2,
-                ),
-                SizedBox(height: 10),
-                Text(
-                  '${adtItems.itemName}',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget getWidget(AdtItems adtItems, BuildContext context) {
     bool args = ModalRoute.of(context).settings.arguments;
     return GestureDetector(
@@ -104,6 +69,7 @@ class DashboardScreenWidget extends StatelessWidget {
       child: Card(
         elevation: 6,
         child: Container(
+          height: 150,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -117,12 +83,12 @@ class DashboardScreenWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  './assets/img/IMG_1632.jpeg',
-                  height: 150,
-                  // width: 80,
+              SizedBox(
+                width: 150,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  /* Image Widget*/
+                  child: prepareWidget(adtItems),
                 ),
               ),
               Spacer(),
@@ -144,6 +110,39 @@ class DashboardScreenWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget prepareWidget(AdtItems adtItems) {
+    return FutureBuilder<Image>(
+      future: downloadImage(adtItems.awsId),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Constants.loadingView();
+          case ConnectionState.active:
+            break;
+          case ConnectionState.done:
+            {
+              if (snapshot.hasData) {
+                if (snapshot.data != null) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 1,
+                    itemBuilder: (context, index) {
+                      return snapshot.data;
+                      //setBoxValue(adtItems, snapshot.data);
+                    },
+                  );
+                }
+              }
+              return Constants.noDataView("No data found");
+            }
+          case ConnectionState.none:
+            break;
+        }
+        return Constants.noDataView("No data found");
+      },
     );
   }
 }

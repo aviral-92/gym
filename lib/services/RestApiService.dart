@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:Gym/constants/Routing.dart';
+import 'package:Gym/providers/AdtAwsDocumentList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -49,7 +51,7 @@ Future<AdtItemsList> getAdtItemsData() async {
       HttpHeaders.authorizationHeader: '$token',
     },
   );
-  //print(response.body);
+  print(response.body);
   return AdtItemsList.fromJson(json.decode(response.body));
 }
 
@@ -105,7 +107,7 @@ Future<AdtItemSlotsBooked> slotBooking(
 
 /* GET Token API */
 Future<Response> getToken(OauthToken oauthToken) async {
-  print('test');
+  //print('test');
   String basicOauth = '${oauthToken.getClientId}:${oauthToken.getClientSecret}';
   final response = await http.post(
     Constants.GET_TOKEN,
@@ -117,13 +119,13 @@ Future<Response> getToken(OauthToken oauthToken) async {
     },
     body: oauthToken.toMap(),
   );
-  //print('.............Response: ${response.body} ..................');
+  print('.............Response: ${response.body} ..................');
   return response;
 }
 
 /* GET Token Info */
 Future<Response> getTokenInfo(String tokenType, String token) async {
-  print(Constants.GET_TOKEN_INFO);
+  //print(Constants.GET_TOKEN_INFO);
   final response = await http.get(
     Constants.GET_TOKEN_INFO,
     headers: <String, String>{
@@ -157,7 +159,7 @@ Future<Response> passwordReset(Map<String, String> map) async {
   return response;
 }
 
-/* Password reset API */
+/* Register user API */
 Future<Response> registerUser(AdtUsers adtUsers) async {
   //print('${json.encode(adtUsers)}');
   if (token == null || token == '') {
@@ -291,11 +293,12 @@ Future<Response> addImage(File file) async {
   request.files.add(await http.MultipartFile.fromPath('file', file.path));
   //var response = await request.send();
   http.Response response = await http.Response.fromStream(await request.send());
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response;
 }
 
-Future<Response> getFutureImage(String id) async {
+/* Download Image*/
+Future<Uint8List> getFutureImage(String id) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
@@ -307,12 +310,32 @@ Future<Response> getFutureImage(String id) async {
     },
   );
   print('.............Response: ${response.body} ..................');
-  return response;
+  return response.bodyBytes;
+}
+
+/* Download all Image*/
+Future<AdtAwsDocumentList> getAllFutureImage() async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  final response = await http.get(
+    'http://54.152.141.211:8082/getAllImagesFiles',
+    headers: <String, String>{
+      // 'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+  );
+  print('.............Response: ${response.body} ..................');
+  return AdtAwsDocumentList.fromJson(json.decode(response.body));
 }
 
 void addStorage(String token) {
   print('------Add Storage method called-------');
   storage.write(key: "Authorization", value: token);
+}
+
+void flushStorage() {
+  storage.deleteAll();
 }
 
 Future<SecureItem> getStorage() async {

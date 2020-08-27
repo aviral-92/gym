@@ -1,8 +1,8 @@
-import 'package:Gym/constants/Constants.dart';
-import 'package:Gym/providers/AdtItemsList.dart';
-import 'package:Gym/services/RestApiService.dart';
-import 'package:Gym/widget/DashboardScreenWidget.dart';
-import 'package:Gym/widget/MainDrawer.dart';
+import '.././constants/Constants.dart';
+import '.././providers/AdtItemsList.dart';
+import '.././services/RestApiService.dart';
+import '.././widget/DashboardScreenWidget.dart';
+import '.././widget/MainDrawer.dart';
 import 'package:flutter/material.dart';
 
 class NewDashboardScreen extends StatefulWidget {
@@ -16,7 +16,6 @@ class NewDashboardScreen extends StatefulWidget {
 class _NewDashboardScreenState extends State<NewDashboardScreen> {
   Future<AdtItemsList> adtItemsListFuture;
   bool args;
-
   _NewDashboardScreenState(this.args);
 
   @override
@@ -31,7 +30,6 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
   void setArgs() async {
     var admin;
     await isAdminState().then((value) => admin = value);
-    //print('ARGS=========>$args');
     setState(() {
       args = admin;
     });
@@ -52,50 +50,4 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
       body: DashboardScreenWidget(adtItemsListFuture),
     );
   }
-
-  Widget getWidget() => Card(
-        elevation: 6,
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Constants.APP_BAR_COLOR,
-                Colors.white,
-                //Colors.white70,
-                Colors.deepPurple
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.topRight,
-            ),
-          ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  './assets/img/IMG_1632.jpeg',
-                  height: 150,
-                  // width: 80,
-                ),
-                //flex: 2,
-              ),
-              //SizedBox(width: 10),
-              Spacer(),
-              Text(
-                'Exercise',
-                style: TextStyle(
-                  fontSize: Constants.FONT_SIZE,
-                  fontWeight: Constants.FONT_WEIGHT,
-                  color: Colors.black,
-                ),
-              ),
-              Spacer(),
-              Icon(
-                Icons.arrow_right,
-                size: 50.0,
-              ),
-            ],
-          ),
-        ),
-      );
 }

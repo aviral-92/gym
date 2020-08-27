@@ -3,21 +3,22 @@ class AdtUsers {
   String name;
   final String userName;
   final String password;
-  final List<String> authorties;
+  List<String> authorties;
   String mobile;
   int enabled;
 
   AdtUsers(this.name, this.userName, this.password, this.authorties,
       this.mobile, this.enabled);
 
-  factory AdtUsers.fromMap(Map<String, dynamic> json) {
+  factory AdtUsers.fromMap(Map<dynamic, dynamic> json) {
+    //print('json===> ${json['authorties'] == null}');
     return AdtUsers(
       //json['id'],
       json['name'],
       json['userName'],
       json['password'],
-      json['mobile'],
       json['authorties'],
+      json['mobile'],
       json['enabled'],
       //json['userId'],
     );
@@ -28,7 +29,7 @@ class AdtUsers {
         'userName': userName,
         'password': password,
         'enabled': enabled,
-        'authorties': authorties,
+        //'authorties': authorties,
         'mobile': mobile,
       };
 }
