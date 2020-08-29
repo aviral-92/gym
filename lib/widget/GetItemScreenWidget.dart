@@ -19,7 +19,7 @@ class _GetItemScreenWidgetState extends State<GetItemScreenWidget> {
   @override
   void initState() {
     setState(() {
-      adtItemsListFuture = getAdtItemsData();
+      adtItemsListFuture = getItemsAdminItems();
       _c = new TextEditingController();
     });
     super.initState();
@@ -60,6 +60,17 @@ class _GetItemScreenWidgetState extends State<GetItemScreenWidget> {
         }
         return Constants.noDataView("No data found");
       },
+    );
+  }
+
+  Widget getWidget() {
+    return Row(
+      children: [
+        Text('Item Name'),
+        Text('Update'),
+        Text('Delete'),
+        //Text(''),
+      ],
     );
   }
 

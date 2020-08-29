@@ -34,7 +34,7 @@ Future<AdtItemSlotsList> getAdtItemSlotsData(int itemId, String date) async {
       HttpHeaders.authorizationHeader: '$token',
     },
   );
-  print(response.body);
+  //print(response.body);
   return AdtItemSlotsList.fromJson(json.decode(response.body));
 }
 
@@ -51,7 +51,7 @@ Future<AdtItemsList> getAdtItemsData() async {
       HttpHeaders.authorizationHeader: '$token',
     },
   );
-  print(response.body);
+  //print(response.body);
   return AdtItemsList.fromJson(json.decode(response.body));
 }
 
@@ -65,7 +65,7 @@ Future<AdtItemSlotsBookedList> getAdtItemsSlotsBookingData() async {
       HttpHeaders.authorizationHeader: '$token',
     },
   );
-  print(response.body);
+  //print(response.body);
   return AdtItemSlotsBookedList.fromJson(json.decode(response.body));
 }
 
@@ -83,7 +83,7 @@ Future<AdtItemSlotsList> addAdtItemSlotsData(
     },
     body: json.encode(adtItemSlotList),
   );
-  print('.............${response.body} ..................');
+  //print('.............${response.body} ..................');
   return AdtItemSlotsList.fromJson(json.decode(response.body));
 }
 
@@ -101,7 +101,7 @@ Future<AdtItemSlotsBooked> slotBooking(
     },
     body: json.encode(adtItemSlotsBooked),
   );
-  print('.............${response.body} ..................');
+  //print('.............${response.body} ..................');
   return AdtItemSlotsBooked.fromMap(json.decode(response.body));
 }
 
@@ -120,13 +120,13 @@ Future<Response> getToken(OauthToken oauthToken) async {
     },
     body: oauthToken.toMap(),
   );
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response;
 }
 
 /* GET Token Info */
 Future<Response> getTokenInfo(String tokenType, String token) async {
-  //print(Constants.GET_TOKEN_INFO);
+  print(Constants.GET_TOKEN_INFO);
   final response = await http.get(
     Constants.GET_TOKEN_INFO,
     headers: <String, String>{
@@ -134,7 +134,7 @@ Future<Response> getTokenInfo(String tokenType, String token) async {
       HttpHeaders.authorizationHeader: '$tokenType $token',
     },
   );
-  //print('.............Response: ${response.body} ..................');
+  print('.............Response: ${response.body} ..................');
   return response;
 }
 
@@ -144,9 +144,6 @@ Future<Response> passwordReset(Map<String, String> map) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
-  //print(token);
-  //print('====${Constants.RESET_PASSWORD}');
-  //print('${json.encode(map)}');
   final response = await http.post(
     Constants.RESET_PASSWORD,
     headers: <String, String>{
@@ -179,7 +176,7 @@ Future<Response> registerUser(AdtUsers adtUsers) async {
 }
 
 /* Add Item */
-Future<AdtItems> addAdtItem(AdtItems adtItems) async {
+Future<Response> addAdtItem(AdtItems adtItems) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
@@ -192,8 +189,8 @@ Future<AdtItems> addAdtItem(AdtItems adtItems) async {
     },
     body: json.encode(adtItems),
   );
-  print('.............${response.body} ..................');
-  return AdtItems.fromMap(json.decode(response.body));
+  //print('.............${response.body} ..................');
+  return response;
 }
 
 /* Cancel Booking Slot */
@@ -209,7 +206,7 @@ Future<Response> cancelBookingSlot(int id) async {
       HttpHeaders.authorizationHeader: '$token',
     },
   );
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response;
 }
 
@@ -225,7 +222,7 @@ Future<Response> deleteItem(int itemId) async {
       HttpHeaders.authorizationHeader: '$token',
     },
   );
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response;
 }
 
@@ -243,11 +240,11 @@ Future<Response> updateItem(AdtItems adtItems) async {
     },
     body: json.encode(adtItems),
   );
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response;
 }
 
-/* Get Trainer(Admin) available booking slots with selected date*/
+/* Depriciated*/
 Future<Response> getSlotsBySlotDateAndAdtItemForAdmin(
     String itemId, String selectedDate) async {
   if (token == null || token == '') {
@@ -262,6 +259,22 @@ Future<Response> getSlotsBySlotDateAndAdtItemForAdmin(
   );
   //print('.............Response: ${response.body} ..................');
   return response;
+}
+
+/* Get Trainer(Admin) available booking slots with selected date*/
+Future<AdtItemsList> getItemsAdminItems() async {
+  if (token == null || token == '') {
+    await getStorage().then((val) => token = val.value);
+  }
+  final response = await http.get(
+    'http://54.152.141.211:8082/adt/booker/items/admin',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: '$token',
+    },
+  );
+  //print('.............Response: ${response.body} ..................');
+  return AdtItemsList.fromJson(json.decode(response.body));
 }
 
 /* Get user data by slotId*/

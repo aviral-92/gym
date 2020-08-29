@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             AdtAccessToken.fromMap(json.decode(currentRresponse.body));
         //Token get stored.
         addStorage('${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
+        //print('Token stored...');
         var futureTokenInfoResponse =
             getTokenInfo(adtAccessToken.tokenType, adtAccessToken.accessToken);
         await futureTokenInfoResponse

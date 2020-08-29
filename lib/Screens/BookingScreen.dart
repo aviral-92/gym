@@ -25,6 +25,7 @@ class _BookingScreenState extends State<BookingScreen> {
   String _selectedDate =
       Constants.convertDateToString(Constants.dateFormat, DateTime.now());
   Future<AdtItemSlotsList> adtItemSlotListFuture;
+  //bool args;
 
   @override
   void initState() {
@@ -41,6 +42,8 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //setArgs();
+    //print('====>$args');
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       //Colors.orangeAccent[300],
@@ -48,7 +51,9 @@ class _BookingScreenState extends State<BookingScreen> {
         backgroundColor: Constants.APP_BAR_COLOR,
         title: Text('Booking'),
       ),
-      drawer: MainDrawer(admin: adtTest.isAdmin),
+      drawer: MainDrawer(
+        admin: adtTest.isAdmin,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -107,7 +112,11 @@ class _BookingScreenState extends State<BookingScreen> {
                                         return generateColumn(
                                             snapshot
                                                 .data.adtItemSlotList[index],
-                                            adtTest.isAdmin);
+                                            adtTest.isAdmin == null
+                                                ? ModalRoute.of(context)
+                                                    .settings
+                                                    .arguments
+                                                : adtTest.isAdmin);
                                       });
                                 } else {
                                   return Constants.noDataView("No data found");

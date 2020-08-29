@@ -1,5 +1,5 @@
-import 'package:Gym/constants/Routing.dart';
-import 'package:Gym/model/ReceivedNotification.dart';
+import '../constants/Routing.dart';
+import '../model/ReceivedNotification.dart';
 import 'package:Gym/services/NotificationService.dart';
 import 'package:flutter/material.dart';
 import '../model/AdtItemSlotsBooked.dart';
@@ -14,6 +14,8 @@ class BookingCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //print(args);
+    //setArgs();
     DateTime startTime =
         Constants.splitAndConvertStringToTime(adtItemSlots.startHour);
     DateTime endTime =
@@ -77,6 +79,13 @@ class BookingCardWidget extends StatelessWidget {
     return first.isAfter(second);
   }
 
+  /*bool _args;
+  void setArgs() async {
+    final resp = await getLoggedInState();
+    print('_args:$_args');
+    _args = resp;
+  }*/
+
   Widget getIconButton(BuildContext context) {
     return IconButton(
       icon: Icon(
@@ -96,8 +105,8 @@ class BookingCardWidget extends StatelessWidget {
               response.then((value) async {
                 //Constants.showDialogue(context, 'Successfully Booked the slot');
                 notify(context, adtItemSlotsBooked.id);
-                new Routing(ModalRoute.of(context).settings.arguments)
-                    .navigateUpcomingEvent(context);
+                //print('ModalRoute.of(context).settings.arguments===>$_args');
+                new Routing(args).navigateUpcomingEvent(context);
               });
             }
           },

@@ -158,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
             context, 'password & confirm password does not match');
       } else {
         //form.save();
-        List<String> authorties = ["ROLE_USERS"];
+        List<String> authorties = ["ROLE_USER"];
         //authorties.add('ROLE_USERS');
         AdtUsers users =
             new AdtUsers(name, email, password, authorties, mobile, 1);

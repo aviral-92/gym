@@ -39,6 +39,7 @@ class Constants {
     double decimalValue = time - _hourValue;
     int _minuteValue;
     if (decimalValue != 0.0) {
+      print(int.parse((0.18000000000000007 * 100).toStringAsPrecision(2)));
       _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(2));
     } else {
       _minuteValue = int.parse((decimalValue * 100).toStringAsPrecision(1));

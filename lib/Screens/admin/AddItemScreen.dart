@@ -100,7 +100,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
           _itemTypeController.text, '${adtAwsDocument.id}');
       var response = addAdtItem(adtItems);
       await response.then((value) {
-        Constants.showDialogue(context, 'Item successfully added');
+        //AdtItems.fromMap(json.decode(value.body));
+        if (value.statusCode == 200) {
+          Navigator.of(context).popAndPushNamed('/dashboard-screen');
+        } else {
+          Constants.showDialogue(context, 'Item successfully added');
+        }
       });
     }
   }
@@ -113,7 +118,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             resp = AdtAwsDocument.fromMap(json.decode(value.body))
           else
             {
-              resp = null,
+              //resp = null,
               Constants.showDialogue(context, value.body),
             }
         });

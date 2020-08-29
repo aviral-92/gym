@@ -55,14 +55,24 @@ class DashboardScreenWidget extends StatelessWidget {
     );
   }
 
+  bool _args;
+  Future<void> loggedInState() async {
+    final response = await getLoggedInState();
+    //print(response);
+    _args = response;
+  }
+
   Widget getWidget(AdtItems adtItems, BuildContext context) {
-    bool args = ModalRoute.of(context).settings.arguments;
+    //bool args = ModalRoute.of(context).settings.arguments;
+    //bool args;
+    loggedInState();
+    //print('Args====>$_args');
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => BookingScreen(
-            adtTest: AdtTest(adtItems, args),
+            adtTest: AdtTest(adtItems, _args),
           ),
         ),
       ),
