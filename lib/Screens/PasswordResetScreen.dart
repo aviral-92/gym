@@ -117,8 +117,8 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     if (form.validate()) {
       form.save();
       if (newPassword != confirmPassword) {
-        print('$newPassword....$confirmPassword');
-        print('././././././');
+        //print('$newPassword....$confirmPassword');
+        //print('././././././');
       } else {
         //form.save();
         Map<String, String> toMaps = {
@@ -127,7 +127,18 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
           'oldPassword': oldPassword,
         };
         var futureResponse = passwordReset(toMaps);
-        await futureResponse.then((value) => print(value.body));
+        await futureResponse.then((value) => {
+              if (value.statusCode == 200)
+                {
+                  Constants.showDialogue(
+                      context, 'Successfully updated your password.')
+                }
+              else if (value.statusCode == 400)
+                {
+                  Constants.showDialogue(
+                      context, 'username or old password is wrong.')
+                }
+            });
       }
       // Text forms was validated.
 

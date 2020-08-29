@@ -79,7 +79,11 @@ class _UpcomingEventWidgetState extends State<UpcomingEventWidget> {
     if (Constants.convertStringToDate(Constants.dateFormat, slotDateStr)
         .isAfter(DateTime.now())) {
       return getColumnWidget(
-          slotDateStr, startTime, endTime, adtItemSlotsBooked.desc);
+          slotDateStr,
+          startTime,
+          endTime,
+          adtItemSlotsBooked.desc,
+          adtItemSlotsBooked.adtItemSlots.adtItems.itemName);
     } else if (slotDateStr !=
         Constants.convertDateToString(Constants.dateFormat, DateTime.now())) {
       return SizedBox.shrink();
@@ -91,23 +95,31 @@ class _UpcomingEventWidgetState extends State<UpcomingEventWidget> {
         return SizedBox.shrink();
       } else {
         return getColumnWidget(
-            slotDateStr, startTime, endTime, adtItemSlotsBooked.desc);
+            slotDateStr,
+            startTime,
+            endTime,
+            adtItemSlotsBooked.desc,
+            adtItemSlotsBooked.adtItemSlots.adtItems.itemName);
       }
     } else {
       print('....................');
     }
     return getColumnWidget(
-        slotDateStr, startTime, endTime, adtItemSlotsBooked.desc);
+        slotDateStr,
+        startTime,
+        endTime,
+        adtItemSlotsBooked.desc,
+        adtItemSlotsBooked.adtItemSlots.adtItems.itemName);
   }
 
-  Widget getColumnWidget(
-      String slotDateStr, DateTime startTime, DateTime endTime, String desc) {
+  Widget getColumnWidget(String slotDateStr, DateTime startTime,
+      DateTime endTime, String desc, String itemName) {
     return Column(
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            //Text('Diane'),
+            Text('$itemName'),
             Text(
               '$slotDateStr',
               style: TextStyle(

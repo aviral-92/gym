@@ -1,8 +1,9 @@
+import 'package:Gym/Screens/LoginSignupScreen.dart';
 import 'package:Gym/Screens/NewDashboardScreen.dart';
 import 'package:Gym/Screens/admin/GetItemScreen.dart';
 import 'package:Gym/Screens/admin/ViewBookingScreen.dart';
 import 'package:Gym/services/RestApiService.dart';
-import 'Screens/ImageGalaryScreen.dart';
+//import 'Screens/ImageGalaryScreen.dart';
 import 'Screens/admin/AddItemScreen.dart';
 import 'package:flutter/material.dart';
 import 'Screens/CancelBookingScreen.dart';
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
         '/add-item-screen': (ctx) => AddItemScreen(),
         '/contact-screen': (ctx) => Contact(),
         '/reset-password-screen': (ctx) => PasswordResetScreen(),
-        '/image-galary-screen': (ctx) => ImageGalaryScreen(),
+        '/login-signup-screen': (ctx) => LoginSignUpScreen(),
         '/delete-update-item-screen': (ctx) => GetItemScreen(),
         '/view-booking-screen': (ctx) => ViewBookingScreen(),
         //'/delete-screen': (ctx) => NotificationService(),

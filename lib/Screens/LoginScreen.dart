@@ -32,6 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (currentRresponse != null && currentRresponse.statusCode == 200) {
         AdtAccessToken adtAccessToken =
             AdtAccessToken.fromMap(json.decode(currentRresponse.body));
+        //Token get stored.
+        addStorage('${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
         var futureTokenInfoResponse =
             getTokenInfo(adtAccessToken.tokenType, adtAccessToken.accessToken);
         await futureTokenInfoResponse
@@ -53,8 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await sharedPref();
           Navigator.of(context)
               .pushNamed('/dashboard-screen', arguments: isAdmin);
-          addStorage(
-              '${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
+          //addStorage('${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
         } else {
           print('.....fail:${currentTokenInfoResponse.body}........');
         }
@@ -69,76 +70,87 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Constants.BACKGROUND_COLOR,
-      appBar: AppBar(
-        title: Text('Login Form'),
-        backgroundColor: Constants.APP_BAR_COLOR,
-      ),
-      body: SafeArea(
-        child: Form(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-            ),
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  './assets/img/IMG_1614.jpeg',
-                  fit: BoxFit.scaleDown,
-                  height: 250,
-                ),
-              ),
-              new TextFormField(
-                controller: _usernameController,
-                decoration: const InputDecoration(
-                  icon: const Icon(Icons.person),
-                  hintText: 'Enter your username',
-                  labelText: 'email/mobile',
-                ),
-              ),
-              new TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  icon: const Icon(Icons.camera),
-                  hintText: 'Enter your password',
-                  labelText: 'password',
-                  //errorText: 'Incorrect',
-                ),
-                keyboardType: TextInputType.text,
-                obscureText: true,
-              ),
-              new Container(
-                padding: const EdgeInsets.only(left: 40.0, top: 20.0),
-                child: new RaisedButton(
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(
-                        fontWeight: Constants.FONT_WEIGHT,
-                        fontSize: Constants.BUTTON_SIZE,
-                        color: Constants.BUTTON_TEXT_COLOR),
-                  ),
-                  color: Constants.APP_BAR_COLOR,
-                  onPressed: () => navigateDashboard(context),
-                ),
-              ),
-              Container(
-                child: Text(
-                  '$errorMsg',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 50,
-                  vertical: 20,
-                ),
-              ),
-            ],
+    return SafeArea(
+      child: Form(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
           ),
+          children: <Widget>[
+            SizedBox(height: 75),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Welcome Back',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Sign to continue',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            SizedBox(height: 15),
+            new TextFormField(
+              controller: _usernameController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                icon: const Icon(Icons.person),
+                hintText: 'Enter your username',
+                labelText: 'email/mobile',
+              ),
+            ),
+            SizedBox(height: 25),
+            new TextFormField(
+              controller: _passwordController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                icon: const Icon(Icons.camera),
+                hintText: 'Enter your password',
+                labelText: 'password',
+                //errorText: 'Incorrect',
+              ),
+              keyboardType: TextInputType.text,
+              obscureText: true,
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            new Container(
+              padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+              child: new RaisedButton(
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(
+                      fontWeight: Constants.FONT_WEIGHT,
+                      fontSize: Constants.BUTTON_SIZE,
+                      color: Constants.BUTTON_TEXT_COLOR),
+                ),
+                color: Constants.APP_BAR_COLOR,
+                onPressed: () => navigateDashboard(context),
+              ),
+            ),
+            Container(
+              child: Text(
+                '$errorMsg',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 50,
+                vertical: 20,
+              ),
+            ),
+          ],
         ),
       ),
     );

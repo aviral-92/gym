@@ -1,4 +1,5 @@
-import 'package:Gym/Screens/HomeScreen.dart';
+//import 'package:Gym/Screens/HomeScreen.dart';
+import 'package:Gym/Screens/LoginSignupScreen.dart';
 import 'package:Gym/services/RestApiService.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +23,7 @@ class Routing {
         context,
         PageRouteBuilder(pageBuilder: (BuildContext context,
             Animation animation, Animation secondaryAnimation) {
-          return HomeScreen();
+          return LoginSignUpScreen();
         }, transitionsBuilder: (BuildContext context,
             Animation<double> animation,
             Animation<double> secondaryAnimation,

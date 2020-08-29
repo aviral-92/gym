@@ -195,7 +195,6 @@ class _ViewBookingScreenWidgetState extends State<ViewBookingScreenWidget> {
   }
 
   Widget generateNewColumn(AdtUsers adtUsers) {
-    //print('ID=====> ${adtUsers.id}');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

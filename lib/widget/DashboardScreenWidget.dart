@@ -15,7 +15,7 @@ class DashboardScreenWidget extends StatelessWidget {
     return Image.memory(
       response,
       fit: BoxFit.fitWidth,
-      height: 150,
+      height: 120,
     );
   }
 
@@ -69,7 +69,7 @@ class DashboardScreenWidget extends StatelessWidget {
       child: Card(
         elevation: 6,
         child: Container(
-          height: 150,
+          height: 120,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [

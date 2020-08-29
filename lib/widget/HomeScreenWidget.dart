@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/Constants.dart';
-import '../constants/Routing.dart';
+//import '../constants/Routing.dart';
 
 class HomeScreenWidget extends StatelessWidget {
   @override
@@ -40,14 +40,21 @@ class HomeScreenWidget extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              getPaddingWidgetWithButton(
-                  'Login',
-                  () => Routing.navigateLogin(context),
-                  Icon(Icons.keyboard_tab)),
-              getPaddingWidgetWithButton(
-                  'Signup',
-                  () => Routing.navigateSignup(context),
-                  Icon(Icons.fitness_center)),
+              Container(
+                padding: const EdgeInsets.only(left: 40.0),
+                child: new RaisedButton(
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                        fontWeight: Constants.FONT_WEIGHT,
+                        fontSize: Constants.BUTTON_SIZE,
+                        color: Constants.BUTTON_TEXT_COLOR),
+                  ),
+                  color: Constants.APP_BAR_COLOR,
+                  onPressed: () {},
+                  elevation: 6,
+                ),
+              ),
             ],
           ),
         ],

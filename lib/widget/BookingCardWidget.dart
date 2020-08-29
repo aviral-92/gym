@@ -1,3 +1,4 @@
+import 'package:Gym/constants/Routing.dart';
 import 'package:Gym/model/ReceivedNotification.dart';
 import 'package:Gym/services/NotificationService.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,8 @@ class BookingCardWidget extends StatelessWidget {
               response.then((value) async {
                 //Constants.showDialogue(context, 'Successfully Booked the slot');
                 notify(context, adtItemSlotsBooked.id);
+                new Routing(ModalRoute.of(context).settings.arguments)
+                    .navigateUpcomingEvent(context);
               });
             }
           },

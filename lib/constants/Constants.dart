@@ -82,6 +82,9 @@ class Constants {
       'http://54.152.141.211:8082/adt/booker/items';
   static const String UPDATE_ITEM =
       'http://54.152.141.211:8082/adt/booker/items/';
+  static const String GET_FUTURE_IMAGE =
+      'http://54.152.141.211:8082/download?id=';
+  static const String ADD_IMAGE = 'http://54.152.141.211:8082/uploadFile';
   //******************APIs*****************/
 
   static final String mobileValidation = "^(?:[+0]9)?[0-9]{10}\$";

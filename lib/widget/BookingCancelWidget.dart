@@ -1,3 +1,4 @@
+import '../constants/Routing.dart';
 import 'package:http/http.dart';
 
 import '../model/AdtItemSlotsBooked.dart';
@@ -82,7 +83,7 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
         .isAfter(DateTime.now())) {
       print('............${adtItemSlotsBooked.id}...............');
       return getColumnWidget(
-          slotDateStr, startTime, endTime, adtItemSlotsBooked.id);
+          slotDateStr, startTime, endTime, adtItemSlotsBooked);
     } else if (slotDateStr !=
         Constants.convertDateToString(Constants.dateFormat, DateTime.now())) {
       return SizedBox.shrink();
@@ -95,22 +96,22 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
       } else {
         print('............${adtItemSlotsBooked.id}...............');
         return getColumnWidget(
-            slotDateStr, startTime, endTime, adtItemSlotsBooked.id);
+            slotDateStr, startTime, endTime, adtItemSlotsBooked);
       }
     } else {
       print('....................');
     }
-    return getColumnWidget(
-        slotDateStr, startTime, endTime, adtItemSlotsBooked.id);
+    return getColumnWidget(slotDateStr, startTime, endTime, adtItemSlotsBooked);
   }
 
-  Widget getColumnWidget(
-          String slotDateStr, DateTime startTime, DateTime endTime, int id) =>
+  Widget getColumnWidget(String slotDateStr, DateTime startTime,
+          DateTime endTime, AdtItemSlotsBooked adtItemSlotsBooked) =>
       Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              Text('${adtItemSlotsBooked.adtItemSlots.adtItems.itemName}'),
               Text(
                 '$slotDateStr',
                 style: TextStyle(
@@ -134,7 +135,7 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
                     fontSize: 16, //0xFFC62828
                   ),
                 ),
-                onTap: () => cancelEvent(context, id),
+                onTap: () => cancelEvent(context, adtItemSlotsBooked.id),
               ),
             ],
           ),
@@ -152,7 +153,9 @@ class _BookingCancelWidgetState extends State<BookingCancelWidget> {
         await futureResponse.then((value) => currentRresponse = value);
         print('=====${currentRresponse.statusCode}========');
         if (currentRresponse.statusCode == 200) {
-          Constants.showDialogue(context, 'Successfully cancel the slot');
+          //Constants.showDialogue(context, 'Successfully cancel the slot');
+          new Routing(ModalRoute.of(context).settings.arguments)
+              .navigateCancelEvent(context);
         } else {
           Constants.showDialogue(context, 'Unable to cancel the slot');
         }

@@ -108,6 +108,7 @@ Future<AdtItemSlotsBooked> slotBooking(
 /* GET Token API */
 Future<Response> getToken(OauthToken oauthToken) async {
   //print('test');
+  print(oauthToken.toMap());
   String basicOauth = '${oauthToken.getClientId}:${oauthToken.getClientSecret}';
   final response = await http.post(
     Constants.GET_TOKEN,
@@ -143,9 +144,9 @@ Future<Response> passwordReset(Map<String, String> map) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
-  print(token);
-  print('====${Constants.RESET_PASSWORD}');
-  print('${json.encode(map)}');
+  //print(token);
+  //print('====${Constants.RESET_PASSWORD}');
+  //print('${json.encode(map)}');
   final response = await http.post(
     Constants.RESET_PASSWORD,
     headers: <String, String>{
@@ -154,8 +155,7 @@ Future<Response> passwordReset(Map<String, String> map) async {
     },
     body: json.encode(map),
   );
-  print(
-      '.............Response: ${response.body},,,,${response.statusCode} ..................');
+  //print('.............Response: ${response.body},,,,${response.statusCode} ..................');
   return response;
 }
 
@@ -170,7 +170,7 @@ Future<Response> registerUser(AdtUsers adtUsers) async {
     Constants.CREATE_USER,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      HttpHeaders.authorizationHeader: '$token',
+      //HttpHeaders.authorizationHeader: '$token',
     },
     body: json.encode(adtUsers),
   );
@@ -285,13 +285,11 @@ Future<Response> addImage(File file) async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
-  var request = http.MultipartRequest(
-      'POST', Uri.parse('http://54.152.141.211:8082/uploadFile'));
+  var request =
+      http.MultipartRequest('POST', Uri.parse('${Constants.ADD_IMAGE}'));
   Map<String, String> headers = {HttpHeaders.authorizationHeader: '$token'};
   request.headers.addAll(headers);
-  //print('FILE======$file');
   request.files.add(await http.MultipartFile.fromPath('file', file.path));
-  //var response = await request.send();
   http.Response response = await http.Response.fromStream(await request.send());
   //print('.............Response: ${response.body} ..................');
   return response;
@@ -303,13 +301,12 @@ Future<Uint8List> getFutureImage(String id) async {
     await getStorage().then((val) => token = val.value);
   }
   final response = await http.get(
-    'http://54.152.141.211:8082/download?id=$id',
+    '${Constants.GET_FUTURE_IMAGE}$id',
     headers: <String, String>{
-      // 'Content-Type': 'application/json; charset=UTF-8',
       HttpHeaders.authorizationHeader: '$token',
     },
   );
-  print('.............Response: ${response.body} ..................');
+  //print('.............Response: ${response.body} ..................');
   return response.bodyBytes;
 }
 
