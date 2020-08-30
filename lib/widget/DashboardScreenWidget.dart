@@ -8,7 +8,8 @@ import '../providers/AdtItemsList.dart';
 
 class DashboardScreenWidget extends StatelessWidget {
   final Future<AdtItemsList> adtItemsListFuture;
-  DashboardScreenWidget(this.adtItemsListFuture);
+  final bool args;
+  DashboardScreenWidget(this.adtItemsListFuture, this.args);
 
   Future<Image> downloadImage(String id) async {
     var response = await getFutureImage(id);
@@ -55,24 +56,13 @@ class DashboardScreenWidget extends StatelessWidget {
     );
   }
 
-  bool _args;
-  Future<void> loggedInState() async {
-    final response = await getLoggedInState();
-    //print(response);
-    _args = response;
-  }
-
   Widget getWidget(AdtItems adtItems, BuildContext context) {
-    //bool args = ModalRoute.of(context).settings.arguments;
-    //bool args;
-    loggedInState();
-    //print('Args====>$_args');
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => BookingScreen(
-            adtTest: AdtTest(adtItems, _args),
+            adtTest: AdtTest(adtItems, args),
           ),
         ),
       ),
@@ -141,7 +131,6 @@ class DashboardScreenWidget extends StatelessWidget {
                     itemCount: 1,
                     itemBuilder: (context, index) {
                       return snapshot.data;
-                      //setBoxValue(adtItems, snapshot.data);
                     },
                   );
                 }

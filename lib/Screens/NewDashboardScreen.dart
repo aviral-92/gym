@@ -37,7 +37,6 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //= ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_COLOR,
       appBar: AppBar(
@@ -47,7 +46,7 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
       drawer: MainDrawer(
         admin: args,
       ),
-      body: DashboardScreenWidget(adtItemsListFuture),
+      body: DashboardScreenWidget(adtItemsListFuture, args),
     );
   }
 }

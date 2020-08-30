@@ -395,6 +395,6 @@ Future<void> sharedPrefForAdmin() async {
 Future<bool> isAdminState() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var status = prefs.getBool('isAdmin') ?? false;
-  //print('status====>$status');
+  print('status====>$status');
   return status;
 }

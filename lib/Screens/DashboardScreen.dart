@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import '../widget/DashboardScreenWidget.dart';
+/*import 'package:flutter/material.dart';
+//import '../widget/DashboardScreenWidget.dart';
 import '../services/RestApiService.dart';
 import '../providers/AdtItemsList.dart';
 import '../constants/Constants.dart';
@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       drawer: MainDrawer(
         admin: args,
       ),
-      body: DashboardScreenWidget(adtItemsListFuture),
+      //body: DashboardScreenWidget(adtItemsListFuture),
     );
   }
-}
+}*/
