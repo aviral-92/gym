@@ -30,10 +30,14 @@ class _LoginScreenState extends State<LoginScreen> {
       Response currentRresponse, currentTokenInfoResponse;
       await futureResponse.then((value) => currentRresponse = value);
       if (currentRresponse != null && currentRresponse.statusCode == 200) {
+        //flush Token if exist
+        //flushStorage();
         AdtAccessToken adtAccessToken =
             AdtAccessToken.fromMap(json.decode(currentRresponse.body));
         //Token get stored.
-        addStorage('${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
+        //addStorage('${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
+        addSharedPrefrence(
+            '${adtAccessToken.tokenType} ${adtAccessToken.accessToken}');
         //print('Token stored...');
         var futureTokenInfoResponse =
             getTokenInfo(adtAccessToken.tokenType, adtAccessToken.accessToken);
@@ -92,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Sign to continue',
+                  'Sign in to continue',
                   style: TextStyle(fontSize: 16),
                 ),
               ],
@@ -104,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 border: OutlineInputBorder(),
                 icon: const Icon(Icons.person),
                 hintText: 'Enter your username',
-                labelText: 'email/mobile',
+                labelText: 'email',
               ),
             ),
             SizedBox(height: 25),

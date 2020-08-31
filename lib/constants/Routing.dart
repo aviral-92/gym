@@ -16,9 +16,13 @@ class Routing {
 
   static Future<void> navigateLogout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs?.setBool('isLoggedIn', false);
-    prefs.remove('isAdmin');
-    flushStorage();
+    await prefs?.setBool('isLoggedIn', false);
+    await prefs.remove('isAdmin');
+    await prefs.remove('Authorization');
+    //print('Getting vlue======> ${prefs.getString('Authorization')}');
+    await prefs.clear();
+    //print('Pref got flushed=====> $resp');
+    //flushStorage();
     Navigator.pushAndRemoveUntil(
         context,
         PageRouteBuilder(pageBuilder: (BuildContext context,

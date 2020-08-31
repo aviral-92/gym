@@ -40,7 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 150,
+                height: 40,
+                //width: double.infinity,
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset(
+                  './assets/img/logo.jpeg',
+                  fit: BoxFit.fill,
+                  //height: 550,
+                  width: double.infinity,
+                ),
+              ),
+              SizedBox(
+                height: 100,
                 width: double.infinity,
               ),
               Row(

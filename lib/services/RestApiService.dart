@@ -59,6 +59,7 @@ Future<AdtItemSlotsBookedList> getAdtItemsSlotsBookingData() async {
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
+  print('$token');
   final response = await http.get(
     '${Constants.GET_ADT_ITEMS_SLOTS_BOOKING_DATA}',
     headers: <String, String>{
@@ -92,6 +93,7 @@ Future<AdtItemSlotsBooked> slotBooking(
   if (token == null || token == '') {
     await getStorage().then((val) => token = val.value);
   }
+  //print('$token');
   //print(json.encode(adtItemSlotsBooked));
   final response = await http.post(
     Constants.SLOT_BOOKING,
@@ -339,18 +341,20 @@ Future<AdtAwsDocumentList> getAllFutureImage() async {
   return AdtAwsDocumentList.fromJson(json.decode(response.body));
 }
 
-void addStorage(String token) {
+/*void addStorage(String token) {
   print('------Add Storage method called-------');
   storage.write(key: "Authorization", value: token);
 }
 
 void flushStorage() {
+  storage.delete(key: 'Authorization');
   storage.deleteAll();
-}
+}*/
 
 Future<SecureItem> getStorage() async {
   print('------Get Storage method called-------');
-  final key = await storage.read(key: "Authorization");
+  //final key = await storage.read(key: "Authorization");
+  final key = await getTokenFromShared();
   return new SecureItem('Authorization', key);
 }
 
@@ -396,5 +400,18 @@ Future<bool> isAdminState() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var status = prefs.getBool('isAdmin') ?? false;
   print('status====>$status');
+  return status;
+}
+
+Future<void> addSharedPrefrence(String token) async {
+  print('------Add Storage method called-------');
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('Authorization', token);
+}
+
+Future<String> getTokenFromShared() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var status = prefs.getString('Authorization');
+  print('Authorization==> $status');
   return status;
 }
