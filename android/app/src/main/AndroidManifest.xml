@@ -9,7 +9,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Fitness Place"
-        android:icon="@mipmap/splash_icon">
+        android:icon="@mipmap/logo1">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
