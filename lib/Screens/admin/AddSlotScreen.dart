@@ -1,10 +1,10 @@
-import 'package:Gym/model/AdtItemSlots.dart';
-import 'package:Gym/model/AdtItems.dart';
-import 'package:Gym/services/RestApiService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import '../../model/AdtItemSlots.dart';
+import '../../model/AdtItems.dart';
+import '../../services/RestApiService.dart';
 import '../../constants/Constants.dart';
 import '../../widget/MainDrawer.dart';
 
@@ -42,7 +42,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
   String _endDateTime = timeFormat.format(DateTime.now());
 
   double _price;
-  String _desc;
+  String _name;
   int _itemCount;
 
   @override
@@ -64,13 +64,13 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
             children: <Widget>[
               new TextFormField(
                 decoration: const InputDecoration(
-                  hintText: 'Title',
-                  labelText: 'Title',
+                  hintText: 'Name',
+                  labelText: 'Name',
                   prefixIcon: const Icon(Icons.description),
                 ),
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
-                  _desc = value;
+                  _name = value;
                 },
               ),
               Divider(),
@@ -245,32 +245,42 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
   }
 
   void slotObj() {
-    var splitStartHour = _startDateTime.split(':');
-    var splitEndHour = _endDateTime.split(':');
-    double startDateTime =
-        double.parse('${splitStartHour[0]}.${splitStartHour[1]}');
-    double endDateTime = double.parse('${splitEndHour[0]}.${splitEndHour[1]}');
-    //print(startDateTime);
-    AdtItems adtItems = new AdtItems(_selectedItem.id, '', '', '');
-    try {
-      AdtItemSlots adtItemSlots = new AdtItemSlots(null, adtItems, _desc,
-          startDateTime, endDateTime, _date, false, _price, _itemCount);
-      //print(adtItemSlots.toJson());
-      List<AdtItemSlots> adtItemSlotsList = new List<AdtItemSlots>();
-      adtItemSlotsList.add(adtItemSlots);
-      addAdtItemSlotsData(adtItemSlotsList).then((value) => {
-            if (value != null)
-              {
-                Constants.showDialogue(context, 'Successfully added the slot'),
-              }
-            else
-              {
-                Constants.showDialogue(context, 'Unable to add the slot'),
-              }
-          });
-    } catch (e) {
-      //print(e);
-      Constants.showDialogue(context, 'Unable to add the slot');
+    if (_name == null) {
+      Constants.showDialogue(context, 'Name can not be empty.');
+    } else if (_price == null) {
+      Constants.showDialogue(context, 'Price can not be empty.');
+    } else if (_selectedItem == null) {
+      Constants.showDialogue(context, 'Selected Item is empty.');
+    } else {
+      var splitStartHour = _startDateTime.split(':');
+      var splitEndHour = _endDateTime.split(':');
+      double startDateTime =
+          double.parse('${splitStartHour[0]}.${splitStartHour[1]}');
+      double endDateTime =
+          double.parse('${splitEndHour[0]}.${splitEndHour[1]}');
+      //print(startDateTime);
+      AdtItems adtItems = new AdtItems(_selectedItem.id, '', '', '');
+      try {
+        AdtItemSlots adtItemSlots = new AdtItemSlots(null, adtItems, _name,
+            startDateTime, endDateTime, _date, false, _price, _itemCount);
+        //print(adtItemSlots.toJson());
+        List<AdtItemSlots> adtItemSlotsList = new List<AdtItemSlots>();
+        adtItemSlotsList.add(adtItemSlots);
+        addAdtItemSlotsData(adtItemSlotsList).then((value) => {
+              if (value != null)
+                {
+                  Constants.showDialogue(
+                      context, 'Successfully added the slot'),
+                }
+              else
+                {
+                  Constants.showDialogue(context, 'Unable to add the slot'),
+                }
+            });
+      } catch (e) {
+        //print(e);
+        Constants.showDialogue(context, 'Unable to add the slot');
+      }
     }
   }
 }

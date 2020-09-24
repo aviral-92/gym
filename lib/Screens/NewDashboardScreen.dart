@@ -38,15 +38,17 @@ class _NewDashboardScreenState extends State<NewDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.BACKGROUND_COLOR,
-      appBar: AppBar(
-        title: Text('Dashboard'),
-        backgroundColor: Constants.APP_BAR_COLOR,
-      ),
-      drawer: MainDrawer(
-        admin: args,
-      ),
-      body: DashboardScreenWidget(adtItemsListFuture, args),
-    );
+        backgroundColor: Constants.BACKGROUND_COLOR,
+        appBar: AppBar(
+          title: Text('Dashboard'),
+          backgroundColor: Constants.APP_BAR_COLOR,
+        ),
+        drawer: MainDrawer(
+          admin: args,
+        ),
+        body: Container(
+          color: Constants.APP_BAR_COLOR,
+          child: DashboardScreenWidget(adtItemsListFuture, args),
+        ));
   }
 }

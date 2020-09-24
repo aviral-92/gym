@@ -67,6 +67,7 @@ class DashboardScreenWidget extends StatelessWidget {
         ),
       ),
       child: Card(
+        //color: Colors.purple,
         elevation: 6,
         child: Container(
           height: 120,
