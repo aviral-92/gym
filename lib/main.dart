@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
               args: isAdmin,
             )
           : HomeScreen(),
+      debugShowCheckedModeBanner: false,
       routes: {
         '/login-screen': (ctx) => LoginScreen(),
         '/signup-screen': (ctx) => SignupScreen(),

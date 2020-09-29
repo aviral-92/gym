@@ -139,6 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
