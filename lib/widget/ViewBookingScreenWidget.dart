@@ -200,7 +200,7 @@ class _ViewBookingScreenWidgetState extends State<ViewBookingScreenWidget> {
       children: [
         Text('${adtUsers.name}'),
         //Text('  '),
-        Text('${adtUsers.userName}'),
+        //Text('${adtUsers.userName}'),
         Text('${adtUsers.mobile}'),
         Divider(),
       ],

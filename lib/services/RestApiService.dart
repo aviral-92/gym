@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:Gym/constants/Routing.dart';
+import '../constants/Routing.dart';
 import 'package:Gym/providers/AdtAwsDocumentList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:Gym/model/AdtItems.dart';
-import 'package:Gym/model/AdtUsers.dart';
+import '../model/AdtItems.dart';
+import '../model/AdtUsers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/oauth/OauthToken.dart';
 import 'package:http/http.dart';
@@ -345,11 +345,17 @@ Future<AdtAwsDocumentList> getAllFutureImage() async {
   print('------Add Storage method called-------');
   storage.write(key: "Authorization", value: token);
 }
+*/
 
-void flushStorage() {
-  storage.delete(key: 'Authorization');
+Future<void> flushStorage() async {
+  token = null;
   storage.deleteAll();
-}*/
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs?.setBool('isLoggedIn', false);
+  await prefs.remove('isAdmin');
+  await prefs.remove('Authorization');
+  await prefs.clear();
+}
 
 Future<SecureItem> getStorage() async {
   print('------Get Storage method called-------');
